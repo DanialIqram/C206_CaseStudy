@@ -4,5 +4,45 @@ private int id;
 private String name;
 private String category;
 private int maxCapacity;
+private ArrayList <Student> students;
 private ArrayList <Student> pendingStudents;
+
+
+
+public int getId() {
+	return id;
+}
+public String getName() {
+	return name;
+}
+public String getCategory() {
+	return category;
+}
+public int getMaxCapacity() {
+	return maxCapacity;
+}
+public ArrayList<Student> getPendingStudents() {
+	return pendingStudents;
+}
+public ArrayList<Student> getStudents() {
+	return students;
+}
+
+@Override
+public String toString() {
+	String isOpen = "No";
+	if (maxCapacity != students.size()) {
+		isOpen = "Yes";
+	} else {
+		isOpen = "No";
+	}
+
+	String output = String.format("| %-20d | %-20s | %-20s | %-20d | %-20d | %-20s |", id, name, category, students.size(), maxCapacity, isOpen);
+	return output;
+}
+
+
+
+
+
 }
