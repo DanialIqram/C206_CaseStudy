@@ -9,7 +9,4 @@ public class Student extends User{
         return classlevel;
     }
 	
-	public void setClasslevel(String classlevel) {
-        this.classlevel = classlevel;
-    }
 }
