@@ -13,10 +13,7 @@ public class User {
         this.role = role;
     }
 
-    public int getId() {
-        return id;
-    }
-
+    public int getId() {return id;}
     public String getName() {return name;}
     public String getEmail() {return email;}
     public String getPassword() {return password;}
