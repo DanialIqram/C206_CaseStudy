@@ -7,7 +7,15 @@ private int maxCapacity;
 private ArrayList <Student> students;
 private ArrayList <Student> pendingStudents;
 
-
+public Activities (int id, String name, String category, int maxCapacity) {
+	this.id=id;
+	this.name=name;
+	this.category=category;
+	this.maxCapacity=maxCapacity;
+	students = new ArrayList<>();
+	pendingStudents = new ArrayList<>();
+	
+}
 
 public int getId() {
 	return id;
