@@ -4,4 +4,12 @@ public class Student extends User{
 		super(id, name, email, password, "Student");
 		this.classlevel = classlevel;
 	}
+	
+	public String getClasslevel() {
+        return classlevel;
+    }
+	
+	public void setClasslevel(String classlevel) {
+        this.classlevel = classlevel;
+    }
 }
