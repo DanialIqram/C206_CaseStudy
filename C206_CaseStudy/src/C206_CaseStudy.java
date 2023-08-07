@@ -18,6 +18,7 @@ public class C206_CaseStudy {
 		promptLogin();
 	}
 	
+	// Misc
 	public static void promptLogin() {
 		while (account == null) {
 			Helper.line(40, "=");
@@ -57,8 +58,194 @@ public class C206_CaseStudy {
 		
 		if (account.getRole().equals("teacher")) {
 			System.out.println("Logged in Teacher account");
+			promptTeacherMenu();
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
+			promptStudentMenu();
+		} //TODO [Danial] Add admin system for Add user, View user, delete user.
+	}
+	
+	// @Danial
+	private static void logoutUser() {
+		
+	}
+	
+	private static boolean isStudentAtMaxActivities(Student student) {
+		int numOfActivities = 0;
+		
+		for (int i = 0; i < activities.size(); i++) {
+			Activities activity = activities.get(i);
+			ArrayList<Student> students = activity.getStudents();
+			
+			for (int s = 0; s < students.size(); s++) {
+				if (students.get(s) == student) {
+					numOfActivities += 1;
+				}
+			}
 		}
+		
+		return numOfActivities < 2;
+	}
+	
+	private static boolean isInActivity(Student student, Activities activity) {
+		ArrayList<Student> students = activity.getStudents();
+		
+		for (int i = 0; i < students.size(); i++) {
+			if (students.get(i) == student) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private static boolean isActivityOpen(Activities activity) {
+		return activity.getStudents().size() < activity.getMaxCapacity();
+	}
+	
+	// Teacher Options
+	private static void showTeacherOptions() {
+        Helper.line(40, "=");
+        System.out.println("TEACHER MENU");
+        Helper.line(40, "=");
+        System.out.println("1) Set Approval Status");
+        System.out.println("2) View All Pending");
+        System.out.println("3) Delete Pending");
+        System.out.println("4) Add Activity");
+        System.out.println("5) View All Activities");
+        System.out.println("6) Delete Activity");
+        System.out.println("7) Add Attendance");
+        System.out.println("8) View Attendance");
+        System.out.println("9) Delete Attendance");
+        System.out.println("10) Logout");
+        System.out.println("11) Quit");
+        Helper.line(40, "=");
+    }
+	
+	private static void promptTeacherMenu() {
+		int option = -1;
+
+        while (option != 11) {
+            showTeacherOptions();
+            option = Helper.readInt("Enter option: ");
+            
+            if (option == 1) {
+                setApprovalStatus();
+            } else if (option == 2) {
+                viewAllPending();
+            } else if (option == 3) {
+            	deletePending();
+            } else if (option == 4) {
+            	addActivity();
+            } else if (option == 5) {
+            	viewAllActivities();
+            } else if (option == 6) {
+            	deleteActivity();
+            } else if (option == 7) {
+            	addAttendance();
+            } else if (option == 8) {
+            	viewAttendance();
+            } else if (option == 9) {
+            	deleteAttendance();
+            } else if (option == 10) {
+            	logoutUser();
+            } else if (option == 11) {
+                break;
+            }
+        }
+	}
+	
+	// @Regan
+	private static void setApprovalStatus() {
+		
+	}
+	
+	// @Regan
+	private static void viewAllPending() {
+		
+	}
+	
+	// @Regan
+	private static void deletePending() {
+		
+	}
+	
+	// @Jannah
+	private static void addActivity() {
+		
+	}
+	
+	// @Jannah
+	private static void viewAllActivities() {
+		
+	}
+	
+	// @Jannah
+	private static void deleteActivity() {
+		
+	}
+	
+	// @Lleyton
+	private static void addAttendance() {
+		
+	}
+	
+	// @Lleyton
+	private static void viewAttendance() {
+		
+	}
+	
+	// @Lleyton
+	private static void deleteAttendance() {
+		
+	}
+	
+	// STUDENT MENU
+	private static void showStudentOptions() {
+        Helper.line(40, "=");
+        System.out.println("STUDENT MENU");
+        Helper.line(40, "=");
+        System.out.println("1) Register for Activity");
+        System.out.println("2) View All Registrations");
+        System.out.println("3) Delete Registration");
+        System.out.println("4) Logout");
+        System.out.println("5) Quit");
+        Helper.line(40, "=");
+    }
+	
+	private static void promptStudentMenu() {
+		int option = -1;
+
+        while (option != 5) {
+        	showStudentOptions();
+            option = Helper.readInt("Enter option: ");
+            
+            if (option == 1) {
+                registerForActivity();
+            } else if (option == 2) {
+                viewAllRegistrations();
+            } else if (option == 3) {
+            	deleteRegistrations();
+            } else if (option == 4) {
+            	logoutUser();
+            } else if (option == 5) {
+                break;
+            }
+        }
+	}
+	
+	// @Diya
+	private static void registerForActivity() {
+		
+	}
+	
+	// @Diya
+	private static void viewAllRegistrations() {
+		
+	}
+	
+	// @Diya
+	private static void deleteRegistrations() {
+		
 	}
 }
