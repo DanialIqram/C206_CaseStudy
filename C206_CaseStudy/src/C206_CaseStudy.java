@@ -11,7 +11,7 @@ public class C206_CaseStudy {
 	public static void main(String[] args) {
 		account = null;
 
-		List<Activities> activitiesList = new ArrayList<>(); // This will hold the activities. DIYA
+		activities = new ArrayList<Activities>(); // This will hold the activities. DIYA
 
 		// Add activities to the list
 		Activities activity1 = new Activities(1, "Basketball", "Sports", 10);
@@ -20,11 +20,11 @@ public class C206_CaseStudy {
 		Activities activity4 = new Activities(4, "NPCC", "Uniform", 20);
 		Activities activity5 = new Activities(5, "Dance", "Performing Arts", 30);
 
-		activitiesList.add(activity1);
-		activitiesList.add(activity2);
-		activitiesList.add(activity3);
-		activitiesList.add(activity4);
-		activitiesList.add(activity5);
+		activities.add(activity1);
+		activities.add(activity2);
+		activities.add(activity3);
+		activities.add(activity4);
+		activities.add(activity5);
 
 		students = new ArrayList<>();
 		students.add(new Student(1, "student", "student@example.com", "student", "1A"));
@@ -78,7 +78,7 @@ public class C206_CaseStudy {
 			promptTeacherMenu();
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
-			promptStudentMenu();
+			promptStudentMenu(activities);
 		} // TODO [Danial] Add admin system for Add user, View user, delete user.
 	}
 
@@ -145,6 +145,7 @@ public class C206_CaseStudy {
 		while (option != 11) {
 			showTeacherOptions();
 			option = Helper.readInt("Enter option: ");
+		
 
 			if (option == 1) {
 				setApprovalStatus();
@@ -153,11 +154,11 @@ public class C206_CaseStudy {
 			} else if (option == 3) {
 				deletePending();
 			} else if (option == 4) {
-				addActivity();
+				addActivity(activities);
 			} else if (option == 5) {
-				viewAllActivities();
+				viewAllActivities(activities);
 			} else if (option == 6) {
-				deleteActivity();
+				deleteActivity(activities);
 			} else if (option == 7) {
 				addAttendance();
 			} else if (option == 8) {
@@ -188,17 +189,62 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	private static void addActivity() {
+	private static void addActivity(ArrayList<Activities> activitiesList) {
+		
+		int id = activitiesList.size() + 1;
+		String name = Helper.readString("Enter Activity Name > ");
+		String category = Helper.readString("Enter the Category > ");
+		int maxCap = Helper.readInt("Enter the max capacity > ");
+		
+		int c = activitiesList.size();
+		activitiesList.add(c, new Activities(id, name, category,maxCap));
+		System.out.println("\n*** Activity has been added ***");
+		
 
 	}
 
 	// @Jannah
-	private static void viewAllActivities() {
+	private static void viewAllActivities(ArrayList<Activities> activitiesList) {
+		
+		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", 
+				"ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
+		
+		for (int i = 0; i < activitiesList.size(); i++) {
+			System.out.println(activitiesList.get(i).toString());
+		}
+		if (activitiesList.isEmpty()) {
+			System.out.println("\n *** There is no activites ***");
+		}
 
 	}
 
 	// @Jannah
-	private static void deleteActivity() {
+	private static void deleteActivity(ArrayList<Activities> activitiesList) {
+		
+		viewAllActivities(activitiesList);
+		
+		int searchActivity = Helper.readInt("Enter Activity ID > ");
+		for (int i = 0; i < activitiesList.size(); i++) {
+			if (searchActivity == activitiesList.get(i).getId()) {
+				System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", 
+						"ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
+				System.out.println(activitiesList.get(i).toString());
+				char confirm = Helper.readChar("Confirm deletion of Activity (y/n)> ");
+				if (confirm == 'y') {
+					activitiesList.remove(i);
+					System.out.println("\n*** Activity has been deleted ***");
+				} else {
+					System.out.println("\n*** You have not deleted anything ***");
+				}
+			
+				
+			}else {
+				System.out.println("\n*** Invalid Activity ID. Try Again. ***");
+			}
+		}
+		
+		
+		
 
 	}
 
@@ -230,7 +276,7 @@ public class C206_CaseStudy {
 		Helper.line(40, "=");
 	}
 
-	private static void promptStudentMenu(List<Activities> activitiesList) {
+	private static void promptStudentMenu(ArrayList<Activities> activitiesList) {
 		int option = -1;
 
 		while (option != 5) {
@@ -258,9 +304,9 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
-	private static void registerForActivity(List<Activities> activitiesList, Student student) {
+	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
 		// viewing of activities
-		viewAllActivities();
+		viewAllActivities(activitiesList);
 
 		// scanning the user input
 		Scanner scanner = new Scanner(System.in);
