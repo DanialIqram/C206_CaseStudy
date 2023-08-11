@@ -223,9 +223,12 @@ public class C206_CaseStudy {
 		
 		viewAllActivities(activitiesList);
 		
+		boolean found = false;
+		
 		int searchActivity = Helper.readInt("Enter Activity ID > ");
 		for (int i = 0; i < activitiesList.size(); i++) {
 			if (searchActivity == activitiesList.get(i).getId()) {
+				found = true;
 				System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", 
 						"ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
 				System.out.println(activitiesList.get(i).toString());
@@ -238,11 +241,11 @@ public class C206_CaseStudy {
 				}
 			
 				
-			}else {
-				System.out.println("\n*** Invalid Activity ID. Try Again. ***");
 			}
 		}
-		
+		 if (found == false) {
+			 System.out.println("\n*** Invalid Activity ID. Try Again ***");
+		 }
 		
 		
 
