@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class C206_CaseStudy {
 	private static User account;
+	private static boolean attendance;
 	private static ArrayList<Student> students;
 	private static ArrayList<Teacher> teachers;
 	private static ArrayList<Activities> activities;
@@ -60,5 +61,78 @@ public class C206_CaseStudy {
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
 		}
+	}
+	
+	public static void markAttendance() {
+		while (attendance == false && account.getRole().equals("teacher")) {
+			Helper.line(40, "=");
+			System.out.println("ATTENDANCE MARKING");
+			Helper.line(40, "=");
+			
+			int studentIDInput = Helper.readInt("Enter student ID: ");
+			
+			for (int i = 0; i < students.size(); i++) {
+				Student student = students.get(i);
+				int studentID = student.getId();
+				if (studentID == (studentIDInput)) {
+					attendance = true;
+					break;
+				}
+			}
+			
+			if (attendance == false) {
+				System.out.println("Invalid student ID. Try again!");
+			}
+			
+			System.out.println();
+			Helper.line(40, "=");
+			System.out.println("Attendance marked for " + account.getName().toUpperCase());
+			Helper.line(40, "=");
+			System.out.println();
+			
+		}
+	}
+	
+	public static void deleteAttendance() {
+		while (attendance == true && account.getRole().equals("teacher")) {
+			Helper.line(40, "=");
+			System.out.println("ATTENDANCE DELETION");
+			Helper.line(40, "=");
+			
+			int studentIDInput = Helper.readInt("Enter student ID: ");
+			
+			for (int i = 0; i < students.size(); i++) {
+				Student student = students.get(i);
+				int studentID = student.getId();
+				if (studentID == (studentIDInput)) {
+					attendance = false;
+					break;
+				}
+			}
+			
+			if (attendance == false) {
+				System.out.println("Invalid student ID. Try again!");
+			}
+			
+			System.out.println();
+			Helper.line(40, "=");
+			System.out.println("Attendance deleted for " + account.getName().toUpperCase());
+			Helper.line(40, "=");
+			System.out.println();
+			
+		}
+	}
+	
+	public static void showAttendance() {
+		while (account.getRole().equals("teacher")) {
+			for (int i = 0; i < students.size(); i++) {
+				Student student = students.get(i);
+				String studentClass = student.getClasslevel();
+				String studentInfo = student.toString();
+				Helper.line(40, "=");
+				String.format("%-10s |", studentInfo, studentClass);
+			}
+		}
+		
 	}
 }
