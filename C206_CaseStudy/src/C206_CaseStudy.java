@@ -11,7 +11,7 @@ public class C206_CaseStudy {
 	public static void main(String[] args) {
 		account = null;
 
-		activities = new ArrayList<Activities>(); // This will hold the activities. DIYA
+		activities = new ArrayList<Activities>(); // This will hold the activities.
 
 		// Add activities to the list
 		Activities activity1 = new Activities(1, "Basketball", "Sports", 10);
@@ -259,31 +259,21 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	public static void addActivity(ArrayList<Activities> activitiesList) {
+	private static void addActivity(ArrayList<Activities> activitiesList) {
 
 		int id = activitiesList.size() + 1;
 		String name = Helper.readString("Enter Activity Name > ");
 		String category = Helper.readString("Enter the Category > ");
 		int maxCap = Helper.readInt("Enter the max capacity > ");
 
-		for (int i = 0; i < activitiesList.size(); i++) {
-			if (!name.isEmpty()) {
-				if (name.equalsIgnoreCase(activitiesList.get(i).getName())) {
-					System.out.println("*** That Activity Already Exists ***");
-				} else {
-					int c = activitiesList.size();
-					activitiesList.add(c, new Activities(id, name, category, maxCap));
-					System.out.println("\n*** Activity has been added ***");
-				}
-			} else {
-				System.out.println("*** Please Fill in the Blanks ***");
-			}
-		}
+		int c = activitiesList.size();
+		activitiesList.add(c, new Activities(id, name, category, maxCap));
+		System.out.println("\n*** Activity has been added ***");
 
 	}
 
 	// @Jannah
-	public static void viewAllActivities(ArrayList<Activities> activitiesList) {
+	private static void viewAllActivities(ArrayList<Activities> activitiesList) {
 
 		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
 				"No. Of Students", "Max Capacity", "Available"));
@@ -298,7 +288,7 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	public static void deleteActivity(ArrayList<Activities> activitiesList) {
+	private static void deleteActivity(ArrayList<Activities> activitiesList) {
 
 		viewAllActivities(activitiesList);
 
@@ -444,12 +434,54 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
-	private static void viewAllRegistrations() {
+	private static void viewAllRegistrations(Student student, ArrayList<Activities> activitiesList) {
+		System.out.println("Registered Activities:");
 
+		for (Activities activity : activitiesList) {
+			if (activity.getStudents().contains(student) || activity.getPendingStudents().contains(student)) {
+				System.out.println(activity.getName());
+			}
+		}
 	}
 
 	// @Diya
-	private static void deleteRegistrations() {
+	private static void deleteRegistrations(Student student, ArrayList<Activities> activitiesList) {
+		List<Activities> registeredActivities = new ArrayList<>();
 
+		// showing the list of registered activities and including them in the list
+		System.out.println("Registered Activities:");
+		for (Activities activity : activitiesList) {
+			if (activity.getStudents().contains(student)) {
+				registeredActivities.add(activity);
+				System.out.println("ID: " + activity.getId() + " - " + activity.getName());
+			}
+		}
+		if (registeredActivities.isEmpty()) {
+			System.out.println("You have not registered for any activities.");
+			return;
+		}
+
+		// deletion part
+		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
+		boolean found = false;
+
+		for (Activities activity : registeredActivities) {
+			if (activity.getId() == activityIDToDelete) {
+				found = true;
+				char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
+				if (confirm == 'Y' || confirm == 'y') {
+					activity.getStudents().remove(student);
+					System.out.println("You have been unregistered from the activity.");
+				} else {
+					System.out.println("Unregistration canceled.");
+				}
+				break;
+			}
+		}
+
+		if (!found) {
+			System.out.println("Invalid activity ID.");
+		}
 	}
+
 }
