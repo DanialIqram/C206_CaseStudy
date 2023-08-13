@@ -105,7 +105,16 @@ public class C206_CaseStudy {
 				Student student = students.get(i);
 				int studentID = student.getId();
 				if (studentID == (studentIDInput)) {
-					attendance = false;
+					char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
+					if (confirmation == 'Y') {
+						attendance = false;
+					}
+					else if (confirmation == 'N') {
+						attendance = true;
+					}
+					else {
+						System.out.println("Invalid input.");
+					}
 					break;
 				}
 			}
