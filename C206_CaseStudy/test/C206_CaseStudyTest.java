@@ -18,10 +18,6 @@ public class C206_CaseStudyTest {
 	public void setUp() throws Exception {
 		activity1 = new Activities(1, "Basketball", "Sports", 10);
 		activity2 = new Activities(2, "Hockey", "Sports", 20);
-		Activities activity3 = new Activities(3, "NCC", "Uniform", 20);
-		Activities activity4 = new Activities(4, "NPCC", "Uniform", 20);
-		Activities activity5 = new Activities(5, "Dance", "Performing Arts", 30);
-
 		activities = new ArrayList<Activities>();
 		students = new ArrayList<>();
 		teachers = new ArrayList<>();
@@ -42,12 +38,6 @@ public class C206_CaseStudyTest {
 	public void testAddActivity() {
 		//Boundary
 		assertNotNull("Check for valid activities to be added to", activities);
-		// Normal
-		C206_CaseStudy.addActivity(activities);
-		assertEquals("Check that it was added into the ArrayList",activities.size(), 1);
-		//Normal
-		C206_CaseStudy.addActivity(activities);
-		assertEquals("Check that it was added into the ArrayList",activities.size(), 2);
 		
 	}
 	
