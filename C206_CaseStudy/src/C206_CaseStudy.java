@@ -145,7 +145,6 @@ public class C206_CaseStudy {
 		while (option != 11) {
 			showTeacherOptions();
 			option = Helper.readInt("Enter option: ");
-		
 
 			if (option == 1) {
 				setApprovalStatus();
@@ -175,37 +174,37 @@ public class C206_CaseStudy {
 
 	// @Regan
 	private static void setApprovalStatus() {
-		 ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
+		ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
 
-		    if (pendingStudents.isEmpty()) {
-		        System.out.println("No pending students for this activity.");
-		        return;
-		    }
+		if (pendingStudents.isEmpty()) {
+			System.out.println("No pending students for this activity.");
+			return;
+		}
 
-		    System.out.println("Pending Students:");
-		    for (int i = 0; i < pendingStudents.size(); i++) {
-		        System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
-		    }
+		System.out.println("Pending Students:");
+		for (int i = 0; i < pendingStudents.size(); i++) {
+			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
+		}
 
-		    int studentIndex = Helper.readInt("Enter the index of the student you want to approve: ") - 1;
+		int studentIndex = Helper.readInt("Enter the index of the student you want to approve: ") - 1;
 
-		    if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
-		        Student selectedStudent = pendingStudents.get(studentIndex);
+		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
+			Student selectedStudent = pendingStudents.get(studentIndex);
 
-		        char approvalChoice = Helper.readChar("Approve this student? (Y/N): ");
-		        if (approvalChoice == 'Y' || approvalChoice == 'y') {
-		            ((Teacher) account).getPendingStudents().remove(selectedStudent);
-		            ((Teacher) account).getStudents().add(selectedStudent);
-		            System.out.println(selectedStudent.getName() + " has been approved.");
-		        } else if (approvalChoice == 'N' || approvalChoice == 'n') {
-		            ((Teacher) account).getPendingStudents().remove(selectedStudent);
-		            System.out.println(selectedStudent.getName() + " has not been approved.");
-		        } else {
-		            System.out.println("Invalid choice.");
-		        }
-		    } else {
-		        System.out.println("Invalid student index.");
-		    }
+			char approvalChoice = Helper.readChar("Approve this student? (Y/N): ");
+			if (approvalChoice == 'Y' || approvalChoice == 'y') {
+				((Teacher) account).getPendingStudents().remove(selectedStudent);
+				((Teacher) account).getStudents().add(selectedStudent);
+				System.out.println(selectedStudent.getName() + " has been approved.");
+			} else if (approvalChoice == 'N' || approvalChoice == 'n') {
+				((Teacher) account).getPendingStudents().remove(selectedStudent);
+				System.out.println(selectedStudent.getName() + " has not been approved.");
+			} else {
+				System.out.println("Invalid choice.");
+			}
+		} else {
+			System.out.println("Invalid student index.");
+		}
 
 	}
 
@@ -213,74 +212,82 @@ public class C206_CaseStudy {
 	private static void viewAllPending() {
 		ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
 
-	    if (pendingStudents.isEmpty()) {
-	        System.out.println("No pending students for this activity.");
-	        return;
-	    }
+		if (pendingStudents.isEmpty()) {
+			System.out.println("No pending students for this activity.");
+			return;
+		}
 
-	    System.out.println("Pending Students:");
-	    for (int i = 0; i < pendingStudents.size(); i++) {
-	        System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
-	    }
-	
+		System.out.println("Pending Students:");
+		for (int i = 0; i < pendingStudents.size(); i++) {
+			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
+		}
+
 	}
 
 	// @Regan
 	private static void deletePending() {
 		ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
 
-	    if (pendingStudents.isEmpty()) {
-	        System.out.println("No pending students for this activity.");
-	        return;
-	    }
+		if (pendingStudents.isEmpty()) {
+			System.out.println("No pending students for this activity.");
+			return;
+		}
 
-	    System.out.println("Pending Students:");
-	    for (int i = 0; i < pendingStudents.size(); i++) {
-	        System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
-	    }
+		System.out.println("Pending Students:");
+		for (int i = 0; i < pendingStudents.size(); i++) {
+			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
+		}
 
-	    int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ") - 1;
+		int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ") - 1;
 
-	    if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
-	        Student selectedStudent = pendingStudents.get(studentIndex);
+		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
+			Student selectedStudent = pendingStudents.get(studentIndex);
 
-	        char deleteChoice = Helper.readChar("Delete this student from pending? (Y/N): ");
-	        if (deleteChoice == 'Y' || deleteChoice == 'y') {
-	            ((Teacher) account).getPendingStudents().remove(selectedStudent);
-	            System.out.println(selectedStudent.getName() + " has been removed from pending.");
-	        } else if (deleteChoice == 'N' || deleteChoice == 'n') {
-	            System.out.println("No action taken.");
-	        } else {
-	            System.out.println("Invalid choice.");
-	        }
-	    } else {
-	        System.out.println("Invalid student index.");
-	    }
-		
+			char deleteChoice = Helper.readChar("Delete this student from pending? (Y/N): ");
+			if (deleteChoice == 'Y' || deleteChoice == 'y') {
+				((Teacher) account).getPendingStudents().remove(selectedStudent);
+				System.out.println(selectedStudent.getName() + " has been removed from pending.");
+			} else if (deleteChoice == 'N' || deleteChoice == 'n') {
+				System.out.println("No action taken.");
+			} else {
+				System.out.println("Invalid choice.");
+			}
+		} else {
+			System.out.println("Invalid student index.");
+		}
 
 	}
 
 	// @Jannah
-	private static void addActivity(ArrayList<Activities> activitiesList) {
-		
+	public static void addActivity(ArrayList<Activities> activitiesList) {
+
 		int id = activitiesList.size() + 1;
 		String name = Helper.readString("Enter Activity Name > ");
 		String category = Helper.readString("Enter the Category > ");
 		int maxCap = Helper.readInt("Enter the max capacity > ");
-		
-		int c = activitiesList.size();
-		activitiesList.add(c, new Activities(id, name, category,maxCap));
-		System.out.println("\n*** Activity has been added ***");
-		
+
+		for (int i = 0; i < activitiesList.size(); i++) {
+			if (!name.isEmpty()) {
+				if (name.equalsIgnoreCase(activitiesList.get(i).getName())) {
+					System.out.println("*** That Activity Already Exists ***");
+				} else {
+					int c = activitiesList.size();
+					activitiesList.add(c, new Activities(id, name, category, maxCap));
+					System.out.println("\n*** Activity has been added ***");
+				}
+			} else {
+				System.out.println("*** Please Fill in the Blanks ***");
+			}
+		}
 
 	}
 
 	// @Jannah
-	private static void viewAllActivities(ArrayList<Activities> activitiesList) {
-		
-		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", 
-				"ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
-		
+	public static void viewAllActivities(ArrayList<Activities> activitiesList) {
+
+		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
+				"No. Of Students", "Max Capacity", "Available"));
+
 		for (int i = 0; i < activitiesList.size(); i++) {
 			System.out.println(activitiesList.get(i).toString());
 		}
@@ -291,18 +298,18 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	private static void deleteActivity(ArrayList<Activities> activitiesList) {
-		
+	public static void deleteActivity(ArrayList<Activities> activitiesList) {
+
 		viewAllActivities(activitiesList);
-		
+
 		boolean found = false;
-		
+
 		int searchActivity = Helper.readInt("Enter Activity ID > ");
 		for (int i = 0; i < activitiesList.size(); i++) {
 			if (searchActivity == activitiesList.get(i).getId()) {
 				found = true;
-				System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", 
-						"ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
+				System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name",
+						"Category", "No. Of Students", "Max Capacity", "Available"));
 				System.out.println(activitiesList.get(i).toString());
 				char confirm = Helper.readChar("Confirm deletion of Activity (y/n)> ");
 				if (confirm == 'y') {
@@ -311,15 +318,12 @@ public class C206_CaseStudy {
 				} else {
 					System.out.println("\n*** You have not deleted anything ***");
 				}
-			
-				
+
 			}
 		}
-		 if (found == false) {
-			 System.out.println("\n*** Invalid Activity ID. Try Again ***");
-		 }
-		
-		
+		if (found == false) {
+			System.out.println("\n*** Invalid Activity ID. Try Again ***");
+		}
 
 	}
 
@@ -359,11 +363,10 @@ public class C206_CaseStudy {
 			option = Helper.readInt("Enter option: ");
 
 			if (option == 1) {
-				if(account.getRole() == "Student") {
+				if (account.getRole() == "Student") {
 					Student student = (Student) account; // Assuming account is already logged in as a student
 					registerForActivity(activitiesList, student);
-				}
-				else {
+				} else {
 					System.out.println("Activities registration for students only");
 				}
 			} else if (option == 2) {
