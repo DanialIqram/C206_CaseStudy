@@ -213,12 +213,12 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doSetApprovalStatus(int studentIndex, char approvalChoice) {
+	public static void doSetApprovalStatus(int studentId, char approvalChoice) {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
-		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
-			Student selectedStudent = pendingStudents.get(studentIndex);
+		if (studentId >= 0 && studentId < pendingStudents.size()) {
+			Student selectedStudent = pendingStudents.get(studentId);
 		
 		if (approvalChoice == 'Y' || approvalChoice == 'y') {
 			pendingStudents.remove(selectedStudent);
@@ -250,9 +250,9 @@ public class C206_CaseStudy {
 		for (int i = 0; i < pendingStudents.size(); i++) {
 			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
 		}
-		int studentIndex = Helper.readInt("Enter the index of the student you want to approve: ");
+		int studentId = Helper.readInt("Enter the id of the student you want to approve: ");
 		char approvalChoice = Helper.readChar("Approve this student? (Y/N): ");
-		doSetApprovalStatus(studentIndex, approvalChoice);
+		doSetApprovalStatus(studentId, approvalChoice);
 		
 	}
 	
@@ -275,12 +275,12 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doDeletePending(int studentIndex, char deleteChoice) {
+	public static void doDeletePending(int studentId, char deleteChoice) {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
-		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
-			Student selectedStudent = pendingStudents.get(studentIndex);
+		if (studentId >= 0 && studentId < pendingStudents.size()) {
+			Student selectedStudent = pendingStudents.get(studentId);
 			
 			
 			if (deleteChoice == 'Y' || deleteChoice == 'y') {
@@ -293,7 +293,7 @@ public class C206_CaseStudy {
 				System.out.println("Invalid choice.");
 			}
 		} else {
-			System.out.println("Invalid student index.");
+			System.out.println("Invalid student id.");
 		}
 		
 	}
