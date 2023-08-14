@@ -340,7 +340,7 @@ public class C206_CaseStudy {
 	// @Regan
 	private static void viewAllPending() {
 		Activities activity = getActivity();
-		ArrayList<Student> pendingStudents = Activities.getPendingStudents();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 
 		if (pendingStudents.isEmpty()) {
 			System.out.println("No pending students for this activity.");
@@ -355,7 +355,25 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doDeletePending() {
+	public static void doDeletePending(int studentIndex, char deleteChoice) {
+		Activities activity = getActivity();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
+		
+		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
+			Student selectedStudent = pendingStudents.get(studentIndex);
+			
+			if (deleteChoice == 'Y' || deleteChoice == 'y') {
+				pendingStudents.remove(selectedStudent);
+				System.out.println(selectedStudent.getName() + " has been removed from pending.");
+			} else if (deleteChoice == 'N' || deleteChoice == 'n') {
+				//
+				System.out.println("No action taken.");
+			} else {
+				System.out.println("Invalid choice.");
+			}
+		} else {
+			System.out.println("Invalid student index.");
+		}
 		
 	}
 	
