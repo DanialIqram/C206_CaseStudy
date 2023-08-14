@@ -295,13 +295,10 @@ public class C206_CaseStudy {
 		int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ");
 		char deleteChoice = Helper.readChar("Confirm Delete?:");
 		doDeletePending(studentIndex, deleteChoice);		
-		//
 		}	
 		
 	
 	
-	private static void deletePending() {
-	}
 
 	// @Jannah
 	public static void doAddActivity(ArrayList<Activities> activitiesList, Activities activity) {
