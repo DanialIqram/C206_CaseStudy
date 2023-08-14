@@ -154,7 +154,8 @@ public class C206_CaseStudy {
 			} else if (option == 3) {
 				inputDeletePending();
 			} else if (option == 4) {
-				inputAddActivity();
+				Activities activity = inputAddActivity();
+				doAddActivity(activities,activity);
 			} else if (option == 5) {
 				viewAllActivities(activities);
 			} else if (option == 6) {
@@ -274,18 +275,18 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	public static void doAddActivity(String name, String category, int maxCapacity) {
-		activities.add(new Activities(activities.size() + 1, name, category, maxCapacity));
+	public static void doAddActivity(ArrayList<Activities> activitiesList, Activities activity) {
+		activities.add(activity);
 		System.out.println("\n*** Activity has been added ***");
 	}
 	
 	// @Jannah
-	private static void inputAddActivity() {
+	private static Activities inputAddActivity() {
 		String name = Helper.readString("Enter Activity Name > ");
 		String category = Helper.readString("Enter the Category > ");
 		int maxCap = Helper.readInt("Enter the max capacity > ");
-
-		doAddActivity(name, category, maxCap);
+		Activities activity = new Activities(activities.size() + 1, name, category, maxCap);
+		return activity;
 	}
 
 	// @Jannah
@@ -305,6 +306,7 @@ public class C206_CaseStudy {
 
 	// @Jannah
 	public static void doDeleteActivity() {
+		
 		
 	}
 	
