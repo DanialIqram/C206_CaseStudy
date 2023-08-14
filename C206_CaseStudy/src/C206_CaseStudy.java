@@ -84,7 +84,7 @@ public class C206_CaseStudy {
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
 			promptStudentMenu(activities);
-		} else if (account.getRole("admin")) {
+		} else if (account.getRole().equals("admin")) {
 			System.out.println("Logged in Admin account");
 			promptAdminMenu();
 		}
@@ -218,7 +218,7 @@ public class C206_CaseStudy {
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
 		if (studentId >= 0 && studentId < pendingStudents.size()) {
-			Student selectedStudent = pendingStudents.get(studentId);
+			Student selectedStudent = getStudentById(studentId);
 		
 		if (approvalChoice == 'Y' || approvalChoice == 'y') {
 			pendingStudents.remove(selectedStudent);
