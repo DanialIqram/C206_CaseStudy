@@ -497,26 +497,44 @@ public class C206_CaseStudy {
 		System.out.println("5) Quit");
 		Helper.line(40, "=");
 	}
+	
+	public static void setHeader(String header) {
+		Helper.line(80, "-");
+		System.out.println(header);
+		Helper.line(80, "-");
+	}
+	
+	public static String showAvailability(boolean isAvailable) {
+		String avail;
+
+		if (isAvailable == true) {
+			avail = "Yes";
+		} else {
+			avail = "No";
+		}
+		return avail;
+	}
+
 
 	private static void promptStudentMenu() {
-		int option = -1;
+	    int option = -1;
 
-		while (option != 5) {
-			showStudentOptions();
-			option = Helper.readInt("Enter option: ");
+	    while (option != 5) {
+	        showStudentOptions();
+	        option = Helper.readInt("Enter option: ");
 
-			if (option == 1) {
-				inputRegisterForActivity();
-			} else if (option == 2) {
-				viewAllRegistrations();
-			} else if (option == 3) {
-				inputDeleteRegistration();
-			} else if (option == 4) {
-				logoutUser();
-			} else if (option == 5) {
-				break;
-			}
-		}
+	        if (option == 1) {
+	        	inputRegisterForActivity(); 
+	        } else if (option == 2) {
+	            viewAllRegistrations();
+	        } else if (option == 3) {
+	            doDeleteRegistration(); 
+	        } else if (option == 4) {
+	            logoutUser();
+	        } else if (option == 5) {
+	            break;
+	        }
+	    }
 	}
 
 	// @Diya
@@ -529,6 +547,8 @@ public class C206_CaseStudy {
 	}
 	
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
+		
+		
 		// viewing of activities
 		viewAllActivities(activitiesList);
 
@@ -660,6 +680,7 @@ public class C206_CaseStudy {
 //		System.out.println("3) Delete Registration");
 		System.out.println("4) Logout");
 		System.out.println("5) Quit");
+		
 		Helper.line(40, "=");
 	}
 
