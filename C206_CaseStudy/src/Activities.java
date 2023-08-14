@@ -6,6 +6,7 @@ private String category;
 private int maxCapacity;
 private ArrayList <Student> students;
 private ArrayList <Student> pendingStudents;
+private ArrayList<Student> attendance;
 
 public Activities (int id, String name, String category, int maxCapacity) {
 	this.id=id;
@@ -14,6 +15,7 @@ public Activities (int id, String name, String category, int maxCapacity) {
 	this.maxCapacity=maxCapacity;
 	students = new ArrayList<>();
 	pendingStudents = new ArrayList<>();
+	attendance = new ArrayList<>();
 	
 }
 
