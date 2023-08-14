@@ -3,11 +3,12 @@ import java.util.Scanner;
 import java.util.List;
 
 public class C206_CaseStudy {
-	public static User account;
-	public static ArrayList<User> admins;
-	public static ArrayList<Student> students;
-	public static ArrayList<Teacher> teachers;
-	public static ArrayList<Activities> activities;
+	private static User account;
+	private static boolean attendance;
+	private static ArrayList<User> admins;
+	private static ArrayList<Student> students;
+	private static ArrayList<Teacher> teachers;
+	private static ArrayList<Activities> activities;
 
 	public static void main(String[] args) {
 		account = null;
@@ -26,6 +27,9 @@ public class C206_CaseStudy {
 		activities.add(activity3);
 		activities.add(activity4);
 		activities.add(activity5);
+		
+		admins = new ArrayList<>();
+		admins.add(new User(1, "admin", "admin@example.com", "admin", "admin"));
 
 		students = new ArrayList<>();
 		students.add(new Student(1, "student", "student@example.com", "student", "1A"));
@@ -61,10 +65,19 @@ public class C206_CaseStudy {
 					break;
 				}
 			}
+			
+			for (int i = 0; i < admins.size(); i++) {
+				User admin = admins.get(i);
+				if (admin.getEmail().equalsIgnoreCase(emailInput) && admin.getPassword().equals(passwordInput)) {
+					account = admin;
+					break;
+				}
+			}
 
 			// Invalid email or password OR no account existing.
 			if (account == null) {
 				System.out.println("Invalid email/password. Try again!");
+				return;
 			}
 		}
 
@@ -79,13 +92,24 @@ public class C206_CaseStudy {
 			promptTeacherMenu();
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
-			promptStudentMenu(activities);
-		} // TODO [Danial] Add admin system for Add user, View user, delete user.
+			promptStudentMenu();
+		} else if (account.getRole().equals("admin")) {
+			System.out.println("Logged in Admin account");
+			promptAdminMenu();
+		}
 	}
 
 	// @Danial
 	private static void logoutUser() {
-
+		account = null;
+		
+		System.out.println();
+		Helper.line(40, "=");
+		System.out.println("LOGGED OUT!");
+		Helper.line(40, "=");
+		System.out.println();
+		
+		promptLogin();
 	}
 
 	private static boolean isStudentAtMaxActivities(Student student) {
@@ -183,6 +207,89 @@ public class C206_CaseStudy {
 				break;
 			}
 		}
+	}
+	
+	//Lleyton
+	public static void markAttendance() {
+		while (attendance == false && account.getRole().equals("teacher")) {
+			Helper.line(40, "=");
+			System.out.println("ATTENDANCE MARKING");
+			Helper.line(40, "=");
+			
+			int studentIDInput = Helper.readInt("Enter student ID: ");
+			
+			for (int i = 0; i < students.size(); i++) {
+				Student student = students.get(i);
+				int studentID = student.getId();
+				if (studentID == (studentIDInput)) {
+					attendance = true;
+					break;
+				}
+			}
+			
+			if (attendance == false) {
+				System.out.println("Invalid student ID. Try again!");
+			}
+			
+			System.out.println();
+			Helper.line(40, "=");
+			System.out.println("Attendance marked for " + account.getName().toUpperCase());
+			Helper.line(40, "=");
+			System.out.println();
+			
+		}
+	}
+	
+	public static void deleteAttendance() {
+		while (attendance == true && account.getRole().equals("teacher")) {
+			Helper.line(40, "=");
+			System.out.println("ATTENDANCE DELETION");
+			Helper.line(40, "=");
+			
+			int studentIDInput = Helper.readInt("Enter student ID: ");
+			
+			for (int i = 0; i < students.size(); i++) {
+				Student student = students.get(i);
+				int studentID = student.getId();
+				if (studentID == (studentIDInput)) {
+					char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
+					if (confirmation == 'Y') {
+						attendance = false;
+					}
+					else if (confirmation == 'N') {
+						attendance = true;
+					}
+					else {
+						System.out.println("Invalid input.");
+					}
+					break;
+				}
+			}
+			
+			if (attendance == false) {
+				System.out.println("Invalid student ID. Try again!");
+			}
+			
+			System.out.println();
+			Helper.line(40, "=");
+			System.out.println("Attendance deleted for " + account.getName().toUpperCase());
+			Helper.line(40, "=");
+			System.out.println();
+			
+		}
+	}
+	
+	public static void showAttendance() {
+		while (account.getRole().equals("teacher")) {
+			for (int i = 0; i < students.size(); i++) {
+				Student student = students.get(i);
+				String studentClass = student.getClasslevel();
+				String studentInfo = student.toString();
+				Helper.line(40, "=");
+				String.format("%-10s |", studentInfo, studentClass);
+			}
+		}
+		
 	}
 
 	// @Regan
@@ -391,7 +498,7 @@ public class C206_CaseStudy {
 		Helper.line(40, "=");
 	}
 
-	private static void promptStudentMenu(ArrayList<Activities> activitiesList) {
+	private static void promptStudentMenu() {
 		int option = -1;
 
 		while (option != 5) {
@@ -543,4 +650,37 @@ public class C206_CaseStudy {
 		}
 	}
 
+	// ADMIN MENU
+	private static void showAdminOptions() {
+		Helper.line(40, "=");
+		System.out.println("ADMIN MENU");
+		Helper.line(40, "=");
+		System.out.println("1) Add User");
+//		System.out.println("2) View All Registrations");
+//		System.out.println("3) Delete Registration");
+		System.out.println("4) Logout");
+		System.out.println("5) Quit");
+		Helper.line(40, "=");
+	}
+
+	private static void promptAdminMenu() {
+		int option = -1;
+
+		while (option != 5) {
+			showAdminOptions();
+			option = Helper.readInt("Enter option: ");
+
+			if (option == 1) {
+				inputRegisterForActivity();
+			} else if (option == 2) {
+				viewAllRegistrations();
+			} else if (option == 3) {
+				inputDeleteRegistration();
+			} else if (option == 4) {
+				logoutUser();
+			} else if (option == 5) {
+				break;
+			}
+		}
+	}
 }
