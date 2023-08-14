@@ -36,6 +36,7 @@ public class C206_CaseStudy {
 		promptLogin();
 	}
 
+	
 	// Misc
 	public static void promptLogin() {
 		while (account == null) {
@@ -58,7 +59,7 @@ public class C206_CaseStudy {
 				Teacher teacher = teachers.get(i);
 				if (teacher.getEmail().equalsIgnoreCase(emailInput) && teacher.getPassword().equals(passwordInput)) {
 					account = teacher;
-					break;
+					break; 
 				}
 			}
 
@@ -387,9 +388,93 @@ public class C206_CaseStudy {
 
 	}
 
+	
+	//Lleyton
+    public static void markAttendance() {
+        while (attendance == false && account.getRole().equals("teacher")) {
+            Helper.line(40, "=");
+            System.out.println("ATTENDANCE MARKING");
+            Helper.line(40, "=");
+           
+            int studentIDInput = Helper.readInt("Enter student ID: ");
+           
+            for (int i = 0; i < students.size(); i++) {
+                Student student = students.get(i);
+                int studentID = student.getId();
+                if (studentID == (studentIDInput)) {
+                    attendance = true;
+                    break;
+                }
+            }
+           
+            if (attendance == false) {
+                System.out.println("Invalid student ID. Try again!");
+            }
+           
+            System.out.println();
+            Helper.line(40, "=");
+            System.out.println("Attendance marked for " + account.getName().toUpperCase());
+            Helper.line(40, "=");
+            System.out.println();
+           
+        }
+    }
+   
+   
+    
 	// @Lleyton
 	public static void doAddAttendance() {
-		
+		 public static void deleteAttendance() {
+		        while (attendance == true && account.getRole().equals("teacher")) {
+		            Helper.line(40, "=");
+		            System.out.println("ATTENDANCE DELETION");
+		            Helper.line(40, "=");
+		           
+		            int studentIDInput = Helper.readInt("Enter student ID: ");
+		           
+		            for (int i = 0; i < students.size(); i++) {
+		                Student student = students.get(i);
+		                int studentID = student.getId();
+		                if (studentID == (studentIDInput)) {
+		                    char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
+		                    if (confirmation == 'Y') {
+		                        attendance = false;
+		                    }
+		                    else if (confirmation == 'N') {
+		                        attendance = true;
+		                    }
+		                    else {
+		                        System.out.println("Invalid input.");
+		                    }
+		                    break;
+		                }
+		            }
+		           
+		            if (attendance == false) {
+		                System.out.println("Invalid student ID. Try again!");
+		            }
+		           
+		            System.out.println();
+		            Helper.line(40, "=");
+		            System.out.println("Attendance deleted for " + account.getName().toUpperCase());
+		            Helper.line(40, "=");
+		            System.out.println();
+		           
+		        }
+		    }
+		   
+		    public static void showAttendance() {
+		        while (account.getRole().equals("teacher")) {
+		            for (int i = 0; i < students.size(); i++) {
+		                Student student = students.get(i);
+		                String studentClass = student.getClasslevel();
+		                String studentInfo = student.toString();
+		                Helper.line(40, "=");
+		                String.format("%-10s |", studentInfo, studentClass);
+		            }
+		        }
+		       
+		    }
 	}
 	
 	public static void inputAddAttendance() {
