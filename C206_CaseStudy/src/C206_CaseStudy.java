@@ -637,16 +637,35 @@ public class C206_CaseStudy {
 		}
 	}
 
-	// @Diya hiii
-	public static void doDeleteRegistration() {
-		
+	// @Diya
+	public static void doDeleteRegistration(int activityIDToDelete) {
+		boolean found = false;
+
+		for (Activities activity : registeredActivities) {
+			if (activity.getId() == activityIDToDelete) {
+				found = true;
+				char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
+				if (confirm == 'Y' || confirm == 'y') {
+					activity.getStudents().remove(student);
+					System.out.println("You have been unregistered from the activity.");
+				} else {
+					System.out.println("Unregistration canceled.");
+				}
+				break;
+			}
+		}
+
+		if (!found) {
+			System.out.println("Invalid activity ID.");
+		}
 	}
 	
 	public static void inputDeleteRegistration() {
-		
+		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: "); 
+		doDeleteRegistration(activityIDToDelete);
 	}
 	
-	private static void deleteRegistrations(Student student, ArrayList<Activities> activitiesList) {
+	private static void deleteRegistrations() {
 		List<Activities> registeredActivities = new ArrayList<>();
 
 		// showing the list of registered activities and including them in the list
@@ -663,7 +682,7 @@ public class C206_CaseStudy {
 		}
 
 		// deletion part
-		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
+		
 		boolean found = false;
 
 		for (Activities activity : registeredActivities) {
