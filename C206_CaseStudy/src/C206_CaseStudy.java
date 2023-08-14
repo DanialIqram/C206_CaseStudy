@@ -147,6 +147,16 @@ public class C206_CaseStudy {
 
 		return activities.get(0);
 	}
+	
+	private static Student getStudentById(int id) {
+		for (int i = 0; i < students.size(); i++) {
+			if (students.get(i).getId() == id) {
+				return students.get(i);
+			}
+		}
+		
+		return null;
+	}
 
 	// Teacher Options
 	private static void showTeacherOptions() {
