@@ -3,10 +3,11 @@ import java.util.Scanner;
 import java.util.List;
 
 public class C206_CaseStudy {
-	private static User account;
-	private static ArrayList<Student> students;
-	private static ArrayList<Teacher> teachers;
-	private static ArrayList<Activities> activities;
+	public static User account;
+	public static ArrayList<User> admins;
+	public static ArrayList<Student> students;
+	public static ArrayList<Teacher> teachers;
+	public static ArrayList<Activities> activities;
 
 	public static void main(String[] args) {
 		account = null;
@@ -383,12 +384,7 @@ public class C206_CaseStudy {
 			option = Helper.readInt("Enter option: ");
 
 			if (option == 1) {
-				if (account.getRole() == "Student") {
-					Student student = (Student) account; // Assuming account is already logged in as a student
-					registerForActivity(activitiesList, student);
-				} else {
-					System.out.println("Activities registration for students only");
-				}
+				inputRegisterForActivity();
 			} else if (option == 2) {
 				viewAllRegistrations();
 			} else if (option == 3) {
@@ -472,10 +468,12 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
-	public static void viewAllRegistrations(Student student, ArrayList<Activities> activitiesList) {
+	public static void viewAllRegistrations() {
 		System.out.println("Registered Activities:");
+		
+		Student student = (Student) account;
 
-		for (Activities activity : activitiesList) {
+		for (Activities activity : activities) {
 			if (activity.getStudents().contains(student) || activity.getPendingStudents().contains(student)) {
 				System.out.println(activity.getName());
 			}
