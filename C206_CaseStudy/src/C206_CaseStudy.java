@@ -173,6 +173,13 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
+	public static void doSetApprovalStatus() {
+		
+	}
+	
+	public static void inputSetApprovalStatus() {
+		
+	}
 	private static void setApprovalStatus() {
 		ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
 
@@ -225,6 +232,13 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
+	public static void doDeletePending() {
+		
+	}
+	
+	public static void inputDeletePending() {
+		
+	}
 	private static void deletePending() {
 		ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
 
@@ -289,6 +303,13 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
+	public static void doDeleteActivity() {
+		
+	}
+	
+	public static void inputDeleteActivity() {
+		
+	}
 	private static void deleteActivity(ArrayList<Activities> activitiesList) {
 
 		viewAllActivities(activitiesList);
@@ -319,17 +340,24 @@ public class C206_CaseStudy {
 	}
 
 	// @Lleyton
-	private static void addAttendance() {
+	public static void doAddAttendance() {
+		
+	}
+	
+	public static void inputAddAttendance() {
 
 	}
 
 	// @Lleyton
-	private static void viewAttendance() {
+	public static void viewAttendance() {
 
 	}
 
 	// @Lleyton
-	private static void deleteAttendance() {
+	public static void doDeleteAttendance() {
+		
+	}
+	public static void inputDeleteAttendance() {
 
 	}
 
@@ -373,6 +401,14 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
+	public static void doRegisterForActivity() {
+		
+	}
+	
+	public static void inputRegisterForActivity() {
+		
+	}
+	
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
 		// viewing of activities
 		viewAllActivities(activitiesList);
@@ -435,7 +471,7 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
-	private static void viewAllRegistrations(Student student, ArrayList<Activities> activitiesList) {
+	public static void viewAllRegistrations(Student student, ArrayList<Activities> activitiesList) {
 		System.out.println("Registered Activities:");
 
 		for (Activities activity : activitiesList) {
@@ -446,6 +482,14 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
+	public static void doDeleteRegistration() {
+		
+	}
+	
+	public static void inputDeleteRegistration() {
+		
+	}
+	
 	private static void deleteRegistrations(Student student, ArrayList<Activities> activitiesList) {
 		List<Activities> registeredActivities = new ArrayList<>();
 
