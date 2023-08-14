@@ -290,7 +290,6 @@ public class C206_CaseStudy {
 		int maxCap = Helper.readInt("Enter the max capacity > ");
 		Activities activity = new Activities(activities.size() + 1, name, category, maxCap);
 		return activity;
-		
 	}
 
 	// @Jannah
