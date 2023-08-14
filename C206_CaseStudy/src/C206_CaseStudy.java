@@ -244,7 +244,7 @@ public class C206_CaseStudy {
 	// @Regan
 	private static void viewAllPending() {
 		Activities activity = getActivity();
-		ArrayList<Student> pendingStudents = Activities.getPendingStudents();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 
 		if (pendingStudents.isEmpty()) {
 			System.out.println("No pending students for this activity.");
@@ -259,36 +259,19 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doDeletePending() {
+	public static void doDeletePending(int studentIndex, char deleteChoice) {
+		Activities activity = getActivity();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
-	}
-	
-	public static void inputDeletePending() {
-		
-	}
-	private static void deletePending() {
-		ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
-
-		if (pendingStudents.isEmpty()) {
-			System.out.println("No pending students for this activity.");
-			return;
-		}
-
-		System.out.println("Pending Students:");
-		for (int i = 0; i < pendingStudents.size(); i++) {
-			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
-		}
-
-		int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ") - 1;
-
 		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
 			Student selectedStudent = pendingStudents.get(studentIndex);
-
-			char deleteChoice = Helper.readChar("Delete this student from pending? (Y/N): ");
+			
+			
 			if (deleteChoice == 'Y' || deleteChoice == 'y') {
-				((Teacher) account).getPendingStudents().remove(selectedStudent);
+				pendingStudents.remove(selectedStudent);
 				System.out.println(selectedStudent.getName() + " has been removed from pending.");
 			} else if (deleteChoice == 'N' || deleteChoice == 'n') {
+				//
 				System.out.println("No action taken.");
 			} else {
 				System.out.println("Invalid choice.");
@@ -296,7 +279,22 @@ public class C206_CaseStudy {
 		} else {
 			System.out.println("Invalid student index.");
 		}
-
+		
+	}
+	
+	public static void inputDeletePending() {
+		Activities activity = getActivity();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
+		
+		int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ");
+		char deleteChoice = Helper.readChar("Confirm Delete?:");
+		doDeletePending(studentIndex, deleteChoice);		
+		//
+		}	
+		
+	
+	
+	private static void deletePending() {
 	}
 
 	// @Jannah
@@ -495,26 +493,49 @@ public class C206_CaseStudy {
 		System.out.println("5) Quit");
 		Helper.line(40, "=");
 	}
+	
+	public static void setHeader(String header) {
+		Helper.line(80, "-");
+		System.out.println(header);
+		Helper.line(80, "-");
+	}
+	
+	public static String showAvailability(boolean isAvailable) {
+		String avail;
 
+		if (isAvailable == true) {
+			avail = "Yes";
+		} else {
+			avail = "No";
+		}
+		return avail;
+	}
+
+
+<<<<<<< HEAD
+	private static void promptStudentMenu() {
+	    int option = -1;
+=======
 	private static void promptStudentMenu(ArrayList<Activities> activitiesList) {
 		int option = -1;
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
-		while (option != 5) {
-			showStudentOptions();
-			option = Helper.readInt("Enter option: ");
+	    while (option != 5) {
+	        showStudentOptions();
+	        option = Helper.readInt("Enter option: ");
 
-			if (option == 1) {
-				inputRegisterForActivity();
-			} else if (option == 2) {
-				viewAllRegistrations();
-			} else if (option == 3) {
-				inputDeleteRegistration();
-			} else if (option == 4) {
-				logoutUser();
-			} else if (option == 5) {
-				break;
-			}
-		}
+	        if (option == 1) {
+	        	inputRegisterForActivity(); 
+	        } else if (option == 2) {
+	            viewAllRegistrations();
+	        } else if (option == 3) {
+	            doDeleteRegistration(); 
+	        } else if (option == 4) {
+	            logoutUser();
+	        } else if (option == 5) {
+	            break;
+	        }
+	    }
 	}
 
 	// @Diya
@@ -527,6 +548,8 @@ public class C206_CaseStudy {
 	}
 	
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
+		
+		
 		// viewing of activities
 		viewAllActivities(activitiesList);
 
@@ -601,15 +624,34 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
-	public static void doDeleteRegistration() {
-		
+	public static void doDeleteRegistration(int activityIDToDelete) {
+		boolean found = false;
+
+		for (Activities activity : registeredActivities) { 
+			if (activity.getId() == activityIDToDelete) {
+				found = true;
+				char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
+				if (confirm == 'Y' || confirm == 'y') {
+					activity.getStudents().remove(student);
+					System.out.println("You have been unregistered from the activity.");
+				} else {
+					System.out.println("Unregistration canceled.");
+				}
+				break;
+			}
+		}
+
+		if (!found) {
+			System.out.println("Invalid activity ID.");
+		}
 	}
 	
 	public static void inputDeleteRegistration() {
-		
+		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: "); 
+		doDeleteRegistration(activityIDToDelete);
 	}
 	
-	private static void deleteRegistrations(Student student, ArrayList<Activities> activitiesList) {
+	private static void deleteRegistrations() {
 		List<Activities> registeredActivities = new ArrayList<>();
 
 		// showing the list of registered activities and including them in the list
@@ -626,7 +668,7 @@ public class C206_CaseStudy {
 		}
 
 		// deletion part
-		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
+		
 		boolean found = false;
 
 		for (Activities activity : registeredActivities) {
@@ -658,6 +700,7 @@ public class C206_CaseStudy {
 //		System.out.println("3) Delete Registration");
 		System.out.println("4) Logout");
 		System.out.println("5) Quit");
+		
 		Helper.line(40, "=");
 	}
 
@@ -678,6 +721,7 @@ public class C206_CaseStudy {
 				logoutUser();
 			} else if (option == 5) {
 				break;
+				
 			}
 		}
 	}
