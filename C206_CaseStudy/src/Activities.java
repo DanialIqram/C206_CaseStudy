@@ -38,6 +38,10 @@ public ArrayList<Student> getStudents() {
 	return students;
 }
 
+public ArrayList<Student> getAttendance() {
+	return attendance;
+}
+
 @Override
 public String toString() {
 	String isOpen = "No";
