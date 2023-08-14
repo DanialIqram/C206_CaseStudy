@@ -3,12 +3,11 @@ import java.util.Scanner;
 import java.util.List;
 
 public class C206_CaseStudy {
-	private static User account;
-	private static boolean attendance;
-	private static ArrayList<User> admins;
-	private static ArrayList<Student> students;
-	private static ArrayList<Teacher> teachers;
-	private static ArrayList<Activities> activities;
+	public static User account;
+	public static ArrayList<User> admins;
+	public static ArrayList<Student> students;
+	public static ArrayList<Teacher> teachers;
+	public static ArrayList<Activities> activities;
 
 	public static void main(String[] args) {
 		account = null;
@@ -27,9 +26,6 @@ public class C206_CaseStudy {
 		activities.add(activity3);
 		activities.add(activity4);
 		activities.add(activity5);
-		
-		admins = new ArrayList<>();
-		admins.add(new User(1, "admin", "admin@example.com", "admin", "admin"));
 
 		students = new ArrayList<>();
 		students.add(new Student(1, "student", "student@example.com", "student", "1A"));
@@ -65,19 +61,10 @@ public class C206_CaseStudy {
 					break;
 				}
 			}
-			
-			for (int i = 0; i < admins.size(); i++) {
-				User admin = admins.get(i);
-				if (admin.getEmail().equalsIgnoreCase(emailInput) && admin.getPassword().equals(passwordInput)) {
-					account = admin;
-					break;
-				}
-			}
 
 			// Invalid email or password OR no account existing.
 			if (account == null) {
 				System.out.println("Invalid email/password. Try again!");
-				return;
 			}
 		}
 
@@ -92,24 +79,13 @@ public class C206_CaseStudy {
 			promptTeacherMenu();
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
-			promptStudentMenu();
-		} else if (account.getRole().equals("admin")) {
-			System.out.println("Logged in Admin account");
-			promptAdminMenu();
-		}
+			promptStudentMenu(activities);
+		} // TODO [Danial] Add admin system for Add user, View user, delete user.
 	}
 
 	// @Danial
 	private static void logoutUser() {
-		account = null;
-		
-		System.out.println();
-		Helper.line(40, "=");
-		System.out.println("LOGGED OUT!");
-		Helper.line(40, "=");
-		System.out.println();
-		
-		promptLogin();
+
 	}
 
 	private static boolean isStudentAtMaxActivities(Student student) {
@@ -143,18 +119,6 @@ public class C206_CaseStudy {
 
 	private static boolean isActivityOpen(Activities activity) {
 		return activity.getStudents().size() < activity.getMaxCapacity();
-	}
-	
-	private static Activities getActivity() {
-		Teacher teacher = (Teacher) account;
-		
-		for (int i = 0; i < activities.size(); i++) {
-			if (activities.get(i).getId() == teacher.getActivitesId()) {
-				return activities.get(i);
-			}
-		}
-		
-		return activities.get(0);
 	}
 
 	// Teacher Options
@@ -190,7 +154,8 @@ public class C206_CaseStudy {
 			} else if (option == 3) {
 				inputDeletePending();
 			} else if (option == 4) {
-				inputAddActivity();
+				Activities activity = inputAddActivity();
+				doAddActivity(activities,activity);
 			} else if (option == 5) {
 				viewAllActivities(activities);
 			} else if (option == 6) {
@@ -207,89 +172,6 @@ public class C206_CaseStudy {
 				break;
 			}
 		}
-	}
-	
-	//Lleyton
-	public static void markAttendance() {
-		while (attendance == false && account.getRole().equals("teacher")) {
-			Helper.line(40, "=");
-			System.out.println("ATTENDANCE MARKING");
-			Helper.line(40, "=");
-			
-			int studentIDInput = Helper.readInt("Enter student ID: ");
-			
-			for (int i = 0; i < students.size(); i++) {
-				Student student = students.get(i);
-				int studentID = student.getId();
-				if (studentID == (studentIDInput)) {
-					attendance = true;
-					break;
-				}
-			}
-			
-			if (attendance == false) {
-				System.out.println("Invalid student ID. Try again!");
-			}
-			
-			System.out.println();
-			Helper.line(40, "=");
-			System.out.println("Attendance marked for " + account.getName().toUpperCase());
-			Helper.line(40, "=");
-			System.out.println();
-			
-		}
-	}
-	
-	public static void deleteAttendance() {
-		while (attendance == true && account.getRole().equals("teacher")) {
-			Helper.line(40, "=");
-			System.out.println("ATTENDANCE DELETION");
-			Helper.line(40, "=");
-			
-			int studentIDInput = Helper.readInt("Enter student ID: ");
-			
-			for (int i = 0; i < students.size(); i++) {
-				Student student = students.get(i);
-				int studentID = student.getId();
-				if (studentID == (studentIDInput)) {
-					char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
-					if (confirmation == 'Y') {
-						attendance = false;
-					}
-					else if (confirmation == 'N') {
-						attendance = true;
-					}
-					else {
-						System.out.println("Invalid input.");
-					}
-					break;
-				}
-			}
-			
-			if (attendance == false) {
-				System.out.println("Invalid student ID. Try again!");
-			}
-			
-			System.out.println();
-			Helper.line(40, "=");
-			System.out.println("Attendance deleted for " + account.getName().toUpperCase());
-			Helper.line(40, "=");
-			System.out.println();
-			
-		}
-	}
-	
-	public static void showAttendance() {
-		while (account.getRole().equals("teacher")) {
-			for (int i = 0; i < students.size(); i++) {
-				Student student = students.get(i);
-				String studentClass = student.getClasslevel();
-				String studentInfo = student.toString();
-				Helper.line(40, "=");
-				String.format("%-10s |", studentInfo, studentClass);
-			}
-		}
-		
 	}
 
 	// @Regan
@@ -396,18 +278,18 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	public static void doAddActivity(String name, String category, int maxCapacity) {
-		activities.add(new Activities(activities.size() + 1, name, category, maxCapacity));
+	public static void doAddActivity(ArrayList<Activities> activitiesList, Activities activity) {
+		activities.add(activity);
 		System.out.println("\n*** Activity has been added ***");
 	}
 	
 	// @Jannah
-	private static void inputAddActivity() {
+	private static Activities inputAddActivity() {
 		String name = Helper.readString("Enter Activity Name > ");
 		String category = Helper.readString("Enter the Category > ");
 		int maxCap = Helper.readInt("Enter the max capacity > ");
-
-		doAddActivity(name, category, maxCap);
+		Activities activity = new Activities(activities.size() + 1, name, category, maxCap);
+		return activity;
 	}
 
 	// @Jannah
@@ -427,6 +309,7 @@ public class C206_CaseStudy {
 
 	// @Jannah
 	public static void doDeleteActivity() {
+		
 		
 	}
 	
@@ -498,7 +381,7 @@ public class C206_CaseStudy {
 		Helper.line(40, "=");
 	}
 
-	private static void promptStudentMenu() {
+	private static void promptStudentMenu(ArrayList<Activities> activitiesList) {
 		int option = -1;
 
 		while (option != 5) {
@@ -650,6 +533,7 @@ public class C206_CaseStudy {
 		}
 	}
 
+<<<<<<< HEAD
 	// ADMIN MENU
 	private static void showAdminOptions() {
 		Helper.line(40, "=");
@@ -703,4 +587,6 @@ public class C206_CaseStudy {
 	public static void inputDeleteUser() {
 		
 	}
+=======
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 }
