@@ -552,7 +552,7 @@ public class C206_CaseStudy {
 		}
 	}
 
-	// @Diya hii
+	// @Diya hiii
 	public static void doDeleteRegistration() {
 		
 	}
