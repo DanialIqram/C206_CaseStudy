@@ -244,7 +244,7 @@ public class C206_CaseStudy {
 	// @Regan
 	private static void viewAllPending() {
 		Activities activity = getActivity();
-		ArrayList<Student> pendingStudents = Activities.getPendingStudents();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 
 		if (pendingStudents.isEmpty()) {
 			System.out.println("No pending students for this activity.");
@@ -259,36 +259,19 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doDeletePending() {
+	public static void doDeletePending(int studentIndex, char deleteChoice) {
+		Activities activity = getActivity();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
-	}
-	
-	public static void inputDeletePending() {
-		
-	}
-	private static void deletePending() {
-		ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
-
-		if (pendingStudents.isEmpty()) {
-			System.out.println("No pending students for this activity.");
-			return;
-		}
-
-		System.out.println("Pending Students:");
-		for (int i = 0; i < pendingStudents.size(); i++) {
-			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
-		}
-
-		int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ") - 1;
-
 		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
 			Student selectedStudent = pendingStudents.get(studentIndex);
-
-			char deleteChoice = Helper.readChar("Delete this student from pending? (Y/N): ");
+			
+			
 			if (deleteChoice == 'Y' || deleteChoice == 'y') {
-				((Teacher) account).getPendingStudents().remove(selectedStudent);
+				pendingStudents.remove(selectedStudent);
 				System.out.println(selectedStudent.getName() + " has been removed from pending.");
 			} else if (deleteChoice == 'N' || deleteChoice == 'n') {
+				//
 				System.out.println("No action taken.");
 			} else {
 				System.out.println("Invalid choice.");
@@ -296,7 +279,22 @@ public class C206_CaseStudy {
 		} else {
 			System.out.println("Invalid student index.");
 		}
-
+		
+	}
+	
+	public static void inputDeletePending() {
+		Activities activity = getActivity();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
+		
+		int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ");
+		char deleteChoice = Helper.readChar("Confirm Delete?:");
+		doDeletePending(studentIndex, deleteChoice);		
+		//
+		}	
+		
+	
+	
+	private static void deletePending() {
 	}
 
 	// @Jannah
