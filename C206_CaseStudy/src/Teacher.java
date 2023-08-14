@@ -14,7 +14,7 @@ public Teacher(int id, String name, String email, String password, int activitie
 }
 
 public int getActivitesId() {return activitiesId;}
-
+//.
 
 public String toString() {
 	return"";
