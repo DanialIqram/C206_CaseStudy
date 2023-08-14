@@ -80,12 +80,20 @@ public class C206_CaseStudy {
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
 			promptStudentMenu(activities);
-		} // TODO [Danial] Add admin system for Add user, View user, delete user.
+		} else if (account.getRole())
 	}
 
 	// @Danial
 	private static void logoutUser() {
+		account = null;
 
+		System.out.println();
+		Helper.line(40, "=");
+		System.out.println("LOGGED OUT!");
+		Helper.line(40, "=");
+		System.out.println();
+
+		promptLogin();
 	}
 
 	private static boolean isStudentAtMaxActivities(Student student) {
@@ -119,6 +127,18 @@ public class C206_CaseStudy {
 
 	private static boolean isActivityOpen(Activities activity) {
 		return activity.getStudents().size() < activity.getMaxCapacity();
+	}
+	
+	private static Activities getActivity() {
+		Teacher teacher = (Teacher) account;
+
+		for (int i = 0; i < activities.size(); i++) {
+			if (activities.get(i).getId() == teacher.getActivitesId()) {
+				return activities.get(i);
+			}
+		}
+
+		return activities.get(0);
 	}
 
 	// Teacher Options
