@@ -683,4 +683,24 @@ public class C206_CaseStudy {
 			}
 		}
 	}
+	
+	public static void doAddUser() {
+		
+	}
+	
+	public static void inputAddUser() {
+		
+	}
+	
+	public static void viewAllUsers() {
+		
+	}
+	
+	public static void doDeleteUser() {
+		
+	}
+	
+	public static void inputDeleteUser() {
+		
+	}
 }
