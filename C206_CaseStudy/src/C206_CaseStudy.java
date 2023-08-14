@@ -84,7 +84,7 @@ public class C206_CaseStudy {
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
 			promptStudentMenu(activities);
-		} else if (account.getRole().equals("admin")) {
+		} else if (account.getRole("admin")) {
 			System.out.println("Logged in Admin account");
 			promptAdminMenu();
 		}
@@ -147,16 +147,6 @@ public class C206_CaseStudy {
 
 		return activities.get(0);
 	}
-	
-	private static Student getStudentById(int id) {
-		for (int i = 0; i < students.size(); i++) {
-			if (students.get(i).getId() == id) {
-				return students.get(i);
-			}
-		}
-		
-		return null;
-	}
 
 	// Teacher Options
 	private static void showTeacherOptions() {
@@ -213,12 +203,12 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doSetApprovalStatus(int studentId, char approvalChoice) {
+	public static void doSetApprovalStatus(int studentIndex, char approvalChoice) {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
-		if (studentId >= 0 && studentId < pendingStudents.size()) {
-			Student selectedStudent = getStudentById(studentId);
+		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
+			Student selectedStudent = pendingStudents.get(studentIndex);
 		
 		if (approvalChoice == 'Y' || approvalChoice == 'y') {
 			pendingStudents.remove(selectedStudent);
@@ -250,9 +240,9 @@ public class C206_CaseStudy {
 		for (int i = 0; i < pendingStudents.size(); i++) {
 			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
 		}
-		int studentId = Helper.readInt("Enter the id of the student you want to approve: ");
+		int studentIndex = Helper.readInt("Enter the index of the student you want to approve: ");
 		char approvalChoice = Helper.readChar("Approve this student? (Y/N): ");
-		doSetApprovalStatus(studentId, approvalChoice);
+		doSetApprovalStatus(studentIndex, approvalChoice);
 		
 	}
 	
@@ -275,12 +265,12 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doDeletePending(int studentId, char deleteChoice) {
+	public static void doDeletePending(int studentIndex, char deleteChoice) {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
-		if (studentId >= 0 && studentId < pendingStudents.size()) {
-			Student selectedStudent = pendingStudents.get(studentId);
+		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
+			Student selectedStudent = pendingStudents.get(studentIndex);
 			
 			
 			if (deleteChoice == 'Y' || deleteChoice == 'y') {
@@ -293,7 +283,7 @@ public class C206_CaseStudy {
 				System.out.println("Invalid choice.");
 			}
 		} else {
-			System.out.println("Invalid student id.");
+			System.out.println("Invalid student index.");
 		}
 		
 	}
@@ -559,11 +549,12 @@ public class C206_CaseStudy {
 
 	// @Diya
 	public static void doRegisterForActivity() {
-		
+		getActivity().getPendingStudents().add(account);
 	}
-	
+
 	public static void inputRegisterForActivity() {
-		
+    int activityId=Helper.readInt("Activity ID");
+    doRegisterForActivity(activityId);
 	}
 	
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
@@ -709,14 +700,16 @@ public class C206_CaseStudy {
 		}
 	}
 
+	
+	
 	// ADMIN MENU
 	private static void showAdminOptions() {
 		Helper.line(40, "=");
 		System.out.println("ADMIN MENU");
 		Helper.line(40, "=");
 		System.out.println("1) Add User");
-		System.out.println("2) View All Users");
-		System.out.println("3) Delete User");
+//		System.out.println("2) View All Registrations");
+//		System.out.println("3) Delete Registration");
 		System.out.println("4) Logout");
 		System.out.println("5) Quit");
 		
@@ -731,11 +724,11 @@ public class C206_CaseStudy {
 			option = Helper.readInt("Enter option: ");
 
 			if (option == 1) {
-				inputAddUser();
+				inputRegisterForActivity();
 			} else if (option == 2) {
-				viewAllUsers();
+				viewAllRegistrations();
 			} else if (option == 3) {
-				inputDeleteUser();
+				inputDeleteRegistration();
 			} else if (option == 4) {
 				logoutUser();
 			} else if (option == 5) {
