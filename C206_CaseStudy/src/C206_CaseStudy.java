@@ -3,19 +3,11 @@ import java.util.Scanner;
 import java.util.List;
 
 public class C206_CaseStudy {
-<<<<<<< HEAD
 	private static User account;
 	private static boolean attendance;
 	private static ArrayList<Student> students;
 	private static ArrayList<Teacher> teachers;
 	private static ArrayList<Activities> activities;
-=======
-	public static User account;
-	public static ArrayList<User> admins;
-	public static ArrayList<Student> students;
-	public static ArrayList<Teacher> teachers;
-	public static ArrayList<Activities> activities;
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
 	public static void main(String[] args) {
 		account = null;
@@ -192,7 +184,7 @@ public class C206_CaseStudy {
 			}
 		}
 	}
-<<<<<<< HEAD
+	
 	//Lleyton
 	public static void markAttendance() {
 		while (attendance == false && account.getRole().equals("teacher")) {
@@ -275,7 +267,6 @@ public class C206_CaseStudy {
 		}
 		
 	}
-=======
 
 	// @Regan
 	public static void doSetApprovalStatus() {
@@ -632,5 +623,4 @@ public class C206_CaseStudy {
 		}
 	}
 
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 }
