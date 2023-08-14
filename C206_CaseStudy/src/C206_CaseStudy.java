@@ -101,7 +101,15 @@ public class C206_CaseStudy {
 
 	// @Danial
 	private static void logoutUser() {
-
+		account = null;
+		
+		System.out.println();
+		Helper.line(40, "=");
+		System.out.println("LOGGED OUT!");
+		Helper.line(40, "=");
+		System.out.println();
+		
+		promptLogin();
 	}
 
 	private static boolean isStudentAtMaxActivities(Student student) {
