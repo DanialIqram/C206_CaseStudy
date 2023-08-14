@@ -701,6 +701,7 @@ public class C206_CaseStudy {
 				logoutUser();
 			} else if (option == 5) {
 				break;
+				
 			}
 		}
 	}
