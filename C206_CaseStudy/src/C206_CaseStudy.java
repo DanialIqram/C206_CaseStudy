@@ -26,6 +26,9 @@ public class C206_CaseStudy {
 		activities.add(activity3);
 		activities.add(activity4);
 		activities.add(activity5);
+		
+		admins = new ArrayList<>();
+		admins.add(new User(1, "admin", "admin@example.com", "admin", "admin"));
 
 		students = new ArrayList<>();
 		students.add(new Student(1, "student", "student@example.com", "student", "1A"));
@@ -81,7 +84,10 @@ public class C206_CaseStudy {
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
 			promptStudentMenu(activities);
-		} else if (account.getRole())
+		} else if (account.getRole("admin")) {
+			System.out.println("Logged in Admin account");
+			promptAdminMenu();
+		}
 	}
 
 	// @Danial
@@ -523,14 +529,8 @@ public class C206_CaseStudy {
 		return avail;
 	}
 
-
-<<<<<<< HEAD
-	private static void promptStudentMenu() {
-	    int option = -1;
-=======
 	private static void promptStudentMenu(ArrayList<Activities> activitiesList) {
 		int option = -1;
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
 	    while (option != 5) {
 	        showStudentOptions();
@@ -541,7 +541,7 @@ public class C206_CaseStudy {
 	        } else if (option == 2) {
 	            viewAllRegistrations();
 	        } else if (option == 3) {
-	            doDeleteRegistration(); 
+	            inputDeleteRegistration(); 
 	        } else if (option == 4) {
 	            logoutUser();
 	        } else if (option == 5) {
