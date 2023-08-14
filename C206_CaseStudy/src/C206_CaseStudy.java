@@ -26,7 +26,7 @@ public class C206_CaseStudy {
 		activities.add(activity3);
 		activities.add(activity4);
 		activities.add(activity5);
-		
+
 		admins = new ArrayList<>();
 		admins.add(new User(1, "admin", "admin@example.com", "admin", "admin"));
 
@@ -35,13 +35,12 @@ public class C206_CaseStudy {
 
 		teachers = new ArrayList<>();
 		teachers.add(new Teacher(1, "teacher", "teacher@example.com", "teacher", 1));
-		
+
 		activity1.getPendingStudents().add(students.get(0));
 
 		promptLogin();
 	}
 
-	
 	// Misc
 	public static void promptLogin() {
 		while (account == null) {
@@ -64,7 +63,7 @@ public class C206_CaseStudy {
 				Teacher teacher = teachers.get(i);
 				if (teacher.getEmail().equalsIgnoreCase(emailInput) && teacher.getPassword().equals(passwordInput)) {
 					account = teacher;
-					break; 
+					break;
 				}
 			}
 
@@ -137,19 +136,29 @@ public class C206_CaseStudy {
 	private static boolean isActivityOpen(Activities activity) {
 		return activity.getStudents().size() < activity.getMaxCapacity();
 	}
+
+//	private static Activities getActivity() {
+//		Teacher teacher = (Teacher) account;
+//
+//		for (int i = 0; i < activities.size(); i++) {
+//			if (activities.get(i).getId() == teacher.getActivitesId()) {
+//				return activities.get(i);
+//			}
+//		}
+//
+//		return activities.get(0);
+//	}
 	
-	private static Activities getActivity() {
-		Teacher teacher = (Teacher) account;
-
-		for (int i = 0; i < activities.size(); i++) {
-			if (activities.get(i).getId() == teacher.getActivitesId()) {
-				return activities.get(i);
-			}
-		}
-
-		return activities.get(0);
+	private static Activities getActivity(int activityId) {
+	    for (Activities activity : activities) {
+	        if (activity.getId() == activityId) {
+	            return activity;
+	        }
+	    }
+	    return null; // Activity with the specified ID not found
 	}
-	
+
+
 	private static Student getStudentById(int id) {
 		for (int i = 0; i < students.size(); i++) {
 			if (students.get(i).getId() == id) {
@@ -194,11 +203,11 @@ public class C206_CaseStudy {
 				inputDeletePending();
 			} else if (option == 4) {
 				Activities activity = inputAddActivity();
-				doAddActivity(activities,activity);
+				doAddActivity(activities, activity);
 			} else if (option == 5) {
 				viewAllActivities(activities);
 			} else if (option == 6) {
-				int id = doDeleteActivity(activities); 
+				int id = doDeleteActivity(activities);
 				inputDeleteActivity(activities, id);
 			} else if (option == 7) {
 				inputAddAttendance();
@@ -218,10 +227,9 @@ public class C206_CaseStudy {
 	public static void doSetApprovalStatus(int studentIndex, char approvalChoice) {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
-		
+
 		Student selectedStudent = getStudentById(studentIndex);
 
-		
 		if (selectedStudent != null) {
 			if (approvalChoice == 'Y' || approvalChoice == 'y') {
 				pendingStudents.remove(selectedStudent);
@@ -237,7 +245,7 @@ public class C206_CaseStudy {
 			System.out.println("Invalid student.");
 		}
 	}
-	
+
 	public static void inputSetApprovalStatus() {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
@@ -254,9 +262,8 @@ public class C206_CaseStudy {
 		int studentIndex = Helper.readInt("Enter the index of the student you want to approve: ");
 		char approvalChoice = Helper.readChar("Approve this student? (Y/N): ");
 		doSetApprovalStatus(studentIndex, approvalChoice);
-		
+
 	}
-	
 
 	// @Regan
 	private static void viewAllPending() {
@@ -279,11 +286,10 @@ public class C206_CaseStudy {
 	public static void doDeletePending(int studentIndex, char deleteChoice) {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
-		
+
 		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
 			Student selectedStudent = pendingStudents.get(studentIndex);
-			
-			
+
 			if (deleteChoice == 'Y' || deleteChoice == 'y') {
 				pendingStudents.remove(selectedStudent);
 				System.out.println(selectedStudent.getName() + " has been removed from pending.");
@@ -296,27 +302,24 @@ public class C206_CaseStudy {
 		} else {
 			System.out.println("Invalid student index.");
 		}
-		
+
 	}
-	
+
 	public static void inputDeletePending() {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
-		
+
 		int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ");
 		char deleteChoice = Helper.readChar("Confirm Delete?:");
-		doDeletePending(studentIndex, deleteChoice);		
-		}	
-		
-	
-	
+		doDeletePending(studentIndex, deleteChoice);
+	}
 
 	// @Jannah
 	public static void doAddActivity(ArrayList<Activities> activitiesList, Activities activity) {
 		activities.add(activity);
 		System.out.println("\n*** Activity has been added ***");
 	}
-	
+
 	// @Jannah
 	private static Activities inputAddActivity() {
 		String name = Helper.readString("Enter Activity Name > ");
@@ -346,9 +349,9 @@ public class C206_CaseStudy {
 		viewAllActivities(activities);
 		int searchActivity = Helper.readInt("Enter Activity ID > ");
 		return searchActivity;
-		
+
 	}
-	
+
 	public static void inputDeleteActivity(ArrayList<Activities> activities, int id) {
 		boolean found = false;
 		for (int i = 0; i < activities.size(); i++) {
@@ -364,13 +367,14 @@ public class C206_CaseStudy {
 				} else {
 					System.out.println("\n*** You have not deleted anything ***");
 				}
-			} 
+			}
 		}
 		if (found == false) {
-				System.out.println("\n*** Invalid Activity ID. Try Again ***");
-			}
-		
+			System.out.println("\n*** Invalid Activity ID. Try Again ***");
+		}
+
 	}
+
 	private static void deleteActivity(ArrayList<Activities> activitiesList) {
 
 		viewAllActivities(activitiesList);
@@ -400,40 +404,37 @@ public class C206_CaseStudy {
 
 	}
 
-	
-	//Lleyton
-    public static void markAttendance() {
-        while (attendance == false && account.getRole().equals("teacher")) {
-            Helper.line(40, "=");
-            System.out.println("ATTENDANCE MARKING");
-            Helper.line(40, "=");
-           
-            int studentIDInput = Helper.readInt("Enter student ID: ");
-           
-            for (int i = 0; i < students.size(); i++) {
-                Student student = students.get(i);
-                int studentID = student.getId();
-                if (studentID == (studentIDInput)) {
-                    attendance = true;
-                    break;
-                }
-            }
-           
-            if (attendance == false) {
-                System.out.println("Invalid student ID. Try again!");
-            }
-           
-            System.out.println();
-            Helper.line(40, "=");
-            System.out.println("Attendance marked for " + account.getName().toUpperCase());
-            Helper.line(40, "=");
-            System.out.println();
-           
-        }
-    }
-   
-   
-    
+	// Lleyton
+	public static void markAttendance() {
+		while (attendance == false && account.getRole().equals("teacher")) {
+			Helper.line(40, "=");
+			System.out.println("ATTENDANCE MARKING");
+			Helper.line(40, "=");
+
+			int studentIDInput = Helper.readInt("Enter student ID: ");
+
+			for (int i = 0; i < students.size(); i++) {
+				Student student = students.get(i);
+				int studentID = student.getId();
+				if (studentID == (studentIDInput)) {
+					attendance = true;
+					break;
+				}
+			}
+
+			if (attendance == false) {
+				System.out.println("Invalid student ID. Try again!");
+			}
+
+			System.out.println();
+			Helper.line(40, "=");
+			System.out.println("Attendance marked for " + account.getName().toUpperCase());
+			Helper.line(40, "=");
+			System.out.println();
+
+		}
+	}
+
 	// @Lleyton
 	public static void doAddAttendance() {
 		 public static void deleteAttendance() {
@@ -488,7 +489,7 @@ public class C206_CaseStudy {
 		       
 		    }
 	}
-	
+
 	public static void inputAddAttendance() {
 
 	}
@@ -500,9 +501,9 @@ public class C206_CaseStudy {
 
 	// @Lleyton
 	public static void doDeleteAttendance() {
-		
+
 	}
-	
+
 	public static void inputDeleteAttendance() {
 
 	}
@@ -519,13 +520,13 @@ public class C206_CaseStudy {
 		System.out.println("5) Quit");
 		Helper.line(40, "=");
 	}
-	
+
 	public static void setHeader(String header) {
 		Helper.line(80, "-");
 		System.out.println(header);
 		Helper.line(80, "-");
 	}
-	
+
 	public static String showAvailability(boolean isAvailable) {
 		String avail;
 
@@ -540,37 +541,37 @@ public class C206_CaseStudy {
 	private static void promptStudentMenu(ArrayList<Activities> activitiesList) {
 		int option = -1;
 
-	    while (option != 5) {
-	        showStudentOptions();
-	        option = Helper.readInt("Enter option: ");
+		while (option != 5) {
+			showStudentOptions();
+			option = Helper.readInt("Enter option: ");
 
-	        if (option == 1) {
-	        	inputRegisterForActivity(); 
-	        } else if (option == 2) {
-	            viewAllRegistrations();
-	        } else if (option == 3) {
-	            inputDeleteRegistration(); 
-	        } else if (option == 4) {
-	            logoutUser();
-	        } else if (option == 5) {
-	            break;
-	        }
-	    }
+			if (option == 1) {
+				inputRegisterForActivity();
+			} else if (option == 2) {
+				viewAllRegistrations();
+			} else if (option == 3) {
+				inputDeleteRegistration();
+			} else if (option == 4) {
+				logoutUser();
+			} else if (option == 5) {
+				break;
+			}
+		}
 	}
 
 	// @Diya
-	public static void doRegisterForActivity() {
-		getActivity().getPendingStudents().add(account);
+	public static void doRegisterForActivity(Student account, int activityID) {
+		getActivity(activityID).getPendingStudents().add(account);
 	}
 
 	public static void inputRegisterForActivity() {
     int activityId=Helper.readInt("Activity ID");
-    doRegisterForActivity(activityId);
+    Student studentAccount = (Student) account; // Assuming account is already a Student object
+    doRegisterForActivity(studentAccount, activityId);
 	}
-	
+
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
-		
-		
+
 		// viewing of activities
 		viewAllActivities(activitiesList);
 
@@ -634,7 +635,7 @@ public class C206_CaseStudy {
 	// @Diya
 	public static void viewAllRegistrations() {
 		System.out.println("Registered Activities:");
-		
+
 		Student student = (Student) account;
 
 		for (Activities activity : activities) {
@@ -646,50 +647,6 @@ public class C206_CaseStudy {
 
 	// @Diya
 	public static void doDeleteRegistration(int activityIDToDelete) {
-		boolean found = false;
-
-		for (Activities activity : registeredActivities) { 
-			if (activity.getId() == activityIDToDelete) {
-				found = true;
-				char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
-				if (confirm == 'Y' || confirm == 'y') {
-					activity.getStudents().remove(student);
-					System.out.println("You have been unregistered from the activity.");
-				} else {
-					System.out.println("Unregistration canceled.");
-				}
-				break;
-			}
-		}
-
-		if (!found) {
-			System.out.println("Invalid activity ID.");
-		}
-	}
-	
-	public static void inputDeleteRegistration() {
-		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: "); 
-		doDeleteRegistration(activityIDToDelete);
-	}
-	
-	private static void deleteRegistrations() {
-		List<Activities> registeredActivities = new ArrayList<>();
-
-		// showing the list of registered activities and including them in the list
-		System.out.println("Registered Activities:");
-		for (Activities activity : activitiesList) {
-			if (activity.getStudents().contains(student)) {
-				registeredActivities.add(activity);
-				System.out.println("ID: " + activity.getId() + " - " + activity.getName());
-			}
-		}
-		if (registeredActivities.isEmpty()) {
-			System.out.println("You have not registered for any activities.");
-			return;
-		}
-
-		// deletion part
-		
 		boolean found = false;
 
 		for (Activities activity : registeredActivities) {
@@ -711,8 +668,50 @@ public class C206_CaseStudy {
 		}
 	}
 
-	
-	
+	public static void inputDeleteRegistration() {
+		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
+		doDeleteRegistration(activityIDToDelete);
+	}
+
+	private static void deleteRegistrations() {
+		List<Activities> registeredActivities = new ArrayList<>();
+
+		// showing the list of registered activities and including them in the list
+		System.out.println("Registered Activities:");
+		for (Activities activity : activitiesList) {
+			if (activity.getStudents().contains(student)) {
+				registeredActivities.add(activity);
+				System.out.println("ID: " + activity.getId() + " - " + activity.getName());
+			}
+		}
+		if (registeredActivities.isEmpty()) {
+			System.out.println("You have not registered for any activities.");
+			return;
+		}
+
+		// deletion part
+
+		boolean found = false;
+
+		for (Activities activity : registeredActivities) {
+			if (activity.getId() == activityIDToDelete) {
+				found = true;
+				char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
+				if (confirm == 'Y' || confirm == 'y') {
+					activity.getStudents().remove(student);
+					System.out.println("You have been unregistered from the activity.");
+				} else {
+					System.out.println("Unregistration canceled.");
+				}
+				break;
+			}
+		}
+
+		if (!found) {
+			System.out.println("Invalid activity ID.");
+		}
+	}
+
 	// ADMIN MENU
 	private static void showAdminOptions() {
 		Helper.line(40, "=");
@@ -723,7 +722,7 @@ public class C206_CaseStudy {
 //		System.out.println("3) Delete Registration");
 		System.out.println("4) Logout");
 		System.out.println("5) Quit");
-		
+
 		Helper.line(40, "=");
 	}
 
@@ -744,28 +743,28 @@ public class C206_CaseStudy {
 				logoutUser();
 			} else if (option == 5) {
 				break;
-				
+
 			}
 		}
 	}
-	
+
 	public static void doAddUser() {
-		
+
 	}
-	
+
 	public static void inputAddUser() {
-		
+
 	}
-	
+
 	public static void viewAllUsers() {
-		
+
 	}
-	
+
 	public static void doDeleteUser() {
-		
+
 	}
-	
+
 	public static void inputDeleteUser() {
-		
+
 	}
 }
