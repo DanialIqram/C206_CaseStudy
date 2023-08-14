@@ -80,12 +80,20 @@ public class C206_CaseStudy {
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
 			promptStudentMenu(activities);
-		} // TODO [Danial] Add admin system for Add user, View user, delete user.
+		} else if (account.getRole())
 	}
 
 	// @Danial
 	private static void logoutUser() {
+		account = null;
 
+		System.out.println();
+		Helper.line(40, "=");
+		System.out.println("LOGGED OUT!");
+		Helper.line(40, "=");
+		System.out.println();
+
+		promptLogin();
 	}
 
 	private static boolean isStudentAtMaxActivities(Student student) {
@@ -119,6 +127,18 @@ public class C206_CaseStudy {
 
 	private static boolean isActivityOpen(Activities activity) {
 		return activity.getStudents().size() < activity.getMaxCapacity();
+	}
+	
+	private static Activities getActivity() {
+		Teacher teacher = (Teacher) account;
+
+		for (int i = 0; i < activities.size(); i++) {
+			if (activities.get(i).getId() == teacher.getActivitesId()) {
+				return activities.get(i);
+			}
+		}
+
+		return activities.get(0);
 	}
 
 	// Teacher Options
@@ -555,4 +575,57 @@ public class C206_CaseStudy {
 		}
 	}
 
+	// ADMIN MENU
+	private static void showAdminOptions() {
+		Helper.line(40, "=");
+		System.out.println("ADMIN MENU");
+		Helper.line(40, "=");
+		System.out.println("1) Add User");
+//		System.out.println("2) View All Registrations");
+//		System.out.println("3) Delete Registration");
+		System.out.println("4) Logout");
+		System.out.println("5) Quit");
+		Helper.line(40, "=");
+	}
+
+	private static void promptAdminMenu() {
+		int option = -1;
+
+		while (option != 5) {
+			showAdminOptions();
+			option = Helper.readInt("Enter option: ");
+
+			if (option == 1) {
+				inputRegisterForActivity();
+			} else if (option == 2) {
+				viewAllRegistrations();
+			} else if (option == 3) {
+				inputDeleteRegistration();
+			} else if (option == 4) {
+				logoutUser();
+			} else if (option == 5) {
+				break;
+			}
+		}
+	}
+	
+	public static void doAddUser() {
+		
+	}
+	
+	public static void inputAddUser() {
+		
+	}
+	
+	public static void viewAllUsers() {
+		
+	}
+	
+	public static void doDeleteUser() {
+		
+	}
+	
+	public static void inputDeleteUser() {
+		
+	}
 }
