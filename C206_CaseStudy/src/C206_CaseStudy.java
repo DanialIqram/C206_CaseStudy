@@ -186,15 +186,33 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doSetApprovalStatus() {
+	public static void doSetApprovalStatus(int studentIndex, char approvalChoice) {
+		Activities activity = getActivity();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
+		
+		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
+			Student selectedStudent = pendingStudents.get(studentIndex);
+		
+		if (approvalChoice == 'Y' || approvalChoice == 'y') {
+			pendingStudents.remove(selectedStudent);
+			activity.getStudents().add(selectedStudent);
+			System.out.println(selectedStudent.getName() + " has been approved.");
+		} else if (approvalChoice == 'N' || approvalChoice == 'n') {
+			pendingStudents.remove(selectedStudent);
+			System.out.println(selectedStudent.getName() + " has not been approved.");
+		} else {
+			System.out.println("Invalid choice.");
+		}
+	} else {
+		System.out.println("Invalid student index.");
+	}
+
 		
 	}
 	
 	public static void inputSetApprovalStatus() {
-		
-	}
-	private static void setApprovalStatus() {
-		ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
+		Activities activity = getActivity();
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 
 		if (pendingStudents.isEmpty()) {
 			System.out.println("No pending students for this activity.");
@@ -205,32 +223,17 @@ public class C206_CaseStudy {
 		for (int i = 0; i < pendingStudents.size(); i++) {
 			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
 		}
-
-		int studentIndex = Helper.readInt("Enter the index of the student you want to approve: ") - 1;
-
-		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
-			Student selectedStudent = pendingStudents.get(studentIndex);
-
-			char approvalChoice = Helper.readChar("Approve this student? (Y/N): ");
-			if (approvalChoice == 'Y' || approvalChoice == 'y') {
-				((Teacher) account).getPendingStudents().remove(selectedStudent);
-				((Teacher) account).getStudents().add(selectedStudent);
-				System.out.println(selectedStudent.getName() + " has been approved.");
-			} else if (approvalChoice == 'N' || approvalChoice == 'n') {
-				((Teacher) account).getPendingStudents().remove(selectedStudent);
-				System.out.println(selectedStudent.getName() + " has not been approved.");
-			} else {
-				System.out.println("Invalid choice.");
-			}
-		} else {
-			System.out.println("Invalid student index.");
-		}
-
+		int studentIndex = Helper.readInt("Enter the index of the student you want to approve: ");
+		char approvalChoice = Helper.readChar("Approve this student? (Y/N): ");
+		doSetApprovalStatus(studentIndex, approvalChoice);
+		
 	}
+	
 
 	// @Regan
 	private static void viewAllPending() {
-		ArrayList<Student> pendingStudents = ((Teacher) account).getPendingStudents();
+		Activities activity = getActivity();
+		ArrayList<Student> pendingStudents = Activities.getPendingStudents();
 
 		if (pendingStudents.isEmpty()) {
 			System.out.println("No pending students for this activity.");
