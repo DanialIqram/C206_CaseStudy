@@ -533,7 +533,6 @@ public class C206_CaseStudy {
 		}
 	}
 
-<<<<<<< HEAD
 	// ADMIN MENU
 	private static void showAdminOptions() {
 		Helper.line(40, "=");
@@ -587,6 +586,4 @@ public class C206_CaseStudy {
 	public static void inputDeleteUser() {
 		
 	}
-=======
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 }
