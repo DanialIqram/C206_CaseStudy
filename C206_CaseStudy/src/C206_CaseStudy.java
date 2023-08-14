@@ -641,7 +641,7 @@ public class C206_CaseStudy {
 	public static void doDeleteRegistration(int activityIDToDelete) {
 		boolean found = false;
 
-		for (Activities activity : registeredActivities) {
+		for (Activities activity : registeredActivities) { 
 			if (activity.getId() == activityIDToDelete) {
 				found = true;
 				char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
