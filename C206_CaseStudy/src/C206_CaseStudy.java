@@ -294,8 +294,6 @@ public class C206_CaseStudy {
 		
 	
 	
-	private static void deletePending() {
-	}
 
 	// @Jannah
 	public static void doAddActivity(ArrayList<Activities> activitiesList, Activities activity) {
