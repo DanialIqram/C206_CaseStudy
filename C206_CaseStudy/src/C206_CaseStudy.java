@@ -35,6 +35,8 @@ public class C206_CaseStudy {
 
 		teachers = new ArrayList<>();
 		teachers.add(new Teacher(1, "teacher", "teacher@example.com", "teacher", 1));
+		
+		activity1.getPendingStudents().add(students.get(0));
 
 		promptLogin();
 	}
@@ -207,24 +209,27 @@ public class C206_CaseStudy {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
+<<<<<<< HEAD
 		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
 			Student selectedStudent = pendingStudents.get(studentIndex);
+=======
+		Student selectedStudent = getStudentById(studentId);
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 		
-		if (approvalChoice == 'Y' || approvalChoice == 'y') {
-			pendingStudents.remove(selectedStudent);
-			activity.getStudents().add(selectedStudent);
-			System.out.println(selectedStudent.getName() + " has been approved.");
-		} else if (approvalChoice == 'N' || approvalChoice == 'n') {
-			pendingStudents.remove(selectedStudent);
-			System.out.println(selectedStudent.getName() + " has not been approved.");
+		if (selectedStudent != null) {
+			if (approvalChoice == 'Y' || approvalChoice == 'y') {
+				pendingStudents.remove(selectedStudent);
+				activity.getStudents().add(selectedStudent);
+				System.out.println(selectedStudent.getName() + " has been approved.");
+			} else if (approvalChoice == 'N' || approvalChoice == 'n') {
+				pendingStudents.remove(selectedStudent);
+				System.out.println(selectedStudent.getName() + " has not been approved.");
+			} else {
+				System.out.println("Invalid choice.");
+			}
 		} else {
-			System.out.println("Invalid choice.");
+			System.out.println("Invalid student.");
 		}
-	} else {
-		System.out.println("Invalid student index.");
-	}
-
-		//
 	}
 	
 	public static void inputSetApprovalStatus() {
