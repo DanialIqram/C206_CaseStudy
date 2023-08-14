@@ -705,8 +705,8 @@ public class C206_CaseStudy {
 		System.out.println("ADMIN MENU");
 		Helper.line(40, "=");
 		System.out.println("1) Add User");
-//		System.out.println("2) View All Registrations");
-//		System.out.println("3) Delete Registration");
+		System.out.println("2) View All Users");
+		System.out.println("3) Delete User");
 		System.out.println("4) Logout");
 		System.out.println("5) Quit");
 		
@@ -721,11 +721,11 @@ public class C206_CaseStudy {
 			option = Helper.readInt("Enter option: ");
 
 			if (option == 1) {
-				inputRegisterForActivity();
+				inputAddUser();
 			} else if (option == 2) {
-				viewAllRegistrations();
+				viewAllUsers();
 			} else if (option == 3) {
-				inputDeleteRegistration();
+				inputDeleteUser();
 			} else if (option == 4) {
 				logoutUser();
 			} else if (option == 5) {
