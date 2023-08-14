@@ -86,7 +86,7 @@ public class C206_CaseStudy {
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
 			promptStudentMenu(activities);
-		} else if (account.getRole("admin")) {
+		} else if (account.getRole().equals("admin")) {
 			System.out.println("Logged in Admin account");
 			promptAdminMenu();
 		}
@@ -149,6 +149,16 @@ public class C206_CaseStudy {
 
 		return activities.get(0);
 	}
+	
+	private static Student getStudentById(int id) {
+		for (int i = 0; i < students.size(); i++) {
+			if (students.get(i).getId() == id) {
+				return students.get(i);
+			}
+		}
+
+		return null;
+	}
 
 	// Teacher Options
 	private static void showTeacherOptions() {
@@ -209,12 +219,8 @@ public class C206_CaseStudy {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
-<<<<<<< HEAD
-		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
-			Student selectedStudent = pendingStudents.get(studentIndex);
-=======
-		Student selectedStudent = getStudentById(studentId);
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+		Student selectedStudent = getStudentById(studentIndex);
+
 		
 		if (selectedStudent != null) {
 			if (approvalChoice == 'Y' || approvalChoice == 'y') {
