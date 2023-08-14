@@ -120,6 +120,18 @@ public class C206_CaseStudy {
 	private static boolean isActivityOpen(Activities activity) {
 		return activity.getStudents().size() < activity.getMaxCapacity();
 	}
+	
+	private static Activities getActivity() {
+		Teacher teacher = (Teacher) account;
+		
+		for (int i = 0; i < activities.size(); i++) {
+			if (activities.get(i).getId() == teacher.getActivitesId()) {
+				return activities.get(i);
+			}
+		}
+		
+		return activities.get(0);
+	}
 
 	// Teacher Options
 	private static void showTeacherOptions() {
