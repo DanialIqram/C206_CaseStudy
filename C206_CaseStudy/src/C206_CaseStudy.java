@@ -159,7 +159,8 @@ public class C206_CaseStudy {
 			} else if (option == 5) {
 				viewAllActivities(activities);
 			} else if (option == 6) {
-				inputDeleteActivity();
+				int id = doDeleteActivity(activities); 
+				inputDeleteActivity(activities, id);
 			} else if (option == 7) {
 				inputAddAttendance();
 			} else if (option == 8) {
@@ -308,12 +309,33 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	public static void doDeleteActivity() {
-		
+	public static int doDeleteActivity(ArrayList<Activities> activities) {
+		viewAllActivities(activities);
+		int searchActivity = Helper.readInt("Enter Activity ID > ");
+		return searchActivity;
 		
 	}
 	
-	public static void inputDeleteActivity() {
+	public static void inputDeleteActivity(ArrayList<Activities> activities, int id) {
+		boolean found = false;
+		for (int i = 0; i < activities.size(); i++) {
+			if (id == activities.get(i).getId()) {
+				found = true;
+				System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name",
+						"Category", "No. Of Students", "Max Capacity", "Available"));
+				System.out.println(activities.get(i).toString());
+				char confirm = Helper.readChar("Confirm deletion of Activity (y/n)> ");
+				if (confirm == 'y') {
+					activities.remove(i);
+					System.out.println("\n*** Activity has been deleted ***");
+				} else {
+					System.out.println("\n*** You have not deleted anything ***");
+				}
+			} 
+		}
+		if (found == false) {
+				System.out.println("\n*** Invalid Activity ID. Try Again ***");
+			}
 		
 	}
 	private static void deleteActivity(ArrayList<Activities> activitiesList) {
