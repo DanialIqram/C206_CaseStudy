@@ -26,12 +26,17 @@ public class C206_CaseStudy {
 		activities.add(activity3);
 		activities.add(activity4);
 		activities.add(activity5);
+		
+		admins = new ArrayList<>();
+		admins.add(new User(1, "admin", "admin@example.com", "admin", "admin"));
 
 		students = new ArrayList<>();
 		students.add(new Student(1, "student", "student@example.com", "student", "1A"));
 
 		teachers = new ArrayList<>();
 		teachers.add(new Teacher(1, "teacher", "teacher@example.com", "teacher", 1));
+		
+		activity1.getPendingStudents().add(students.get(0));
 
 		promptLogin();
 	}
@@ -81,7 +86,10 @@ public class C206_CaseStudy {
 		} else if (account.getRole().equals("student")) {
 			System.out.println("Logged in Student account");
 			promptStudentMenu(activities);
-		} else if (account.getRole())
+		} else if (account.getRole().equals("admin")) {
+			System.out.println("Logged in Admin account");
+			promptAdminMenu();
+		}
 	}
 
 	// @Danial
@@ -140,6 +148,16 @@ public class C206_CaseStudy {
 		}
 
 		return activities.get(0);
+	}
+	
+	private static Student getStudentById(int id) {
+		for (int i = 0; i < students.size(); i++) {
+			if (students.get(i).getId() == id) {
+				return students.get(i);
+			}
+		}
+
+		return null;
 	}
 
 	// Teacher Options
@@ -201,24 +219,23 @@ public class C206_CaseStudy {
 		Activities activity = getActivity();
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 		
-		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
-			Student selectedStudent = pendingStudents.get(studentIndex);
-		
-		if (approvalChoice == 'Y' || approvalChoice == 'y') {
-			pendingStudents.remove(selectedStudent);
-			activity.getStudents().add(selectedStudent);
-			System.out.println(selectedStudent.getName() + " has been approved.");
-		} else if (approvalChoice == 'N' || approvalChoice == 'n') {
-			pendingStudents.remove(selectedStudent);
-			System.out.println(selectedStudent.getName() + " has not been approved.");
-		} else {
-			System.out.println("Invalid choice.");
-		}
-	} else {
-		System.out.println("Invalid student index.");
-	}
+		Student selectedStudent = getStudentById(studentIndex);
 
-		//
+		
+		if (selectedStudent != null) {
+			if (approvalChoice == 'Y' || approvalChoice == 'y') {
+				pendingStudents.remove(selectedStudent);
+				activity.getStudents().add(selectedStudent);
+				System.out.println(selectedStudent.getName() + " has been approved.");
+			} else if (approvalChoice == 'N' || approvalChoice == 'n') {
+				pendingStudents.remove(selectedStudent);
+				System.out.println(selectedStudent.getName() + " has not been approved.");
+			} else {
+				System.out.println("Invalid choice.");
+			}
+		} else {
+			System.out.println("Invalid student.");
+		}
 	}
 	
 	public static void inputSetApprovalStatus() {
@@ -289,13 +306,10 @@ public class C206_CaseStudy {
 		int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ");
 		char deleteChoice = Helper.readChar("Confirm Delete?:");
 		doDeletePending(studentIndex, deleteChoice);		
-		//
 		}	
 		
 	
 	
-	private static void deletePending() {
-	}
 
 	// @Jannah
 	public static void doAddActivity(ArrayList<Activities> activitiesList, Activities activity) {
@@ -515,14 +529,8 @@ public class C206_CaseStudy {
 		return avail;
 	}
 
-
-<<<<<<< HEAD
-	private static void promptStudentMenu() {
-	    int option = -1;
-=======
 	private static void promptStudentMenu(ArrayList<Activities> activitiesList) {
 		int option = -1;
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
 	    while (option != 5) {
 	        showStudentOptions();
@@ -533,7 +541,7 @@ public class C206_CaseStudy {
 	        } else if (option == 2) {
 	            viewAllRegistrations();
 	        } else if (option == 3) {
-	            doDeleteRegistration(); 
+	            inputDeleteRegistration(); 
 	        } else if (option == 4) {
 	            logoutUser();
 	        } else if (option == 5) {
@@ -544,11 +552,12 @@ public class C206_CaseStudy {
 
 	// @Diya
 	public static void doRegisterForActivity() {
-		
+		getActivity().getPendingStudents().add(account);
 	}
-	
+
 	public static void inputRegisterForActivity() {
-		
+    int activityId=Helper.readInt("Activity ID");
+    doRegisterForActivity(activityId);
 	}
 	
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
@@ -694,6 +703,8 @@ public class C206_CaseStudy {
 		}
 	}
 
+	
+	
 	// ADMIN MENU
 	private static void showAdminOptions() {
 		Helper.line(40, "=");
