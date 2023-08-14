@@ -388,82 +388,43 @@ public class C206_CaseStudy {
 
 	}
 
-	
-	//Lleyton
-    public static void markAttendance() {
-        while (attendance == false && account.getRole().equals("teacher")) {
-            Helper.line(40, "=");
-            System.out.println("ATTENDANCE MARKING");
-            Helper.line(40, "=");
-           
-            int studentIDInput = Helper.readInt("Enter student ID: ");
-           
-            for (int i = 0; i < students.size(); i++) {
-                Student student = students.get(i);
-                int studentID = student.getId();
-                if (studentID == (studentIDInput)) {
-                    attendance = true;
-                    break;
-                }
-            }
-           
-            if (attendance == false) {
-                System.out.println("Invalid student ID. Try again!");
-            }
-           
-            System.out.println();
-            Helper.line(40, "=");
-            System.out.println("Attendance marked for " + account.getName().toUpperCase());
-            Helper.line(40, "=");
-            System.out.println();
-           
-        }
-    }
-   
+
    
     
 	// @Lleyton
 	public static void doAddAttendance() {
-		 public static void deleteAttendance() {
-		        while (attendance == true && account.getRole().equals("teacher")) {
-		            Helper.line(40, "=");
-		            System.out.println("ATTENDANCE DELETION");
-		            Helper.line(40, "=");
-		           
-		            int studentIDInput = Helper.readInt("Enter student ID: ");
-		           
-		            for (int i = 0; i < students.size(); i++) {
-		                Student student = students.get(i);
-		                int studentID = student.getId();
-		                if (studentID == (studentIDInput)) {
-		                    char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
-		                    if (confirmation == 'Y') {
-		                        attendance = false;
-		                    }
-		                    else if (confirmation == 'N') {
-		                        attendance = true;
-		                    }
-		                    else {
-		                        System.out.println("Invalid input.");
-		                    }
-		                    break;
-		                }
-		            }
-		           
-		            if (attendance == false) {
-		                System.out.println("Invalid student ID. Try again!");
-		            }
-		           
-		            System.out.println();
-		            Helper.line(40, "=");
-		            System.out.println("Attendance deleted for " + account.getName().toUpperCase());
-		            Helper.line(40, "=");
-		            System.out.println();
-		           
-		        }
-		    }
-		   
-		    public static void showAttendance() {
+	
+	}
+	
+	public static void inputAddAttendance() {
+       
+        int studentIDInput = Helper.readInt("Enter student ID: ");
+        
+       
+        for (int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            int studentID = student.getId();
+            if (studentID == (studentIDInput)) {
+                attendance = true;
+                
+                break;
+            }
+        }
+       
+        if (attendance == false) {
+            System.out.println("Invalid student ID. Try again!");
+        }
+       
+        System.out.println();
+        Helper.line(40, "=");
+        System.out.println("Attendance marked for " + account.getName().toUpperCase());
+        Helper.line(40, "=");
+        System.out.println();
+       
+	}
+
+	// @Lleyton
+	public static void viewAttendance() {
 		        while (account.getRole().equals("teacher")) {
 		            for (int i = 0; i < students.size(); i++) {
 		                Student student = students.get(i);
@@ -474,16 +435,6 @@ public class C206_CaseStudy {
 		            }
 		        }
 		       
-		    }
-	}
-	
-	public static void inputAddAttendance() {
-
-	}
-
-	// @Lleyton
-	public static void viewAttendance() {
-
 	}
 
 	// @Lleyton
@@ -492,7 +443,44 @@ public class C206_CaseStudy {
 	}
 	
 	public static void inputDeleteAttendance() {
-
+		public static void deleteAttendance() {
+	        while (attendance == true && account.getRole().equals("teacher")) {
+	            Helper.line(40, "=");
+	            System.out.println("ATTENDANCE DELETION");
+	            Helper.line(40, "=");
+	           
+	            int studentIDInput = Helper.readInt("Enter student ID: ");
+	           
+	            for (int i = 0; i < students.size(); i++) {
+	                Student student = students.get(i);
+	                int studentID = student.getId();
+	                if (studentID == (studentIDInput)) {
+	                    char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
+	                    if (confirmation == 'Y') {
+	                        attendance = false;
+	                    }
+	                    else if (confirmation == 'N') {
+	                        attendance = true;
+	                    }
+	                    else {
+	                        System.out.println("Invalid input.");
+	                    }
+	                    break;
+	                }
+	            }
+	           
+	            if (attendance == false) {
+	                System.out.println("Invalid student ID. Try again!");
+	            }
+	           
+	            System.out.println();
+	            Helper.line(40, "=");
+	            System.out.println("Attendance deleted for " + account.getName().toUpperCase());
+	            Helper.line(40, "=");
+	            System.out.println();
+	           
+	        }
+	    }
 	}
 
 	// STUDENT MENU
