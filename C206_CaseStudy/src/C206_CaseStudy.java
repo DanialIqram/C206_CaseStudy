@@ -147,23 +147,23 @@ public class C206_CaseStudy {
 			option = Helper.readInt("Enter option: ");
 
 			if (option == 1) {
-				setApprovalStatus();
+				inputSetApprovalStatus();
 			} else if (option == 2) {
 				viewAllPending();
 			} else if (option == 3) {
-				deletePending();
+				inputDeletePending();
 			} else if (option == 4) {
 				inputAddActivity();
 			} else if (option == 5) {
 				viewAllActivities(activities);
 			} else if (option == 6) {
-				deleteActivity(activities);
+				inputDeleteActivity();
 			} else if (option == 7) {
-				addAttendance();
+				inputAddAttendance();
 			} else if (option == 8) {
 				viewAttendance();
 			} else if (option == 9) {
-				deleteAttendance();
+				inputDeleteAttendance();
 			} else if (option == 10) {
 				logoutUser();
 			} else if (option == 11) {
@@ -392,7 +392,7 @@ public class C206_CaseStudy {
 			} else if (option == 2) {
 				viewAllRegistrations();
 			} else if (option == 3) {
-				deleteRegistrations();
+				inputDeleteRegistration();
 			} else if (option == 4) {
 				logoutUser();
 			} else if (option == 5) {
