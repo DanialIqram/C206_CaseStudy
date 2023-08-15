@@ -554,7 +554,7 @@ public class C206_CaseStudy {
 				logoutUser();
 			} else if (option == 5) {
 				break;
-				
+
 			}
 		}
 	}
@@ -566,38 +566,38 @@ public class C206_CaseStudy {
 	}
 
 	public static void inputRegisterForActivity(ArrayList<Activities> activitiesList) {
-	    System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |",
-	            "ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
+		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
+				"No. Of Students", "Max Capacity", "Available"));
 
-	    for (int i = 0; i < activitiesList.size(); i++) {
-	        System.out.println(activitiesList.get(i).toString());
-	    }
+		for (int i = 0; i < activitiesList.size(); i++) {
+			System.out.println(activitiesList.get(i).toString());
+		}
 
-	    if (activitiesList.isEmpty()) {
-	        System.out.println("\n *** There are no activities ***");
-	        return; // Exit the method since there are no activities
-	    }
+		if (activitiesList.isEmpty()) {
+			System.out.println("\n *** There are no activities ***");
+			return; // Exit the method since there are no activities
+		}
 
-	    int activityId = Helper.readInt("Enter an Activity ID you want to register for > ");
-	    if (activityId >= 0 && activityId < activitiesList.size()) {
-	        Student studentAccount = (Student) account; // Assuming account is already a Student object
-	        Activities selectedActivity = activitiesList.get(activityId);
+		int activityId = Helper.readInt("Enter an Activity ID you want to register for > ");
+		if (activityId >= 0 && activityId < activitiesList.size()) {
+			Student studentAccount = (Student) account; // Assuming account is already a Student object
+			Activities selectedActivity = activitiesList.get(activityId - 1);
 
-	        // Check if the activity is already full
-	        if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
-	            System.out.println("This activity is already at its max capacity.");
-	            return; // Exit the method since the activity is full
-	        }
+			// Check if the activity is already full
+			if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
+				System.out.println("This activity is already at its max capacity.");
+				return; // Exit the method since the activity is full
+			}
 
-	        doRegisterForActivity(studentAccount, selectedActivity);
+			doRegisterForActivity(studentAccount, selectedActivity);
 
-	        // Increment the student count using the new method within Activities class
-	        selectedActivity.incrementStudentCount();
+			// Increment the student count using the new method within Activities class
+			selectedActivity.incrementStudentCount();
 
-	        System.out.println("\n*** Student count for the activity has been incremented ***");
-	    } else {
-	        System.out.println("Invalid Activity ID");
-	    }
+			System.out.println("\n*** Student count for the activity has been incremented ***");
+		} else {
+			System.out.println("Invalid Activity ID");
+		}
 	}
 
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
@@ -664,27 +664,25 @@ public class C206_CaseStudy {
 
 	// @Diya
 	public static void viewAllRegistrations() {
-		System.out.println("Registered Activities:");
+		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
+				"No. Of Students", "Max Capacity", "Available"));
 
-		Student student = (Student) account;
-
-		for (Activities activity : activities) {
-			if (activity.getStudents().contains(student) || activity.getPendingStudents().contains(student)) {
-				System.out.println(activity.getName());
-			}
+		for (int i = 0; i < activities.size(); i++) {
+			System.out.println(activities.get(i).toString());
 		}
+
 	}
 
 	// @Diya
 	public static void doDeleteRegistration(int activityIDToDelete) {
 		boolean found = false;
 
-		for (Activities activity : registeredActivities) {
+		for (Activities activity : activities) {
 			if (activity.getId() == activityIDToDelete) {
 				found = true;
 				char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
 				if (confirm == 'Y' || confirm == 'y') {
-					activity.getStudents().remove(student);
+					activity.getStudents().remove(account);
 					System.out.println("You have been unregistered from the activity.");
 				} else {
 					System.out.println("Unregistration canceled.");
@@ -699,47 +697,43 @@ public class C206_CaseStudy {
 	}
 
 	public static void inputDeleteRegistration() {
-		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
-		doDeleteRegistration(activityIDToDelete);
+//		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
+		deleteRegistrations();
 	}
 
 	private static void deleteRegistrations() {
-		List<Activities> registeredActivities = new ArrayList<>();
+	    List<Activities> registeredActivities = new ArrayList<>();
 
-		// showing the list of registered activities and including them in the list
-		System.out.println("Registered Activities:");
-		for (Activities activity : activitiesList) {
-			if (activity.getStudents().contains(student)) {
-				registeredActivities.add(activity);
-				System.out.println("ID: " + activity.getId() + " - " + activity.getName());
-			}
-		}
-		if (registeredActivities.isEmpty()) {
-			System.out.println("You have not registered for any activities.");
-			return;
-		}
+	    // ... Previous code to list registered activities
 
-		// deletion part
+	    // Get the activity ID to delete
+	    int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
 
-		boolean found = false;
+	    // Find the activity in the list of registered activities
+	    Activities activityToDelete = null;
+	    for (Activities activity : activities) {
+	        if (activity.getId() == activityIDToDelete) {
+	            activityToDelete = activity;
+	            break;
+	        }
+	    }
 
-		for (Activities activity : registeredActivities) {
-			if (activity.getId() == activityIDToDelete) {
-				found = true;
-				char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
-				if (confirm == 'Y' || confirm == 'y') {
-					activity.getStudents().remove(student);
-					System.out.println("You have been unregistered from the activity.");
-				} else {
-					System.out.println("Unregistration canceled.");
-				}
-				break;
-			}
-		}
+	    // Check if the activity was found and the student is registered
+	    if (activityToDelete != null && activityToDelete.getStudents().contains(account)) {
+	        char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
+	        if (confirm == 'Y' || confirm == 'y') {
+	            activityToDelete.getStudents().remove(account);
 
-		if (!found) {
-			System.out.println("Invalid activity ID.");
-		}
+	            // Decrement the student count using the new method
+	            activityToDelete.decrementStudentCount();
+
+	            System.out.println("You have been unregistered from the activity.");
+	        } else {
+	            System.out.println("Unregistration canceled.");
+	        }
+	    } else {
+	        System.out.println("Invalid activity ID or you are not registered for this activity.");
+	    }
 	}
 
 	// ADMIN MENU

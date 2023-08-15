@@ -48,6 +48,12 @@ public void incrementStudentCount() {
     numofstu++;
 }
 
+public void decrementStudentCount() {
+	if(numofstu > 0) {
+		numofstu--;
+	}
+}
+
 @Override
 public String toString() {
     String isOpen = numofstu < maxCapacity ? "Yes" : "No";
