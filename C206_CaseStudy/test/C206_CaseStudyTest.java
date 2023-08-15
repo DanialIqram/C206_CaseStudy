@@ -66,21 +66,60 @@ public class C206_CaseStudyTest {
 	
 	@Test //@Jannah
 	public void testDoAddActivity() {
+		activities = new ArrayList<Activities>();
 		//Boundary
 		assertNotNull("Check for valid activities to be added to", activities);
-		
+		activities.clear();
+		// Normal - Add an activity to an empty list and the size of the arraylist is 1
+		C206_CaseStudy.doAddActivity(activities, activity1);
+		assertEquals("Test that activity is added into activities ArrayList",1, activities.size());
+		assertSame("Test that acivity added is the same", activities.get(0), activity1);
+		// Normal - Add another activity to test the size of the ArrayList is changed to 2
+		C206_CaseStudy.doAddActivity(activities, activity2);
+		assertEquals("Test that activity is added into activities ArrayList",2, activities.size());
+		assertSame("Test that acivity added is the same", activities.get(1), activity2);
+		// Error - Adding another activity with the same name, ArrayList should remain as 2
+		C206_CaseStudy.doAddActivity(activities, activity1);
+		assertEquals("Test that activity is added into activities ArrayList",2, activities.size());
 	}
 	
 	@Test //@Jannah
-	public void testViewAllActivities() {
-		//Boundary
+	public void testRetrieveAllActivities() {
+		//Boundary - Check that the activities ArrayList is not null and can be added to
 		assertNotNull("Check for valid ArrayList activities to be added to", activities); 
+		assertEquals("Test that ArrayList is empty", 0, activities.size());
+		//Boundary - When list is empty output is shown
+		String allActivities = C206_CaseStudy.retrieveAllActivities(activities);
+		String TestOutput = String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
+				"No. Of Students", "Max Capacity", "Available");
+		TestOutput += "\n *** There is no activites ***";
+		assertEquals("Test that message is shown when list is empty", TestOutput, allActivities);
+		// Normal - ACtivity is added an is shown correctly
+		C206_CaseStudy.doAddActivity(activities, activity1);
+		String allActivities2 = C206_CaseStudy.retrieveAllActivities(activities);
+		String testOutput = String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
+				"No. Of Students", "Max Capacity", "Available");
+		testOutput += String.format("\n| %-20d | %-20s | %-20s | %-20d | %-20d | %-20s |", 1,"Basketball" , "Sports",
+				0, 1, "Yes");
+		assertEquals("Test that message is shown when list is empty", testOutput, allActivities2);
+		// Normal - Add another Activity is added and is shown correctly
+		C206_CaseStudy.doAddActivity(activities, activity2);
+		testOutput += String.format("\n| %-20d | %-20s | %-20s | %-20d | %-20d | %-20s |", 2,"Hockey" , "Sports",
+				0, 2, "Yes");
 	}
 	
 	@Test //@Jannah
 	public void testDoDeleteActivity() {
 		// Boundary
 		assertNotNull("Check for valid ArrayList activities to be added to", activities);
+		// Normal - Delete one activity from activities
+		C206_CaseStudy.doAddActivity(activities, activity1);
+		C206_CaseStudy.doDeleteActivity(activities, 1);
+		assertEquals("Test that ArrayList is empty", 0, activities.size());
+		// Error - Delete an activity that is not in the list
+		C206_CaseStudy.doDeleteActivity(activities, 2);
+		assertEquals("Test that ArrayList is still empty", 0, activities.size());
+		
 	}
 	
 	@Test //@Regan
