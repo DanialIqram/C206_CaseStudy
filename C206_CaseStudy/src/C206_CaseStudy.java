@@ -206,8 +206,8 @@ public class C206_CaseStudy {
 			} else if (option == 5) {
 				viewAllActivities(activities);
 			} else if (option == 6) {
-				int id = doDeleteActivity(activities);
-				inputDeleteActivity(activities, id);
+				int id = inputDeleteActivity(activities);
+				doDeleteActivity(activities, id);
 			} else if (option == 7) {
 				inputAddAttendance();
 			} else if (option == 8) {
@@ -314,9 +314,20 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	public static void doAddActivity(ArrayList<Activities> activitiesList, Activities activity) {
-		activities.add(activity);
-		System.out.println("\n*** Activity has been added ***");
+	public static void doAddActivity(ArrayList<Activities> activities, Activities activity) {
+		boolean duplicate = false;
+		for (int i = 0; i < activities.size(); i++) {
+			if (activity.getName().equalsIgnoreCase(activities.get(i).getName())) {
+				duplicate = true;
+			}
+		}
+		if (duplicate == false) {
+			activities.add(activity);
+			System.out.println("\n*** Activity has been added ***");
+		} else {
+			System.out.println("\n*** Activity has the same name as another activity ***");
+		}
+
 	}
 
 	// @Jannah
@@ -326,6 +337,24 @@ public class C206_CaseStudy {
 		int maxCap = Helper.readInt("Enter the max capacity > ");
 		Activities activity = new Activities(activities.size() + 1, name, category, maxCap);
 		return activity;
+	}
+
+	// @Jannah
+	public static String retrieveAllActivities(ArrayList<Activities> activitiesList) {
+		String output = "";
+
+		output += String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
+				"No. Of Students", "Max Capacity", "Available");
+
+		for (int i = 0; i < activitiesList.size(); i++) {
+			output += "\n" + activitiesList.get(i).toString();
+		}
+		if (activitiesList.isEmpty()) {
+			output += "\n *** There is no activites ***";
+		}
+
+		return output;
+
 	}
 
 	// @Jannah
@@ -344,28 +373,20 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	public static int doDeleteActivity(ArrayList<Activities> activities) {
+	public static int inputDeleteActivity(ArrayList<Activities> activities) {
 		viewAllActivities(activities);
 		int searchActivity = Helper.readInt("Enter Activity ID > ");
 		return searchActivity;
 
 	}
 
-	public static void inputDeleteActivity(ArrayList<Activities> activities, int id) {
+	public static void doDeleteActivity(ArrayList<Activities> activities, int id) {
 		boolean found = false;
 		for (int i = 0; i < activities.size(); i++) {
 			if (id == activities.get(i).getId()) {
 				found = true;
-				System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name",
-						"Category", "No. Of Students", "Max Capacity", "Available"));
-				System.out.println(activities.get(i).toString());
-				char confirm = Helper.readChar("Confirm deletion of Activity (y/n)> ");
-				if (confirm == 'y') {
-					activities.remove(i);
-					System.out.println("\n*** Activity has been deleted ***");
-				} else {
-					System.out.println("\n*** You have not deleted anything ***");
-				}
+				activities.remove(i);
+				System.out.println("\n*** Activity has been deleted ***");
 			}
 		}
 		if (found == false) {
@@ -565,6 +586,7 @@ public class C206_CaseStudy {
 		System.out.println("\n*** Activity has been registered ***");
 	}
 
+<<<<<<< HEAD
 	public static void inputRegisterForActivity(ArrayList<Activities> activitiesList) {
 		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
 				"No. Of Students", "Max Capacity", "Available"));
@@ -598,6 +620,12 @@ public class C206_CaseStudy {
 		} else {
 			System.out.println("Invalid Activity ID");
 		}
+=======
+	public static void inputRegisterForActivity() {
+		int activityId = Helper.readInt("Activity ID");
+		Student studentAccount = (Student) account; // Assuming account is already a Student object
+		doRegisterForActivity(studentAccount, activityId);
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	}
 
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
@@ -737,6 +765,7 @@ public class C206_CaseStudy {
 	}
 
 	// ADMIN MENU
+	
 	private static void showAdminOptions() {
 		Helper.line(40, "=");
 		System.out.println("ADMIN MENU");
