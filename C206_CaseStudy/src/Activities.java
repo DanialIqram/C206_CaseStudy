@@ -44,6 +44,10 @@ public ArrayList<Student> getAttendance() {
 	return attendance;
 }
 
+public void incrementStudentCount() {
+    numofstu++;
+}
+
 @Override
 public String toString() {
     String isOpen = numofstu < maxCapacity ? "Yes" : "No";

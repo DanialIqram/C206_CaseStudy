@@ -590,10 +590,10 @@ public class C206_CaseStudy {
 	        }
 
 	        doRegisterForActivity(studentAccount, selectedActivity);
-	        
-	        // Update the student count directly
-	        selectedActivity.numofstu++; // or selectedActivity.studentCount++;
-	        
+
+	        // Increment the student count using the new method within Activities class
+	        selectedActivity.incrementStudentCount();
+
 	        System.out.println("\n*** Student count for the activity has been incremented ***");
 	    } else {
 	        System.out.println("Invalid Activity ID");
