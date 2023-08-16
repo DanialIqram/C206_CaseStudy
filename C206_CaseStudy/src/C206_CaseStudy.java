@@ -15,7 +15,7 @@ public class C206_CaseStudy {
 		activities = new ArrayList<Activities>(); // This will hold the activities.
 
 		// Add activities to the list
-		Activities activity1 = new Activities(1, "Basketball", "Sports", 10);
+		Activities activity1 = new Activities(1, "Basketball", "Sports", 2);
 		Activities activity2 = new Activities(2, "Hockey", "Sports", 20);
 		Activities activity3 = new Activities(3, "NCC", "Uniform", 20);
 		Activities activity4 = new Activities(4, "NPCC", "Uniform", 20);
@@ -566,7 +566,7 @@ public class C206_CaseStudy {
 			option = Helper.readInt("Enter option: ");
 
 			if (option == 1) {
-				inputRegisterForActivity(activitiesList);
+				Activities test = inputRegisterForActivity(activitiesList);
 			} else if (option == 2) {
 				viewAllRegistrations();
 			} else if (option == 3) {
@@ -586,47 +586,55 @@ public class C206_CaseStudy {
 		System.out.println("\n*** Activity has been registered ***");
 	}
 
-<<<<<<< HEAD
-	public static void inputRegisterForActivity(ArrayList<Activities> activitiesList) {
-		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
-				"No. Of Students", "Max Capacity", "Available"));
 
-		for (int i = 0; i < activitiesList.size(); i++) {
-			System.out.println(activitiesList.get(i).toString());
-		}
+	public static Activities inputRegisterForActivity(ArrayList<Activities> activitiesList) {
+		Student studentAccount = (Student) account;// Assuming account is already a Student 
+	    System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |",
+	            "ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
 
-		if (activitiesList.isEmpty()) {
-			System.out.println("\n *** There are no activities ***");
-			return; // Exit the method since there are no activities
-		}
+	    if (activitiesList.isEmpty()) {
+	        System.out.println("\n *** There are no activities ***");
+	        return null; // Return null since there are no activities
+	    }
 
-		int activityId = Helper.readInt("Enter an Activity ID you want to register for > ");
-		if (activityId >= 0 && activityId < activitiesList.size()) {
-			Student studentAccount = (Student) account; // Assuming account is already a Student object
-			Activities selectedActivity = activitiesList.get(activityId - 1);
+	    for (int i = 0; i < activitiesList.size(); i++) {
+	        System.out.println(activitiesList.get(i).toString());
+	    }
 
-			// Check if the activity is already full
-			if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
-				System.out.println("This activity is already at its max capacity.");
-				return; // Exit the method since the activity is full
-			}
+	    int activityId = Helper.readInt("Enter an Activity ID you want to register for > ");
+	
 
-			doRegisterForActivity(studentAccount, selectedActivity);
+	    for (int i = 0; i < activitiesList.size(); i++) {
+	        if (activityId == activitiesList.get(i).getId()) {
+	            Activities selectedActivity = activitiesList.get(i);
 
-			// Increment the student count using the new method within Activities class
-			selectedActivity.incrementStudentCount();
+	            // Check if the activity is already full
+	            if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
+	                System.out.println("This activity is already at its max capacity.");
+	                return null; // Return null since the activity is full
+	            }
 
-			System.out.println("\n*** Student count for the activity has been incremented ***");
-		} else {
-			System.out.println("Invalid Activity ID");
-		}
-=======
+	            doRegisterForActivity(studentAccount, selectedActivity);
+
+	            // Increment the student count using the new method within Activities class
+	            selectedActivity.incrementStudentCount();
+
+	            System.out.println("\n*** Student count for the activity has been incremented ***");
+
+	            return selectedActivity;
+	        }
+	    }
+
+	    System.out.println("Invalid Activity ID");
+	    return null;
+	}
+
+
 	public static void inputRegisterForActivity() {
 		int activityId = Helper.readInt("Activity ID");
-		Student studentAccount = (Student) account; // Assuming account is already a Student object
-		doRegisterForActivity(studentAccount, activityId);
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-	}
+		Student studentAccount = (Student) account; } // Assuming account is already a Student object
+		//doRegisterForActivity(studentAccount, activityId);
+
 
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
 
