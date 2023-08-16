@@ -429,7 +429,8 @@ public class C206_CaseStudy {
 
 	public static void inputAddAttendance() {
        
-		Activities activity = getActivity();
+		Teacher teacher = (Teacher) account;
+		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> attendance = activity.getAttendance();
         int studentIDInput = Helper.readInt("Enter student ID: ");
 
@@ -438,7 +439,7 @@ public class C206_CaseStudy {
             int studentID = student.getId();
             if (studentID == (studentIDInput)) {
             	for (int x = 0; x < attendance.size(); x++) {
-            		if (studentIDInput == attendance.get(i)) {
+            		if (students.get(x) == getStudentById(studentIDInput)) {
             			System.out.println("Student is already present");
             		}
             		else {
@@ -464,7 +465,8 @@ public class C206_CaseStudy {
 	
 	// @Lleyton
 	public static void viewAttendance() {
-		Activities activity = getActivity();
+		Teacher teacher = (Teacher) account;
+		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> attendance = activity.getAttendance();
 		            for (int i = 0; i < attendance.size(); i++) {
 		                Student student = students.get(i);
@@ -478,8 +480,8 @@ public class C206_CaseStudy {
 	
 
 	public static void inputDeleteAttendance() {
-	           
-		Activities activity = getActivity();
+	    Teacher teacher = (Teacher) account;
+		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> attendance = activity.getAttendance();
 	            int studentIDInput = Helper.readInt("Enter student ID: ");
 	           
