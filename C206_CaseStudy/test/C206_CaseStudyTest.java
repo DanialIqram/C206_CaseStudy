@@ -144,7 +144,7 @@ public class C206_CaseStudyTest {
 	
 	@Test // @Lleyton
 	public void testDoAddAttendance() {
-		
+		// Error - Delete an activity that is not in the list
 	}
 	
 	@Test // @Lleyton
@@ -154,7 +154,7 @@ public class C206_CaseStudyTest {
 	
 	@Test // @Lleyton
 	public void testDoDeleteAttendance() {
-		
+		// Error - Delete an attendance that is not in the list
 	}
 	
 	@Test // @Diya

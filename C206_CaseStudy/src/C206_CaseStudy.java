@@ -8,6 +8,7 @@ public class C206_CaseStudy {
 	public static ArrayList<Student> students;
 	public static ArrayList<Teacher> teachers;
 	public static ArrayList<Activities> activities;
+	public boolean attendance;
 
 	public static void main(String[] args) {
 		account = null;
@@ -15,13 +16,8 @@ public class C206_CaseStudy {
 		activities = new ArrayList<Activities>(); // This will hold the activities.
 
 		// Add activities to the list
-<<<<<<< HEAD
-		Activities activity1 = new Activities(1, "Basketball", "Sports", 10);
-		Activities activity2 = new Activities(2, "Hockey", "Sports", 1);
-=======
 		Activities activity1 = new Activities(1, "Basketball", "Sports", 2);
 		Activities activity2 = new Activities(2, "Hockey", "Sports", 20);
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 		Activities activity3 = new Activities(3, "NCC", "Uniform", 20);
 		Activities activity4 = new Activities(4, "NPCC", "Uniform", 20);
 		Activities activity5 = new Activities(5, "Dance", "Performing Arts", 30);
@@ -68,7 +64,10 @@ public class C206_CaseStudy {
 				Teacher teacher = teachers.get(i);
 				if (teacher.getEmail().equalsIgnoreCase(emailInput) && teacher.getPassword().equals(passwordInput)) {
 					account = teacher;
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 					break;
 				}
 			}
@@ -430,14 +429,26 @@ public class C206_CaseStudy {
 
 	}
 
+<<<<<<< HEAD
 	// @Lleyton
 
+=======
+	// Lleyton
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	public static void inputAddAttendance() {
+<<<<<<< HEAD
 
 		Activities activity = getActivity();
+=======
+       
+		Teacher teacher = (Teacher) account;
+		Activities activity = getActivity(teacher.getActivitesId());
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 		ArrayList<Student> attendance = activity.getAttendance();
 		int studentIDInput = Helper.readInt("Enter student ID: ");
 
+<<<<<<< HEAD
 		for (int i = 0; i < students.size(); i++) {
 			Student student = students.get(i);
 			int studentID = student.getId();
@@ -461,12 +472,51 @@ public class C206_CaseStudy {
 			}
 		}
 
+=======
+        for (int i = 0; i < students.size(); i++) {
+			Student student = students.get(i);
+			int studentID = student.getId();
+			System.out.println();
+
+		}
+			
+        for (int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+            int studentID = student.getId();
+            if (studentID == (studentIDInput)) {
+            	for (int x = 0; x < attendance.size(); x++) {
+            		if (students.get(x) == getStudentById(studentIDInput)) {
+            			System.out.println("Student is already present");
+            		}
+            		else {
+            			attendance.add(student);
+            	        System.out.println();
+            	        Helper.line(40, "=");
+            	        System.out.println("Attendance marked for " + account.getName().toUpperCase());
+            	        Helper.line(40, "=");
+            	        System.out.println();
+            	        break;
+            		}
+            	}
+
+            }
+            else {
+            	System.out.println("Error: Student does not exist.");
+            }
+        }
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	}
+<<<<<<< HEAD
 
 	// @Lleyton
+=======
+		            	
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	public static void viewAttendance() {
-		Activities activity = getActivity();
+		Teacher teacher = (Teacher) account;
+		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> attendance = activity.getAttendance();
+<<<<<<< HEAD
 		for (int i = 0; i < attendance.size(); i++) {
 			Student student = students.get(i);
 			String studentClass = student.getClasslevel();
@@ -476,13 +526,29 @@ public class C206_CaseStudy {
 		}
 
 	}
+=======
+		            for (int i = 0; i < attendance.size(); i++) {
+		            	Student student = students.get(i);
+		                String studentClass = student.getClasslevel();
+		                String studentInfo = student.toString();
+		            }
+	}
+	
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
+<<<<<<< HEAD
 	public static void inputDeleteAttendance() {
 
 		Activities activity = getActivity();
+=======
+	public static void inputDeleteAttendance() {
+	    Teacher teacher = (Teacher) account;
+		Activities activity = getActivity(teacher.getActivitesId());
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 		ArrayList<Student> attendance = activity.getAttendance();
 		int studentIDInput = Helper.readInt("Enter student ID: ");
 
+<<<<<<< HEAD
 		for (int i = 0; i < students.size(); i++) {
 			Student student = students.get(i);
 			int studentID = student.getId();
@@ -506,6 +572,8 @@ public class C206_CaseStudy {
 			break;
 		}
 
+=======
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	}
 
 	// STUDENT MENU
@@ -561,11 +629,26 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
+<<<<<<< HEAD
 	public static void doRegisterForActivity(int studentId, int activityId) {
 		Student student =  getStudentById(studentId);
 		for (int i = 0; i < activities.size(); i++) {
 			if (activityId == activities.get(i).getId()) {
 				Activities selectedActivity = activities.get(i);
+=======
+	public static void doRegisterForActivity(Student account, Activities activity) {
+		activity.getStudents().add(account);
+		System.out.println("\n*** Activity has been registered ***");
+	}
+
+
+	public static Activities inputRegisterForActivity(ArrayList<Activities> activitiesList) {
+		Student studentAccount = (Student) account;// Assuming account is already a Student 
+	    System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |",
+
+	            "ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
 				// Check if the activity is already full
 				if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
@@ -575,15 +658,47 @@ public class C206_CaseStudy {
 				selectedActivity.getPendingStudents().add(student);
 				System.out.println("\n*** Activity has been registered ***");
 
+<<<<<<< HEAD
 				System.out.println("\n*** Student count for the activity has been incremented ***");
 			} else {
 				System.out.println("Invalid Activity ID");
 			}
+=======
+	    for (int i = 0; i < activitiesList.size(); i++) {
+	        System.out.println(activitiesList.get(i).toString());
+	    }
+
+	    int activityId = Helper.readInt("Enter an Activity ID you want to register for > ");
+	
+
+	    for (int i = 0; i < activitiesList.size(); i++) {
+	        if (activityId == activitiesList.get(i).getId()) {
+	            Activities selectedActivity = activitiesList.get(i);
+
+	            // Check if the activity is already full
+	            if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
+	                System.out.println("This activity is already at its max capacity.");
+	                return null; // Return null since the activity is full
+	            }
+
+	            doRegisterForActivity(studentAccount, selectedActivity);
+
+
+			System.out.println("\n*** Student count for the activity has been incremented ***");
+		} else {
+			System.out.println("Invalid Activity ID");
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 		}
 
 	}
+<<<<<<< HEAD
 
+=======
+
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	public static void inputRegisterForActivity() {
+<<<<<<< HEAD
 		Student studentAccount = (Student) account;// Assuming account is already a Student
 		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
 				"No. Of Students", "Max Capacity", "Available"));
@@ -602,6 +717,13 @@ public class C206_CaseStudy {
 
 	}
 
+=======
+		int activityId = Helper.readInt("Activity ID");
+
+		Student studentAccount = (Student) account; } // Assuming account is already a Student object
+		//doRegisterForActivity(studentAccount, activityId);
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
 
