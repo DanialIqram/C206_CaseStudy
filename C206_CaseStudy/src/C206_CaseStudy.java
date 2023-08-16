@@ -640,13 +640,13 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
-<<<<<<< HEAD
+
 	public static void doRegisterForActivity(int studentId, int activityId) {
 		Student student =  getStudentById(studentId);
 		for (int i = 0; i < activities.size(); i++) {
 			if (activityId == activities.get(i).getId()) {
 				Activities selectedActivity = activities.get(i);
-=======
+
 	public static void doRegisterForActivity(Student account, Activities activity) {
 		activity.getStudents().add(account);
 		System.out.println("\n*** Activity has been registered ***");
@@ -659,7 +659,6 @@ public class C206_CaseStudy {
 
 	            "ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
 
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
 				// Check if the activity is already full
 				if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
@@ -669,12 +668,12 @@ public class C206_CaseStudy {
 				selectedActivity.getPendingStudents().add(student);
 				System.out.println("\n*** Activity has been registered ***");
 
-<<<<<<< HEAD
+
 				System.out.println("\n*** Student count for the activity has been incremented ***");
 			} else {
 				System.out.println("Invalid Activity ID");
 			}
-=======
+
 	    for (int i = 0; i < activitiesList.size(); i++) {
 	        System.out.println(activitiesList.get(i).toString());
 	    }
@@ -698,18 +697,14 @@ public class C206_CaseStudy {
 			System.out.println("\n*** Student count for the activity has been incremented ***");
 		} else {
 			System.out.println("Invalid Activity ID");
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 		}
 
 	}
-<<<<<<< HEAD
-
-=======
 
 
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+
 	public static void inputRegisterForActivity() {
-<<<<<<< HEAD
+
 		Student studentAccount = (Student) account;// Assuming account is already a Student
 		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
 				"No. Of Students", "Max Capacity", "Available"));
