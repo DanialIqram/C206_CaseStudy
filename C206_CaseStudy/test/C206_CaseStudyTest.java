@@ -124,7 +124,9 @@ public class C206_CaseStudyTest {
 	
 	@Test //@Regan
 	public void testDoSetApprovalStatus() {
-		
+		//Normal
+		assertEquals(activity2.getPendingStudents().size(),0);
+		C206_CaseStudy.doRegisterForActivity(student1.getId(), 2);
 	}
 	
 	@Test //@Regan
@@ -136,6 +138,7 @@ public class C206_CaseStudyTest {
 	public void testDoDeletePending() {
 		
 	}
+	
 	
 	@Test // @Lleyton
 	public void testDoAddAttendance() {
