@@ -129,9 +129,29 @@ public class C206_CaseStudyTest {
 	
 	@Test //@Regan
 	public void testDoSetApprovalStatus() {
-		//Normal
 		assertEquals(activity2.getPendingStudents().size(),0);
 		C206_CaseStudy.doRegisterForActivity(student1.getId(), 2);
+		assertEquals(activity2.getPendingStudents().size(),1);
+		
+		//Normal
+		C206_CaseStudy.doSetApprovalStatus(teacher2.getId(), student1.getId(), 'N');
+		assertEquals(activity2.getPendingStudents().size(), 0);
+		assertEquals(activity2.getStudents(), 0);
+		
+		//Boundary
+		C206_CaseStudy.doRegisterForActivity(student1.getId(), 2);
+		C206_CaseStudy.doRegisterForActivity(student2.getId(), 2);
+		assertEquals(activity2.getPendingStudents(), 2);
+		C206_CaseStudy.doSetApprovalStatus(teacher2.getId(), student1.getId(), 'Y');
+		C206_CaseStudy.doSetApprovalStatus(teacher2.getId(), student2.getId(), 'Y');
+		assertEquals(activity2.getStudents(), 1);
+		assertEquals(activity2.getPendingStudents(), 0);
+		
+		//Error
+		C206_CaseStudy.doSetApprovalStatus(teacher2.getId(), student2.getId(), 'Y');
+		assertEquals(activity2.getStudents(), 1);
+		assertEquals(activity2.getPendingStudents(), 0);
+		
 	}
 	
 	@Test //@Regan
