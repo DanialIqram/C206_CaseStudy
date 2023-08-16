@@ -172,6 +172,16 @@ public class C206_CaseStudy {
 
 		return null;
 	}
+	
+	private static Teacher getTeacherById(int id) {
+		for (int i = 0; i < teachers.size(); i++) {
+			if (teachers.get(i).getId() == id) {
+				return teachers.get(i);
+			}
+		}
+
+		return null;
+	}
 
 	// Teacher Options
 	private static void showTeacherOptions() {
@@ -215,7 +225,7 @@ public class C206_CaseStudy {
 				doDeleteActivity(activities, id);
 			} else if (option == 7) {
 				inputAddAttendance();
-			} else if (option == 8) {
+			} else if (option == 8) { 
 				viewAttendance();
 			} else if (option == 9) {
 				inputDeleteAttendance();
@@ -228,8 +238,9 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doSetApprovalStatus(int studentIndex, char approvalChoice) {
-		Activities activity = getActivity();
+	public static void doSetApprovalStatus(int teacherId, int studentIndex, char approvalChoice) {
+		Teacher teacher = getTeacherById(teacherId);
+		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 
 		Student selectedStudent = getStudentById(studentIndex);
@@ -243,7 +254,7 @@ public class C206_CaseStudy {
 				pendingStudents.remove(selectedStudent);
 				System.out.println(selectedStudent.getName() + " has not been approved.");
 			} else {
-				System.out.println("Invalid choice.");
+			System.out.println("Invalid choice.");
 			}
 		} else {
 			System.out.println("Invalid student.");
