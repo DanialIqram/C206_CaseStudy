@@ -8,6 +8,7 @@ public class C206_CaseStudy {
 	public static ArrayList<Student> students;
 	public static ArrayList<Teacher> teachers;
 	public static ArrayList<Activities> activities;
+	public boolean attendance;
 
 	public static void main(String[] args) {
 		account = null;
@@ -63,6 +64,10 @@ public class C206_CaseStudy {
 				Teacher teacher = teachers.get(i);
 				if (teacher.getEmail().equalsIgnoreCase(emailInput) && teacher.getPassword().equals(passwordInput)) {
 					account = teacher;
+<<<<<<< HEAD
+
+=======
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 					break;
 				}
 			}
@@ -167,6 +172,16 @@ public class C206_CaseStudy {
 
 		return null;
 	}
+	
+	private static Teacher getTeacherById(int id) {
+		for (int i = 0; i < teachers.size(); i++) {
+			if (teachers.get(i).getId() == id) {
+				return teachers.get(i);
+			}
+		}
+
+		return null;
+	}
 
 	// Teacher Options
 	private static void showTeacherOptions() {
@@ -210,7 +225,7 @@ public class C206_CaseStudy {
 				doDeleteActivity(activities, id);
 			} else if (option == 7) {
 				inputAddAttendance();
-			} else if (option == 8) {
+			} else if (option == 8) { 
 				viewAttendance();
 			} else if (option == 9) {
 				inputDeleteAttendance();
@@ -223,8 +238,9 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doSetApprovalStatus(int studentIndex, char approvalChoice) {
-		Activities activity = getActivity();
+	public static void doSetApprovalStatus(int teacherId, int studentIndex, char approvalChoice) {
+		Teacher teacher = getTeacherById(teacherId);
+		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 
 		Student selectedStudent = getStudentById(studentIndex);
@@ -238,7 +254,7 @@ public class C206_CaseStudy {
 				pendingStudents.remove(selectedStudent);
 				System.out.println(selectedStudent.getName() + " has not been approved.");
 			} else {
-				System.out.println("Invalid choice.");
+			System.out.println("Invalid choice.");
 			}
 		} else {
 			System.out.println("Invalid student.");
@@ -424,6 +440,7 @@ public class C206_CaseStudy {
 
 	}
 
+<<<<<<< HEAD
 	// Lleyton
 	public static void markAttendance() {
 		while (attendance == false && account.getRole().equals("teacher")) {
@@ -434,14 +451,34 @@ public class C206_CaseStudy {
 <<<<<<< HEAD
 			int studentIDInput = Helper.readInt("Enter student ID: ");
 =======
+=======
+<<<<<<< HEAD
+	// @Lleyton
+
+=======
+	// Lleyton
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 	public static void inputAddAttendance() {
+<<<<<<< HEAD
+
+		Activities activity = getActivity();
+=======
        
 		Teacher teacher = (Teacher) account;
 		Activities activity = getActivity(teacher.getActivitesId());
+<<<<<<< HEAD
 		ArrayList<Student> attendance = activity.getAttendance();
         int studentIDInput = Helper.readInt("Enter student ID: ");
 >>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+=======
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+		ArrayList<Student> attendance = activity.getAttendance();
+		int studentIDInput = Helper.readInt("Enter student ID: ");
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 			for (int i = 0; i < students.size(); i++) {
 				Student student = students.get(i);
@@ -449,21 +486,44 @@ public class C206_CaseStudy {
 				if (studentID == (studentIDInput)) {
 					attendance = true;
 					break;
+=======
+<<<<<<< HEAD
+		for (int i = 0; i < students.size(); i++) {
+			Student student = students.get(i);
+			int studentID = student.getId();
+			if (studentID == (studentIDInput)) {
+				for (int x = 0; x < attendance.size(); x++) {
+					if (studentIDInput == attendance.get(i)) {
+						System.out.println("Student is already present");
+					} else {
+						attendance.add(student);
+						System.out.println();
+						Helper.line(40, "=");
+						System.out.println("Attendance marked for " + account.getName().toUpperCase());
+						Helper.line(40, "=");
+						System.out.println();
+						break;
+					}
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 				}
-			}
 
-			if (attendance == false) {
-				System.out.println("Invalid student ID. Try again!");
+			} else {
+				System.out.println("Error: Student does not exist.");
 			}
+		}
 
-			System.out.println();
-			Helper.line(40, "=");
-			System.out.println("Attendance marked for " + account.getName().toUpperCase());
-			Helper.line(40, "=");
+=======
+        for (int i = 0; i < students.size(); i++) {
+			Student student = students.get(i);
+			int studentID = student.getId();
 			System.out.println();
 
 		}
+<<<<<<< HEAD
 =======
+=======
+			
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
         for (int i = 0; i < students.size(); i++) {
             Student student = students.get(i);
             int studentID = student.getId();
@@ -482,17 +542,23 @@ public class C206_CaseStudy {
             	        break;
             		}
             	}
-            	
+
             }
             else {
             	System.out.println("Error: Student does not exist.");
             }
         }
+<<<<<<< HEAD
        
 >>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+=======
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 	}
+<<<<<<< HEAD
 
 	// @Lleyton
+<<<<<<< HEAD
 <<<<<<< HEAD
 	public static void doAddAttendance() {
 		 public static void deleteAttendance() {
@@ -538,22 +604,38 @@ public class C206_CaseStudy {
 		        while (account.getRole().equals("teacher")) {
 		            for (int i = 0; i < students.size(); i++) {
 =======
+=======
+=======
+		            	
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 	public static void viewAttendance() {
 		Teacher teacher = (Teacher) account;
 		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> attendance = activity.getAttendance();
+<<<<<<< HEAD
+		for (int i = 0; i < attendance.size(); i++) {
+			Student student = students.get(i);
+			String studentClass = student.getClasslevel();
+			String studentInfo = student.toString();
+			Helper.line(40, "=");
+			String.format("%-10s |", studentInfo, studentClass);
+		}
+
+	}
+=======
 		            for (int i = 0; i < attendance.size(); i++) {
+<<<<<<< HEAD
 >>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 		                Student student = students.get(i);
+=======
+		            	Student student = students.get(i);
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 		                String studentClass = student.getClasslevel();
 		                String studentInfo = student.toString();
-		                Helper.line(40, "=");
-		                String.format("%-10s |", studentInfo, studentClass);
 		            }
-		        }
-		       
-		    }
 	}
+<<<<<<< HEAD
 
 	public static void inputAddAttendance() {
 
@@ -602,7 +684,49 @@ public class C206_CaseStudy {
 	                    break;
 	                }
 >>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+=======
+	
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 
+<<<<<<< HEAD
+	public static void inputDeleteAttendance() {
+
+		Activities activity = getActivity();
+=======
+	public static void inputDeleteAttendance() {
+	    Teacher teacher = (Teacher) account;
+		Activities activity = getActivity(teacher.getActivitesId());
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+		ArrayList<Student> attendance = activity.getAttendance();
+		int studentIDInput = Helper.readInt("Enter student ID: ");
+
+<<<<<<< HEAD
+		for (int i = 0; i < students.size(); i++) {
+			Student student = students.get(i);
+			int studentID = student.getId();
+			if (studentID == (studentIDInput)) {
+				for (int x = 0; x < attendance.size(); x++) {
+					char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
+					if (confirmation == 'Y') {
+						attendance.remove(student);
+						System.out.println();
+						Helper.line(40, "=");
+						System.out.println("Attendance deleted for " + account.getName().toUpperCase());
+						Helper.line(40, "=");
+						System.out.println();
+					} else if (confirmation == 'N') {
+						System.out.println("Attendance not deleted.");
+					}
+				}
+			} else {
+				System.out.println("Student does not exist.");
+			}
+			break;
+		}
+
+=======
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	}
 
 	// STUDENT MENU
@@ -658,29 +782,58 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
+
+	public static void doRegisterForActivity(int studentId, int activityId) {
+		Student student =  getStudentById(studentId);
+		for (int i = 0; i < activities.size(); i++) {
+			if (activityId == activities.get(i).getId()) {
+				Activities selectedActivity = activities.get(i);
+
 	public static void doRegisterForActivity(Student account, Activities activity) {
 		activity.getStudents().add(account);
 		System.out.println("\n*** Activity has been registered ***");
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 
 >>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
+=======
+
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 	public static Activities inputRegisterForActivity(ArrayList<Activities> activitiesList) {
 		Student studentAccount = (Student) account;// Assuming account is already a Student 
 	    System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 	            "ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
+<<<<<<< HEAD
 =======
 	            "ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
 >>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+=======
 
-	    if (activitiesList.isEmpty()) {
-	        System.out.println("\n *** There are no activities ***");
-	        return null; // Return null since there are no activities
-	    }
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
+
+				// Check if the activity is already full
+				if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
+					System.out.println("This activity is already at its max capacity.");
+					return; // Return null since the activity is full
+				}
+				selectedActivity.getPendingStudents().add(student);
+				System.out.println("\n*** Activity has been registered ***");
+
+
+				System.out.println("\n*** Student count for the activity has been incremented ***");
+			} else {
+				System.out.println("Invalid Activity ID");
+			}
 
 	    for (int i = 0; i < activitiesList.size(); i++) {
 	        System.out.println(activitiesList.get(i).toString());
@@ -700,15 +853,22 @@ public class C206_CaseStudy {
 	            }
 
 	            doRegisterForActivity(studentAccount, selectedActivity);
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
 
+=======
+
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 			System.out.println("\n*** Student count for the activity has been incremented ***");
 		} else {
 			System.out.println("Invalid Activity ID");
 		}
+
 	}
+<<<<<<< HEAD
 
 >>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	            // Increment the student count using the new method within Activities class
@@ -729,7 +889,13 @@ public class C206_CaseStudy {
 
 >>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
+=======
+
+
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 	public static void inputRegisterForActivity() {
+<<<<<<< HEAD
 		int activityId = Helper.readInt("Activity ID");
 <<<<<<< HEAD
 =======
@@ -739,10 +905,40 @@ public class C206_CaseStudy {
 		Student studentAccount = (Student) account; } // Assuming account is already a Student object
 		//doRegisterForActivity(studentAccount, activityId);
 <<<<<<< HEAD
+=======
 
+		Student studentAccount = (Student) account;// Assuming account is already a Student
+		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
+				"No. Of Students", "Max Capacity", "Available"));
+
+		if (activities.isEmpty()) {
+			System.out.println("\n *** There are no activities ***");
+			return ; 
+		}
+
+		for (int i = 0; i < activities.size(); i++) {
+			System.out.println(activities.get(i).toString());
+		}
+
+		int activityId = Helper.readInt("Enter an Activity ID you want to register for > ");
+		doRegisterForActivity(account.getId(),activityId);
+
+	}
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
+
+<<<<<<< HEAD
 =======
 
 >>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+=======
+=======
+		int activityId = Helper.readInt("Activity ID");
+
+		Student studentAccount = (Student) account; } // Assuming account is already a Student object
+		//doRegisterForActivity(studentAccount, activityId);
+
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
 
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
 
@@ -846,42 +1042,42 @@ public class C206_CaseStudy {
 	}
 
 	private static void deleteRegistrations() {
-	    List<Activities> registeredActivities = new ArrayList<>();
+		List<Activities> registeredActivities = new ArrayList<>();
 
-	    // ... Previous code to list registered activities
+		// ... Previous code to list registered activities
 
-	    // Get the activity ID to delete
-	    int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
+		// Get the activity ID to delete
+		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
 
-	    // Find the activity in the list of registered activities
-	    Activities activityToDelete = null;
-	    for (Activities activity : activities) {
-	        if (activity.getId() == activityIDToDelete) {
-	            activityToDelete = activity;
-	            break;
-	        }
-	    }
+		// Find the activity in the list of registered activities
+		Activities activityToDelete = null;
+		for (Activities activity : activities) {
+			if (activity.getId() == activityIDToDelete) {
+				activityToDelete = activity;
+				break;
+			}
+		}
 
-	    // Check if the activity was found and the student is registered
-	    if (activityToDelete != null && activityToDelete.getStudents().contains(account)) {
-	        char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
-	        if (confirm == 'Y' || confirm == 'y') {
-	            activityToDelete.getStudents().remove(account);
+		// Check if the activity was found and the student is registered
+		if (activityToDelete != null && activityToDelete.getStudents().contains(account)) {
+			char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
+			if (confirm == 'Y' || confirm == 'y') {
+				activityToDelete.getStudents().remove(account);
 
-	            // Decrement the student count using the new method
-	            activityToDelete.decrementStudentCount();
+				// Decrement the student count using the new method
+				activityToDelete.decrementStudentCount();
 
-	            System.out.println("You have been unregistered from the activity.");
-	        } else {
-	            System.out.println("Unregistration canceled.");
-	        }
-	    } else {
-	        System.out.println("Invalid activity ID or you are not registered for this activity.");
-	    }
+				System.out.println("You have been unregistered from the activity.");
+			} else {
+				System.out.println("Unregistration canceled.");
+			}
+		} else {
+			System.out.println("Invalid activity ID or you are not registered for this activity.");
+		}
 	}
 
 	// ADMIN MENU
-	
+
 	private static void showAdminOptions() {
 		Helper.line(40, "=");
 		System.out.println("ADMIN MENU");
