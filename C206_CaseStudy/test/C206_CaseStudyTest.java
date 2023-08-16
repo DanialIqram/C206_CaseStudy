@@ -7,9 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class C206_CaseStudyTest {
-	private static Teacher teacher;
+	private static Teacher teacher1;
+	private static Teacher teacher2;
 	private static User admin;
-	private static Student student;
+	private static Student student1;
+	private static Student student2;
+	
 	
 	private static Activities activity1;
 	private static Activities activity2;
@@ -21,9 +24,11 @@ public class C206_CaseStudyTest {
 
 	@Before
 	public void setUp() throws Exception {
-		teacher = new Teacher(1, "Mr Lim", "mrlim@school.com", "mrlim", 1);
+		teacher1 = new Teacher(1, "Mr Lim", "mrlim@school.com", "mrlim", 1);
+		teacher2 = new Teacher(2, "Miss Tan", "missTan@school.com", "MissTan", 2);
 		admin = new User(1, "Admin", "admin@school.com", "admin", "admin");
-		student = new Student(1, "Jack", "jack@school.com", "jack", "1A");
+		student1 = new Student(1, "Jack", "jack@school.com", "jack", "1A");
+		student2 = new Student(2, "Mary", "mary@school.com", "mary", "1B");
 		
 		activity1 = new Activities(1, "Basketball", "Sports", 1);
 		activity2 = new Activities(2, "Hockey", "Sports", 2);
@@ -142,7 +147,7 @@ public class C206_CaseStudyTest {
 	
 	@Test // @Lleyton
 	public void testDoAddAttendance() {
-		
+		// Error - Delete an activity that is not in the list
 	}
 	
 	@Test // @Lleyton
@@ -152,25 +157,34 @@ public class C206_CaseStudyTest {
 	
 	@Test // @Lleyton
 	public void testDoDeleteAttendance() {
-		
+		// Error - Delete an attendance that is not in the list
 	}
 	
 	@Test // @Diya
 	public void testDoRegisterForActivity() {
-		activities = new ArrayList<Activities>();
-		//Boundary 
-		assertNotNull("Check that the no. of student increments by 1", activities);
-		activities.clear();
+		// Check for normal registration successful student registration 
+		C206_CaseStudy.doRegisterForActivity(student1.getId(), 1);
+		assertEquals(activity1.getPendingStudents().size(),1);
+		
+		//Check boundary successful registration when max capacity is 1 
+		C206_CaseStudy.doRegisterForActivity(student2.getId(),1);
+		assertEquals(activity1.getPendingStudents().size(),1);
+		
+		//Check error when student registers for an invalid activity ID
+		C206_CaseStudy.doRegisterForActivity(student1.getId(),3);
+		assertEquals(activity1.getPendingStudents().size(),1);
+		assertEquals(activity2.getPendingStudents(),0);
 		
 	}
 	
 	@Test // @Diya
 	public void testViewAllRegistrations() {
-		
+		//Check for normal view when user press 
 	}
 	
 	@Test // @Diya
 	public void testDoDeleteRegistration() {
+		//Check for normal 
 		
 	}
 
