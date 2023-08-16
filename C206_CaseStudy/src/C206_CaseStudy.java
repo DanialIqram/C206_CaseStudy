@@ -576,19 +576,12 @@ public class C206_CaseStudy {
 		activity.getStudents().add(account);
 		System.out.println("\n*** Activity has been registered ***");
 	}
-<<<<<<< HEAD
-
-	public static void inputRegisterForActivity(ArrayList<Activities> activitiesList) {
-		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
-				"No. Of Students", "Max Capacity", "Available"));
-=======
 
 
 	public static Activities inputRegisterForActivity(ArrayList<Activities> activitiesList) {
 		Student studentAccount = (Student) account;// Assuming account is already a Student 
 	    System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |",
 	            "ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
 	    if (activitiesList.isEmpty()) {
 	        System.out.println("\n *** There are no activities ***");
@@ -614,13 +607,13 @@ public class C206_CaseStudy {
 
 	            doRegisterForActivity(studentAccount, selectedActivity);
 
-<<<<<<< HEAD
+
 			System.out.println("\n*** Student count for the activity has been incremented ***");
 		} else {
 			System.out.println("Invalid Activity ID");
 		}
 	}
-=======
+
 	            // Increment the student count using the new method within Activities class
 	            selectedActivity.incrementStudentCount();
 
@@ -634,20 +627,15 @@ public class C206_CaseStudy {
 	    return null;
 	}
 
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+
 
 	public static void inputRegisterForActivity() {
 		int activityId = Helper.readInt("Activity ID");
-<<<<<<< HEAD
-		Student studentAccount = (Student) account; // Assuming account is already a Student object
-		doRegisterForActivity(studentAccount, activityId);
 
-	}
-=======
+
 		Student studentAccount = (Student) account; } // Assuming account is already a Student object
 		//doRegisterForActivity(studentAccount, activityId);
 
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
 
