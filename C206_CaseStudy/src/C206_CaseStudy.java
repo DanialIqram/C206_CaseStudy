@@ -15,8 +15,13 @@ public class C206_CaseStudy {
 		activities = new ArrayList<Activities>(); // This will hold the activities.
 
 		// Add activities to the list
+<<<<<<< HEAD
+		Activities activity1 = new Activities(1, "Basketball", "Sports", 10);
+		Activities activity2 = new Activities(2, "Hockey", "Sports", 1);
+=======
 		Activities activity1 = new Activities(1, "Basketball", "Sports", 2);
 		Activities activity2 = new Activities(2, "Hockey", "Sports", 20);
+>>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 		Activities activity3 = new Activities(3, "NCC", "Uniform", 20);
 		Activities activity4 = new Activities(4, "NPCC", "Uniform", 20);
 		Activities activity5 = new Activities(5, "Dance", "Performing Arts", 30);
@@ -63,6 +68,7 @@ public class C206_CaseStudy {
 				Teacher teacher = teachers.get(i);
 				if (teacher.getEmail().equalsIgnoreCase(emailInput) && teacher.getPassword().equals(passwordInput)) {
 					account = teacher;
+					
 					break;
 				}
 			}
@@ -603,6 +609,13 @@ public class C206_CaseStudy {
 
 	            doRegisterForActivity(studentAccount, selectedActivity);
 
+
+			System.out.println("\n*** Student count for the activity has been incremented ***");
+		} else {
+			System.out.println("Invalid Activity ID");
+		}
+	}
+
 	            // Increment the student count using the new method within Activities class
 	            selectedActivity.incrementStudentCount();
 
@@ -617,8 +630,11 @@ public class C206_CaseStudy {
 	}
 
 
+
 	public static void inputRegisterForActivity() {
 		int activityId = Helper.readInt("Activity ID");
+
+
 		Student studentAccount = (Student) account; } // Assuming account is already a Student object
 		//doRegisterForActivity(studentAccount, activityId);
 
