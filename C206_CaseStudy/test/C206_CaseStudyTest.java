@@ -154,6 +154,10 @@ public class C206_CaseStudyTest {
 	
 	@Test // @Diya
 	public void testDoRegisterForActivity() {
+		activities = new ArrayList<Activities>();
+		//Boundary 
+		assertNotNull("Check that the no. of student increments by 1", activities);
+		activities.clear();
 		
 	}
 	

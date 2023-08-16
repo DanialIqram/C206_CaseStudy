@@ -16,7 +16,7 @@ public class C206_CaseStudy {
 
 		// Add activities to the list
 		Activities activity1 = new Activities(1, "Basketball", "Sports", 10);
-		Activities activity2 = new Activities(2, "Hockey", "Sports", 20);
+		Activities activity2 = new Activities(2, "Hockey", "Sports", 1);
 		Activities activity3 = new Activities(3, "NCC", "Uniform", 20);
 		Activities activity4 = new Activities(4, "NPCC", "Uniform", 20);
 		Activities activity5 = new Activities(5, "Dance", "Performing Arts", 30);
@@ -63,6 +63,7 @@ public class C206_CaseStudy {
 				Teacher teacher = teachers.get(i);
 				if (teacher.getEmail().equalsIgnoreCase(emailInput) && teacher.getPassword().equals(passwordInput)) {
 					account = teacher;
+					
 					break;
 				}
 			}
@@ -586,7 +587,6 @@ public class C206_CaseStudy {
 		System.out.println("\n*** Activity has been registered ***");
 	}
 
-<<<<<<< HEAD
 	public static void inputRegisterForActivity(ArrayList<Activities> activitiesList) {
 		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
 				"No. Of Students", "Max Capacity", "Available"));
@@ -620,12 +620,13 @@ public class C206_CaseStudy {
 		} else {
 			System.out.println("Invalid Activity ID");
 		}
-=======
+	}
+
 	public static void inputRegisterForActivity() {
 		int activityId = Helper.readInt("Activity ID");
 		Student studentAccount = (Student) account; // Assuming account is already a Student object
 		doRegisterForActivity(studentAccount, activityId);
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+
 	}
 
 	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
