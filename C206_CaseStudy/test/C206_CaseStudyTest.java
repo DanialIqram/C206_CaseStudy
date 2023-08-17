@@ -41,9 +41,9 @@ public class C206_CaseStudyTest {
 
 	@After
 	public void tearDown() throws Exception {
-		teacher = null;
+		teacher1 = null;
 		admin = null;
-		student = null;
+		student1 = null;
 		activity1 = null;
 		activity2 = null;
 		activities = null;
@@ -130,9 +130,6 @@ public class C206_CaseStudyTest {
 
 	@Test // @Regan
 	public void testDoSetApprovalStatus() {
-<<<<<<< HEAD
-
-=======
 		assertEquals(activity2.getPendingStudents().size(),0);
 		C206_CaseStudy.doRegisterForActivity(student1.getId(), 2);
 		assertEquals(activity2.getPendingStudents().size(),1);
@@ -155,8 +152,6 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.doSetApprovalStatus(teacher2.getId(), student2.getId(), 'Y');
 		assertEquals(activity2.getStudents(), 1);
 		assertEquals(activity2.getPendingStudents(), 0);
-		
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	}
 
 	@Test // @Regan
@@ -168,12 +163,7 @@ public class C206_CaseStudyTest {
 	public void testDoDeletePending() {
 
 	}
-<<<<<<< HEAD
-
-=======
 	
-	
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
 	@Test // @Lleyton
 	public void testDoAddAttendance() {
 		// Error - Delete an activity that is not in the list

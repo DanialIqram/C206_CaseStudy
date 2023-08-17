@@ -7,7 +7,6 @@ private int maxCapacity;
 private ArrayList <Student> students;
 private ArrayList <Student> pendingStudents;
 private ArrayList<Student> attendance;
-private int numofstu;
 
 public Activities (int id, String name, String category, int maxCapacity) {
     this.id = id;
@@ -17,7 +16,6 @@ public Activities (int id, String name, String category, int maxCapacity) {
     students = new ArrayList<>();
     pendingStudents = new ArrayList<>();
     attendance = new ArrayList<>();
-    this.numofstu = students.size(); // Initialize with the current number of registered students
 }
 
 
@@ -43,23 +41,12 @@ public ArrayList<Student> getStudents() {
 public ArrayList<Student> getAttendance() {
 	return attendance;
 }
-
-public void incrementStudentCount() {
-    numofstu++;
-}
-
-public void decrementStudentCount() {
-	if(numofstu > 0) {
-		numofstu--;
-	}
-}
-
 @Override
 public String toString() {
-    String isOpen = numofstu < maxCapacity ? "Yes" : "No";
+    String isOpen = students.size() < maxCapacity ? "Yes" : "No";
 
     String output = String.format("| %-20d | %-20s | %-20s | %-20d | %-20d | %-20s |",
-            id, name, category, numofstu, maxCapacity, isOpen);
+            id, name, category, students.size(), maxCapacity, isOpen);
     return output;
 }
 

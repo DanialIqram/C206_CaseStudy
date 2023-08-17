@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.List;
 
 public class C206_CaseStudy {
 	public static User account;
@@ -8,7 +6,6 @@ public class C206_CaseStudy {
 	public static ArrayList<Student> students;
 	public static ArrayList<Teacher> teachers;
 	public static ArrayList<Activities> activities;
-	public boolean attendance;
 
 	public static void main(String[] args) {
 		account = null;
@@ -16,17 +13,11 @@ public class C206_CaseStudy {
 		activities = new ArrayList<Activities>(); // This will hold the activities.
 
 		// Add activities to the list
-		Activities activity1 = new Activities(1, "Basketball", "Sports", 2);
-		Activities activity2 = new Activities(2, "Hockey", "Sports", 20);
-		Activities activity3 = new Activities(3, "NCC", "Uniform", 20);
-		Activities activity4 = new Activities(4, "NPCC", "Uniform", 20);
-		Activities activity5 = new Activities(5, "Dance", "Performing Arts", 30);
-
-		activities.add(activity1);
-		activities.add(activity2);
-		activities.add(activity3);
-		activities.add(activity4);
-		activities.add(activity5);
+		activities.add(new Activities(1, "Basketball", "Sports", 2));
+		activities.add(new Activities(2, "Hockey", "Sports", 20));
+		activities.add(new Activities(1, "NCC", "Uniform", 20));
+		activities.add(new Activities(1, "NPCC", "Uniform", 20));
+		activities.add(new Activities(1, "Dance", "Performing Arts", 30));
 
 		admins = new ArrayList<>();
 		admins.add(new User(1, "admin", "admin@example.com", "admin", "admin"));
@@ -37,37 +28,57 @@ public class C206_CaseStudy {
 		teachers = new ArrayList<>();
 		teachers.add(new Teacher(1, "teacher", "teacher@example.com", "teacher", 1));
 
-		activity1.getPendingStudents().add(students.get(0));
-
 		promptLogin();
 	}
 
 	// Misc
+	public static void header(String title, boolean lineGap) {
+		if (lineGap) { System.out.println(); }
+		
+		Helper.line(40, "=");
+		System.out.println(title.toUpperCase());
+		Helper.line(40, "=");
+		
+		if (lineGap) { System.out.println(); }
+	}
+	
+	public static boolean isValidLoginDetails(String email, String emailInput, String password, String passwordInput) {
+		return email.equalsIgnoreCase(emailInput) && password.equals(passwordInput);
+	}
+	
 	public static void promptLogin() {
 		while (account == null) {
-			Helper.line(40, "=");
-			System.out.println("ACCOUNT LOGIN");
-			Helper.line(40, "=");
+			header("account login", false);
 
 			String emailInput = Helper.readString("Enter email: ");
 			String passwordInput = Helper.readString("Enter password: ");
 
-			for (int i = 0; i < students.size(); i++) {
-				Student student = students.get(i);
-				if (student.getEmail().equalsIgnoreCase(emailInput) && student.getPassword().equals(passwordInput)) {
+			for (Student student: students) {
+				String email = student.getEmail();
+				String password = student.getPassword();
+				
+				if (isValidLoginDetails(email, emailInput, password, passwordInput)) {
 					account = student;
 					break;
 				}
 			}
 
-			for (int i = 0; i < teachers.size(); i++) {
-				Teacher teacher = teachers.get(i);
-				if (teacher.getEmail().equalsIgnoreCase(emailInput) && teacher.getPassword().equals(passwordInput)) {
+			for (Teacher teacher: teachers) {
+				String email = teacher.getEmail();
+				String password = teacher.getPassword();
+				
+				if (isValidLoginDetails(email, emailInput, password, passwordInput)) {
 					account = teacher;
-<<<<<<< HEAD
-
-=======
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+					break;
+				}
+			}
+			
+			for (User admin: admins) {
+				String email = admin.getEmail();
+				String password = admin.getPassword();
+				
+				if (isValidLoginDetails(email, emailInput, password, passwordInput)) {
+					account = admin;
 					break;
 				}
 			}
@@ -78,20 +89,13 @@ public class C206_CaseStudy {
 			}
 		}
 
-		System.out.println();
-		Helper.line(40, "=");
-		System.out.println("WELCOME, " + account.getName().toUpperCase());
-		Helper.line(40, "=");
-		System.out.println();
+		header("welcome, " + account.getName(), true);
 
 		if (account.getRole().equals("teacher")) {
-			System.out.println("Logged in Teacher account");
 			promptTeacherMenu();
 		} else if (account.getRole().equals("student")) {
-			System.out.println("Logged in Student account");
 			promptStudentMenu(activities);
 		} else if (account.getRole().equals("admin")) {
-			System.out.println("Logged in Admin account");
 			promptAdminMenu();
 		}
 	}
@@ -100,12 +104,7 @@ public class C206_CaseStudy {
 	private static void logoutUser() {
 		account = null;
 
-		System.out.println();
-		Helper.line(40, "=");
-		System.out.println("LOGGED OUT!");
-		Helper.line(40, "=");
-		System.out.println();
-
+		header("logged out!", true);
 		promptLogin();
 	}
 
@@ -114,45 +113,19 @@ public class C206_CaseStudy {
 
 		for (int i = 0; i < activities.size(); i++) {
 			Activities activity = activities.get(i);
-			ArrayList<Student> students = activity.getStudents();
-
-			for (int s = 0; s < students.size(); s++) {
-				if (students.get(s) == student) {
-					numOfActivities += 1;
-				}
+			ArrayList<Student> studentsList = activity.getStudents();
+			
+			if (studentsList.contains(student)) {
+				numOfActivities += 1;
 			}
 		}
 
-		return numOfActivities < 2;
-	}
-
-	private static boolean isInActivity(Student student, Activities activity) {
-		ArrayList<Student> students = activity.getStudents();
-
-		for (int i = 0; i < students.size(); i++) {
-			if (students.get(i) == student) {
-				return true;
-			}
-		}
-
-		return false;
+		return numOfActivities == 2;
 	}
 
 	private static boolean isActivityOpen(Activities activity) {
 		return activity.getStudents().size() < activity.getMaxCapacity();
 	}
-
-//	private static Activities getActivity() {
-//		Teacher teacher = (Teacher) account;
-//
-//		for (int i = 0; i < activities.size(); i++) {
-//			if (activities.get(i).getId() == teacher.getActivitesId()) {
-//				return activities.get(i);
-//			}
-//		}
-//
-//		return activities.get(0);
-//	}
 
 	private static Activities getActivity(int activityId) {
 		for (Activities activity : activities) {
@@ -181,6 +154,23 @@ public class C206_CaseStudy {
 		}
 
 		return null;
+	}
+	
+	// Used for JUnit
+	public static void setAdminList(ArrayList<User> adminList) {
+		admins = adminList;
+	}
+	
+	public static void setStudentList(ArrayList<Student> studentList) {
+		students = studentList;
+	}
+	
+	public static void setTeacherList(ArrayList<Teacher> teacherList) {
+		teachers = teacherList;
+	}
+	
+	public static void setActivitiesList(ArrayList<Activities> activitiesList) {
+		activities = activitiesList;
 	}
 
 	// Teacher Options
@@ -212,7 +202,7 @@ public class C206_CaseStudy {
 			if (option == 1) {
 				inputSetApprovalStatus();
 			} else if (option == 2) {
-				viewAllPending();
+				viewAllPending(account.getId());
 			} else if (option == 3) {
 				inputDeletePending();
 			} else if (option == 4) {
@@ -226,7 +216,7 @@ public class C206_CaseStudy {
 			} else if (option == 7) {
 				inputAddAttendance();
 			} else if (option == 8) { 
-				viewAttendance();
+				viewAttendances(account.getId(), 'A');
 			} else if (option == 9) {
 				inputDeleteAttendance();
 			} else if (option == 10) {
@@ -238,31 +228,45 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	public static void doSetApprovalStatus(int teacherId, int studentIndex, char approvalChoice) {
+	public static void doSetApprovalStatus(int teacherId, int studentId, char approvalChoice) {
 		Teacher teacher = getTeacherById(teacherId);
+		
+		if (teacher == null) {
+			System.out.println("Invalid teacherId.");
+			return;
+		}
+		
 		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
+		ArrayList<Student> studentList = activity.getStudents();
 
-		Student selectedStudent = getStudentById(studentIndex);
-
-		if (selectedStudent != null) {
-			if (approvalChoice == 'Y' || approvalChoice == 'y') {
+		Student selectedStudent = getStudentById(studentId);
+		
+		if (selectedStudent == null) {
+			System.out.println("Invalid studentId.");
+			return;
+		}
+		
+		approvalChoice = Character.toLowerCase(approvalChoice);
+		
+		switch(approvalChoice) {
+			case 'y':
 				pendingStudents.remove(selectedStudent);
-				activity.getStudents().add(selectedStudent);
+				studentList.add(selectedStudent);
 				System.out.println(selectedStudent.getName() + " has been approved.");
-			} else if (approvalChoice == 'N' || approvalChoice == 'n') {
+				break;
+			case 'n':
 				pendingStudents.remove(selectedStudent);
 				System.out.println(selectedStudent.getName() + " has not been approved.");
-			} else {
-			System.out.println("Invalid choice.");
-			}
-		} else {
-			System.out.println("Invalid student.");
+				break;
+			default:
+				System.out.println("Invalid choice.");
 		}
 	}
 
 	public static void inputSetApprovalStatus() {
-		Activities activity = getActivity();
+		Teacher teacher = (Teacher) account;
+		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 
 		if (pendingStudents.isEmpty()) {
@@ -274,15 +278,17 @@ public class C206_CaseStudy {
 		for (int i = 0; i < pendingStudents.size(); i++) {
 			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
 		}
+		
 		int studentIndex = Helper.readInt("Enter the index of the student you want to approve: ");
 		char approvalChoice = Helper.readChar("Approve this student? (Y/N): ");
-		doSetApprovalStatus(studentIndex, approvalChoice);
+		doSetApprovalStatus(teacher.getId(), studentIndex, approvalChoice);
 
 	}
 
 	// @Regan
-	private static void viewAllPending() {
-		Activities activity = getActivity();
+	private static void viewAllPending(int teacherId) {
+		Teacher teacher = getTeacherById(teacherId);
+		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 
 		if (pendingStudents.isEmpty()) {
@@ -292,24 +298,24 @@ public class C206_CaseStudy {
 
 		System.out.println("Pending Students:");
 		for (int i = 0; i < pendingStudents.size(); i++) {
-			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
+			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName()); //TODO change to use .toString() !!!!!!!!
 		}
 
 	}
 
 	// @Regan
-	public static void doDeletePending(int studentIndex, char deleteChoice) {
-		Activities activity = getActivity();
+	public static void doDeletePending(int teacherId, int studentId, char deleteChoice) {
+		Teacher teacher = getTeacherById(teacherId);
+		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
-
-		if (studentIndex >= 0 && studentIndex < pendingStudents.size()) {
-			Student selectedStudent = pendingStudents.get(studentIndex);
-
+		
+		Student selectedStudent = getStudentById(studentId);
+		
+		if (selectedStudent != null) {
 			if (deleteChoice == 'Y' || deleteChoice == 'y') {
 				pendingStudents.remove(selectedStudent);
 				System.out.println(selectedStudent.getName() + " has been removed from pending.");
 			} else if (deleteChoice == 'N' || deleteChoice == 'n') {
-				//
 				System.out.println("No action taken.");
 			} else {
 				System.out.println("Invalid choice.");
@@ -317,16 +323,12 @@ public class C206_CaseStudy {
 		} else {
 			System.out.println("Invalid student index.");
 		}
-
 	}
 
 	public static void inputDeletePending() {
-		Activities activity = getActivity();
-		ArrayList<Student> pendingStudents = activity.getPendingStudents();
-
-		int studentIndex = Helper.readInt("Enter the index of the student you want to delete: ");
+		int studentId = Helper.readInt("Enter the index of the student you want to delete: ");
 		char deleteChoice = Helper.readChar("Confirm Delete?:");
-		doDeletePending(studentIndex, deleteChoice);
+		doDeletePending(account.getId(), studentId, deleteChoice);
 	}
 
 	// @Jannah
@@ -356,7 +358,7 @@ public class C206_CaseStudy {
 	}
 
 	// @Jannah
-	public static String retrieveAllActivities(ArrayList<Activities> activitiesList) {
+	public static String viewAllActivities(ArrayList<Activities> activitiesList) {
 		String output = "";
 
 		output += String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
@@ -368,23 +370,10 @@ public class C206_CaseStudy {
 		if (activitiesList.isEmpty()) {
 			output += "\n *** There is no activites ***";
 		}
+		
+		System.out.println(output);
 
 		return output;
-
-	}
-
-	// @Jannah
-	private static void viewAllActivities(ArrayList<Activities> activitiesList) {
-
-		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
-				"No. Of Students", "Max Capacity", "Available"));
-
-		for (int i = 0; i < activitiesList.size(); i++) {
-			System.out.println(activitiesList.get(i).toString());
-		}
-		if (activitiesList.isEmpty()) {
-			System.out.println("\n *** There is no activites ***");
-		}
 
 	}
 
@@ -410,323 +399,119 @@ public class C206_CaseStudy {
 		}
 
 	}
-
-	private static void deleteActivity(ArrayList<Activities> activitiesList) {
-
-		viewAllActivities(activitiesList);
-
-		boolean found = false;
-
-		int searchActivity = Helper.readInt("Enter Activity ID > ");
-		for (int i = 0; i < activitiesList.size(); i++) {
-			if (searchActivity == activitiesList.get(i).getId()) {
-				found = true;
-				System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name",
-						"Category", "No. Of Students", "Max Capacity", "Available"));
-				System.out.println(activitiesList.get(i).toString());
-				char confirm = Helper.readChar("Confirm deletion of Activity (y/n)> ");
-				if (confirm == 'y') {
-					activitiesList.remove(i);
-					System.out.println("\n*** Activity has been deleted ***");
-				} else {
-					System.out.println("\n*** You have not deleted anything ***");
-				}
-
-			}
-		}
-		if (found == false) {
-			System.out.println("\n*** Invalid Activity ID. Try Again ***");
-		}
-
-	}
-
-<<<<<<< HEAD
-	// Lleyton
-	public static void markAttendance() {
-		while (attendance == false && account.getRole().equals("teacher")) {
-			Helper.line(40, "=");
-			System.out.println("ATTENDANCE MARKING");
-			Helper.line(40, "=");
-
-<<<<<<< HEAD
-			int studentIDInput = Helper.readInt("Enter student ID: ");
-=======
-=======
-<<<<<<< HEAD
-	// @Lleyton
-
-=======
-	// Lleyton
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-	public static void inputAddAttendance() {
-<<<<<<< HEAD
-
-		Activities activity = getActivity();
-=======
-       
-		Teacher teacher = (Teacher) account;
-		Activities activity = getActivity(teacher.getActivitesId());
-<<<<<<< HEAD
-		ArrayList<Student> attendance = activity.getAttendance();
-        int studentIDInput = Helper.readInt("Enter student ID: ");
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-=======
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-		ArrayList<Student> attendance = activity.getAttendance();
-		int studentIDInput = Helper.readInt("Enter student ID: ");
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-			for (int i = 0; i < students.size(); i++) {
-				Student student = students.get(i);
-				int studentID = student.getId();
-				if (studentID == (studentIDInput)) {
-					attendance = true;
-					break;
-=======
-<<<<<<< HEAD
-		for (int i = 0; i < students.size(); i++) {
-			Student student = students.get(i);
-			int studentID = student.getId();
-			if (studentID == (studentIDInput)) {
-				for (int x = 0; x < attendance.size(); x++) {
-					if (studentIDInput == attendance.get(i)) {
-						System.out.println("Student is already present");
-					} else {
-						attendance.add(student);
-						System.out.println();
-						Helper.line(40, "=");
-						System.out.println("Attendance marked for " + account.getName().toUpperCase());
-						Helper.line(40, "=");
-						System.out.println();
-						break;
-					}
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-				}
-
-			} else {
-				System.out.println("Error: Student does not exist.");
-			}
-		}
-
-=======
-        for (int i = 0; i < students.size(); i++) {
-			Student student = students.get(i);
-			int studentID = student.getId();
-			System.out.println();
-
-		}
-<<<<<<< HEAD
-=======
-=======
-			
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-        for (int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-            int studentID = student.getId();
-            if (studentID == (studentIDInput)) {
-            	for (int x = 0; x < attendance.size(); x++) {
-            		if (students.get(x) == getStudentById(studentIDInput)) {
-            			System.out.println("Student is already present");
-            		}
-            		else {
-            			attendance.add(student);
-            	        System.out.println();
-            	        Helper.line(40, "=");
-            	        System.out.println("Attendance marked for " + account.getName().toUpperCase());
-            	        Helper.line(40, "=");
-            	        System.out.println();
-            	        break;
-            		}
-            	}
-
-            }
-            else {
-            	System.out.println("Error: Student does not exist.");
-            }
-        }
-<<<<<<< HEAD
-       
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-=======
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-	}
-<<<<<<< HEAD
-
-	// @Lleyton
-<<<<<<< HEAD
-<<<<<<< HEAD
-	public static void doAddAttendance() {
-		 public static void deleteAttendance() {
-		        while (attendance == true && account.getRole().equals("teacher")) {
-		            Helper.line(40, "=");
-		            System.out.println("ATTENDANCE DELETION");
-		            Helper.line(40, "=");
-		           
-		            int studentIDInput = Helper.readInt("Enter student ID: ");
-		           
-		            for (int i = 0; i < students.size(); i++) {
-		                Student student = students.get(i);
-		                int studentID = student.getId();
-		                if (studentID == (studentIDInput)) {
-		                    char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
-		                    if (confirmation == 'Y') {
-		                        attendance = false;
-		                    }
-		                    else if (confirmation == 'N') {
-		                        attendance = true;
-		                    }
-		                    else {
-		                        System.out.println("Invalid input.");
-		                    }
-		                    break;
-		                }
-		            }
-		           
-		            if (attendance == false) {
-		                System.out.println("Invalid student ID. Try again!");
-		            }
-		           
-		            System.out.println();
-		            Helper.line(40, "=");
-		            System.out.println("Attendance deleted for " + account.getName().toUpperCase());
-		            Helper.line(40, "=");
-		            System.out.println();
-		           
-		        }
-		    }
-		   
-		    public static void showAttendance() {
-		        while (account.getRole().equals("teacher")) {
-		            for (int i = 0; i < students.size(); i++) {
-=======
-=======
-=======
-		            	
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-	public static void viewAttendance() {
-		Teacher teacher = (Teacher) account;
-		Activities activity = getActivity(teacher.getActivitesId());
-		ArrayList<Student> attendance = activity.getAttendance();
-<<<<<<< HEAD
-		for (int i = 0; i < attendance.size(); i++) {
-			Student student = students.get(i);
-			String studentClass = student.getClasslevel();
-			String studentInfo = student.toString();
-			Helper.line(40, "=");
-			String.format("%-10s |", studentInfo, studentClass);
-		}
-
-	}
-=======
-		            for (int i = 0; i < attendance.size(); i++) {
-<<<<<<< HEAD
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-		                Student student = students.get(i);
-=======
-		            	Student student = students.get(i);
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-		                String studentClass = student.getClasslevel();
-		                String studentInfo = student.toString();
-		            }
-	}
-<<<<<<< HEAD
-
-	public static void inputAddAttendance() {
-
-	}
-
-	// @Lleyton
-	public static void viewAttendance() {
-
-	}
-
-	// @Lleyton
-	public static void doDeleteAttendance() {
-
-	}
-
-	public static void inputDeleteAttendance() {
-<<<<<<< HEAD
-=======
-	    Teacher teacher = (Teacher) account;
-		Activities activity = getActivity(teacher.getActivitesId());
-		ArrayList<Student> attendance = activity.getAttendance();
-	            int studentIDInput = Helper.readInt("Enter student ID: ");
-	           
-	            for (int i = 0; i < students.size(); i++) {
-	                Student student = students.get(i);
-	                int studentID = student.getId();
-	                if (studentID == (studentIDInput)) {
-	                	for (int x = 0; x < attendance.size(); x++) {
-	                		char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
-		                    if (confirmation == 'Y') {
-		                        attendance.remove(student);
-		                        System.out.println();
-		        	            Helper.line(40, "=");
-		        	            System.out.println("Attendance deleted for " + account.getName().toUpperCase());
-		        	            Helper.line(40, "=");
-		        	            System.out.println();
-		                    }
-		                    else if (confirmation == 'N') {
-		                        System.out.println("Attendance not deleted.");
-		                    }
-	                	}
-	                }
-	                    else {
-	                        System.out.println("Student does not exist.");
-	                    }
-	                    break;
-	                }
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-=======
 	
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-
-<<<<<<< HEAD
-	public static void inputDeleteAttendance() {
-
-		Activities activity = getActivity();
-=======
-	public static void inputDeleteAttendance() {
-	    Teacher teacher = (Teacher) account;
-		Activities activity = getActivity(teacher.getActivitesId());
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-		ArrayList<Student> attendance = activity.getAttendance();
-		int studentIDInput = Helper.readInt("Enter student ID: ");
-
-<<<<<<< HEAD
-		for (int i = 0; i < students.size(); i++) {
-			Student student = students.get(i);
-			int studentID = student.getId();
-			if (studentID == (studentIDInput)) {
-				for (int x = 0; x < attendance.size(); x++) {
-					char confirmation = Helper.readChar("Confirm deletion? (Y/N): ");
-					if (confirmation == 'Y') {
-						attendance.remove(student);
-						System.out.println();
-						Helper.line(40, "=");
-						System.out.println("Attendance deleted for " + account.getName().toUpperCase());
-						Helper.line(40, "=");
-						System.out.println();
-					} else if (confirmation == 'N') {
-						System.out.println("Attendance not deleted.");
-					}
-				}
-			} else {
-				System.out.println("Student does not exist.");
-			}
-			break;
+	// @Lleyton
+	public static void addAttendance(int activityId, int studentId) {
+		// Check if user exists inside student's list of activities
+		Student student = getStudentById(studentId);
+		Activities activities = getActivity(activityId);
+		
+		ArrayList<Student> studentList = activities.getStudents();
+		if (!studentList.contains(student)) {
+			System.out.println("Student is not in this CCA.");
+			return;
 		}
+		
+		// Check if user is not currently present 
+		ArrayList<Student> attendance = activities.getAttendance();
+		if (attendance.contains(student)) {
+			System.out.println("Student has already been marked present.");
+			return;
+		}
+		
+		attendance.add(student);
+	}
+	
+	// @Lleyton
+	public static void inputAddAttendance() {
+		Teacher teacher = getTeacherById(account.getId());
+		
+		viewAttendances(teacher.getId(), 'O');
+		
+		int studentId = Helper.readInt("Enter studentId of student to add attendance: ");
+		addAttendance(teacher.getActivitesId(), studentId);
+	}
+	
+	// @Danial
+	public static String retrieveAttendance(int teacherId, char attendanceType) {
+		Teacher teacher = getTeacherById(teacherId);
+		if (teacher == null) {
+			return "";
+		}
+		
+		Activities activity = getActivity(teacher.getActivitesId());
+		ArrayList<Student> studentList = activity.getStudents();
+		ArrayList<Student> attendance = activity.getAttendance();
+		
+		String output = "";
+		
+		if (attendanceType == 'X') {
+			for (Student student: attendance) {
+				output += student.getName() + " (Id: " + student.getId() + ")" + "\n";
+			}
+		} else if (attendanceType == 'O') {
+			for (Student student: studentList) {
+				if (!attendance.contains(student)) {					
+					output += student.getName() + " (Id: " + student.getId() + ")" + "\n";
+				}
+			}
+		}
+		
+		return output;
+	}
+	
+	// @Lleyton
+	public static String viewAttendances(int teacherId, char attendanceType) {
+		String output = "";
+		
+		if (attendanceType == 'A') {
+			output += "PRESENT:\n";
+			output += retrieveAttendance(teacherId, 'X');
+			output += "\nABSENT:";
+			output += "\n" + retrieveAttendance(teacherId, 'O');
+		} else if (attendanceType == 'X') {
+			output += "PRESENT:\n";
+			output += retrieveAttendance(teacherId, 'X');
+		} else if (attendanceType == 'O') {
+			output += "ABSENT:\n";
+			output += retrieveAttendance(teacherId, 'O');
+		}
+		
+		System.out.println(output);
+		
+		return output;
+	}
 
-=======
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
+	// @Lleyton
+	public static void doDeleteAttendance(int activityId, int studentId) {
+		// Check if user exists inside student's list of activities
+		Student student = getStudentById(studentId);
+		Activities activities = getActivity(activityId);
+				
+		ArrayList<Student> studentList = activities.getStudents();
+		if (!studentList.contains(student)) {
+			System.out.println("Student is not in this CCA.");
+			return;
+		}
+				
+		// Check if user is currently present. 
+		ArrayList<Student> attendance = activities.getAttendance();
+		if (!attendance.contains(student)) {
+			System.out.println("Student has not been marked present.");
+			return;
+		}
+				
+		attendance.remove(student);		
+	}
+	
+	// @Lleyton
+	public static void inputDeleteAttendance() {
+		Teacher teacher = getTeacherById(account.getId());
+		
+		viewAttendances(teacher.getId(), 'X');
+		
+		int studentId = Helper.readInt("Enter studentId of student to delete attendance: ");
+		addAttendance(teacher.getActivitesId(), studentId);
 	}
 
 	// STUDENT MENU
@@ -742,360 +527,11 @@ public class C206_CaseStudy {
 		Helper.line(40, "=");
 	}
 
-	public static void setHeader(String header) {
-		Helper.line(80, "-");
-		System.out.println(header);
-		Helper.line(80, "-");
-	}
-
-	public static String showAvailability(boolean isAvailable) {
-		String avail;
-
-		if (isAvailable == true) {
-			avail = "Yes";
-		} else {
-			avail = "No";
-		}
-		return avail;
-	}
-
 	private static void promptStudentMenu(ArrayList<Activities> activitiesList) {
 		int option = -1;
 
 		while (option != 5) {
 			showStudentOptions();
-			option = Helper.readInt("Enter option: ");
-
-			if (option == 1) {
-				Activities test = inputRegisterForActivity(activitiesList);
-			} else if (option == 2) {
-				viewAllRegistrations();
-			} else if (option == 3) {
-				inputDeleteRegistration();
-			} else if (option == 4) {
-				logoutUser();
-			} else if (option == 5) {
-				break;
-
-			}
-		}
-	}
-
-	// @Diya
-
-	public static void doRegisterForActivity(int studentId, int activityId) {
-		Student student =  getStudentById(studentId);
-		for (int i = 0; i < activities.size(); i++) {
-			if (activityId == activities.get(i).getId()) {
-				Activities selectedActivity = activities.get(i);
-
-	public static void doRegisterForActivity(Student account, Activities activity) {
-		activity.getStudents().add(account);
-		System.out.println("\n*** Activity has been registered ***");
-	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-
-=======
-
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-	public static Activities inputRegisterForActivity(ArrayList<Activities> activitiesList) {
-		Student studentAccount = (Student) account;// Assuming account is already a Student 
-	    System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |",
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-	            "ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
-<<<<<<< HEAD
-=======
-	            "ID", "Name", "Category", "No. Of Students", "Max Capacity", "Available"));
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-=======
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-
-				// Check if the activity is already full
-				if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
-					System.out.println("This activity is already at its max capacity.");
-					return; // Return null since the activity is full
-				}
-				selectedActivity.getPendingStudents().add(student);
-				System.out.println("\n*** Activity has been registered ***");
-
-
-				System.out.println("\n*** Student count for the activity has been incremented ***");
-			} else {
-				System.out.println("Invalid Activity ID");
-			}
-
-	    for (int i = 0; i < activitiesList.size(); i++) {
-	        System.out.println(activitiesList.get(i).toString());
-	    }
-
-	    int activityId = Helper.readInt("Enter an Activity ID you want to register for > ");
-	
-
-	    for (int i = 0; i < activitiesList.size(); i++) {
-	        if (activityId == activitiesList.get(i).getId()) {
-	            Activities selectedActivity = activitiesList.get(i);
-
-	            // Check if the activity is already full
-	            if (selectedActivity.getMaxCapacity() <= selectedActivity.getStudents().size()) {
-	                System.out.println("This activity is already at its max capacity.");
-	                return null; // Return null since the activity is full
-	            }
-
-	            doRegisterForActivity(studentAccount, selectedActivity);
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-=======
-
-=======
-
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-			System.out.println("\n*** Student count for the activity has been incremented ***");
-		} else {
-			System.out.println("Invalid Activity ID");
-		}
-
-	}
-<<<<<<< HEAD
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-	            // Increment the student count using the new method within Activities class
-	            selectedActivity.incrementStudentCount();
-
-	            System.out.println("\n*** Student count for the activity has been incremented ***");
-
-	            return selectedActivity;
-	        }
-	    }
-
-	    System.out.println("Invalid Activity ID");
-	    return null;
-	}
-
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-
-=======
-
-
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-	public static void inputRegisterForActivity() {
-<<<<<<< HEAD
-		int activityId = Helper.readInt("Activity ID");
-<<<<<<< HEAD
-=======
-
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-		Student studentAccount = (Student) account; } // Assuming account is already a Student object
-		//doRegisterForActivity(studentAccount, activityId);
-<<<<<<< HEAD
-=======
-
-		Student studentAccount = (Student) account;// Assuming account is already a Student
-		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
-				"No. Of Students", "Max Capacity", "Available"));
-
-		if (activities.isEmpty()) {
-			System.out.println("\n *** There are no activities ***");
-			return ; 
-		}
-
-		for (int i = 0; i < activities.size(); i++) {
-			System.out.println(activities.get(i).toString());
-		}
-
-		int activityId = Helper.readInt("Enter an Activity ID you want to register for > ");
-		doRegisterForActivity(account.getId(),activityId);
-
-	}
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
-=======
-=======
-		int activityId = Helper.readInt("Activity ID");
-
-		Student studentAccount = (Student) account; } // Assuming account is already a Student object
-		//doRegisterForActivity(studentAccount, activityId);
-
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy.git
->>>>>>> branch 'master' of https://github.com/DanialIqram/C206_CaseStudy
-
-	private static void registerForActivity(ArrayList<Activities> activitiesList, Student student) {
-
-		// viewing of activities
-		viewAllActivities(activitiesList);
-
-		// scanning the user input
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter your preferred activity: ");
-
-		String selectedActivity = scanner.nextLine();
-		scanner.close();
-
-		// checking if activity exists
-		Activities selected = null;
-		for (Activities activity : activitiesList) {
-			if (activity.getName().equals(selectedActivity)) {
-				selected = activity;
-				break;
-			}
-		}
-
-		if (selected == null) {
-			System.out.println("Activity not found.");
-			return;
-		}
-
-		// checking if activity is open
-		if (!isActivityOpen(selected)) {
-			System.out.println("Activity is at full capacity.");
-			return;
-		}
-
-		// checking if student is already enrolled
-		if (isInActivity(student, selected)) {
-			System.out.println("You are already registered for this activity.");
-			return;
-		}
-
-		// checking if student status is pending in the first place
-		if (selected.getPendingStudents().contains(student)) {
-			System.out.println("You already have a pending membership for this activity.");
-			return;
-		}
-
-		// checking if the student already has a pending status in 2 or more activities
-		// already
-		int pendingActivitiesCount = 0;
-		for (Activities activity : activitiesList) {
-			if (activity.getPendingStudents().contains(student)) {
-				pendingActivitiesCount++;
-			}
-		}
-
-		if (pendingActivitiesCount >= 2) {
-			System.out.println("You have reached the maximum allowed pending activities.");
-			return;
-		}
-
-		selected.getPendingStudents().add(student);
-		System.out.println("Student registered for the activity and is pending approval.");
-	}
-
-	// @Diya
-	public static void viewAllRegistrations() {
-		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
-				"No. Of Students", "Max Capacity", "Available"));
-
-		for (int i = 0; i < activities.size(); i++) {
-			System.out.println(activities.get(i).toString());
-		}
-
-	}
-
-	// @Diya
-	public static void doDeleteRegistration(int activityIDToDelete) {
-		boolean found = false;
-
-		for (Activities activity : activities) {
-			if (activity.getId() == activityIDToDelete) {
-				found = true;
-				char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
-				if (confirm == 'Y' || confirm == 'y') {
-					activity.getStudents().remove(account);
-					System.out.println("You have been unregistered from the activity.");
-				} else {
-					System.out.println("Unregistration canceled.");
-				}
-				break;
-			}
-		}
-
-		if (!found) {
-			System.out.println("Invalid activity ID.");
-		}
-	}
-
-	public static void inputDeleteRegistration() {
-//		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
-		deleteRegistrations();
-	}
-
-	private static void deleteRegistrations() {
-		List<Activities> registeredActivities = new ArrayList<>();
-
-		// ... Previous code to list registered activities
-
-		// Get the activity ID to delete
-		int activityIDToDelete = Helper.readInt("Enter the ID of the activity you want to unregister from: ");
-
-		// Find the activity in the list of registered activities
-		Activities activityToDelete = null;
-		for (Activities activity : activities) {
-			if (activity.getId() == activityIDToDelete) {
-				activityToDelete = activity;
-				break;
-			}
-		}
-
-		// Check if the activity was found and the student is registered
-		if (activityToDelete != null && activityToDelete.getStudents().contains(account)) {
-			char confirm = Helper.readChar("Are you sure you want to unregister from this activity? (Y/N): ");
-			if (confirm == 'Y' || confirm == 'y') {
-				activityToDelete.getStudents().remove(account);
-
-				// Decrement the student count using the new method
-				activityToDelete.decrementStudentCount();
-
-				System.out.println("You have been unregistered from the activity.");
-			} else {
-				System.out.println("Unregistration canceled.");
-			}
-		} else {
-			System.out.println("Invalid activity ID or you are not registered for this activity.");
-		}
-	}
-
-	// ADMIN MENU
-
-	private static void showAdminOptions() {
-		Helper.line(40, "=");
-		System.out.println("ADMIN MENU");
-		Helper.line(40, "=");
-		System.out.println("1) Add User");
-//		System.out.println("2) View All Registrations");
-//		System.out.println("3) Delete Registration");
-		System.out.println("4) Logout");
-		System.out.println("5) Quit");
-
-		Helper.line(40, "=");
-	}
-
-	private static void promptAdminMenu() {
-		int option = -1;
-
-		while (option != 5) {
-			showAdminOptions();
 			option = Helper.readInt("Enter option: ");
 
 			if (option == 1) {
@@ -1113,23 +549,218 @@ public class C206_CaseStudy {
 		}
 	}
 
-	public static void doAddUser() {
-
+	// @Diya
+	public static void doRegisterForActivity(int studentId, int activityId) {
+		Student student = getStudentById(studentId);
+		Activities activity = getActivity(activityId);
+		
+		// check if activity exists.
+		if (activity == null) {
+			System.out.println("This activity does not exist.");
+			return;
+		}
+		
+		// Check if activity is open
+		if (!isActivityOpen(activity)) {
+			System.out.println("Activity is at full capacity.");
+			return;
+		}
+		
+		// Check if they aren't registering yet.
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
+		if (pendingStudents.contains(student)) {
+			System.out.println("Unable to register as you are already registering for this activity.");
+			return;
+		}
+		
+		// Add student to activity.
+		activity.getPendingStudents().add(student);
+		System.out.println("You have succesfully registered for the activity.");
+	}
+	
+	public static void inputRegisterForActivity() {
+		viewAllActivities(activities);
+		
+		Student student = getStudentById(account.getId());
+		
+		if (isStudentAtMaxActivities(student)) {
+			System.out.println("Unable to register as you have the max activities of 2.");
+			return;
+		}
+		
+		int activityId = Helper.readInt("Enter activityId of activity you want to register for: ");
+		doRegisterForActivity(student.getId(), activityId);
 	}
 
+	// @Diya
+	public static void viewAllRegistrations() {
+		// CHANGE THIS [TODO]
+		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
+				"No. Of Students", "Max Capacity", "Available"));
+
+		for (int i = 0; i < activities.size(); i++) {
+			System.out.println(activities.get(i).toString());
+		}
+	}
+	
+	// @Diya
+	public static void doDeleteRegistration(int studentId, int activityId) {
+		// Check if student, activity exists
+		Student student = getStudentById(studentId);
+		Activities activity = getActivity(activityId);
+		
+		if (student == null) {
+			System.out.println("This student does not exist.");
+			return;
+		}
+		
+		// check if activity exists.
+		if (activity == null) {
+			System.out.println("This activity does not exist.");
+			return;
+		}
+		
+		// check if student has already registered for the activity
+		ArrayList<Student> pendingStudents = activity.getPendingStudents();
+		if (!pendingStudents.contains(student)) {
+			System.out.println("Student is not registering for this activity.");
+			return;
+		}
+		
+		pendingStudents.remove(student);
+	}
+	
+	// @Diya
+	public static void inputDeleteRegistration() {
+		Student student = getStudentById(account.getId());
+		
+		viewAllRegistrations();
+		
+		int activityId = Helper.readInt("Enter activityId of activity you want to un-register from: ");
+		doDeleteRegistration(student.getId(), activityId);
+	}
+
+	// ADMIN MENU
+	private static void showAdminOptions() {
+		Helper.line(40, "=");
+		System.out.println("ADMIN MENU");
+		Helper.line(40, "=");
+		System.out.println("1) Add User");
+		System.out.println("2) View All Registrations");
+		System.out.println("3) Delete Registration");
+		System.out.println("4) Logout");
+		System.out.println("5) Quit");
+
+		Helper.line(40, "=");
+	}
+
+	private static void promptAdminMenu() {
+		int option = -1;
+
+		while (option != 5) {
+			showAdminOptions();
+			option = Helper.readInt("Enter option: ");
+
+			if (option == 1) {
+				inputAddUser();
+			} else if (option == 2) {
+				viewAllUsers('A');
+			} else if (option == 3) {
+				inputDeleteUser();
+			} else if (option == 4) {
+				logoutUser();
+			} else if (option == 5) {
+				break;
+			}
+		}
+	}
+
+	// @Danial
+	public static void doAddStudent(String name, String email, String password, String classLevel) {
+		// Check for duplicate email
+		for (Student student: students) {
+			if (student.getEmail().equalsIgnoreCase(email)) {
+				System.out.println("Unable to create account as this email already exists.");
+				return;
+			}
+		}
+		
+		students.add(new Student(students.size() + 1, name, email, password, classLevel));
+		System.out.println("New student account added!");
+	}
+	
+	// @Danial
+	public static void doAddTeacher(String name, String email, String password, int activityId) {
+		for (Teacher teacher: teachers) {
+			if (teacher.getEmail().equalsIgnoreCase(email)) {
+				System.out.println("Unable to create account as this email already exists.");
+				return;
+			}
+		}
+		
+		teachers.add(new Teacher(teachers.size() + 1, name, email, password, activityId));
+		System.out.println("New teacher account added!");
+	}
+
+	// @Danial
 	public static void inputAddUser() {
+		int addType = Helper.readInt("Enter 1 to add a teacher and 2 to add a student: ");
 
+		String name = Helper.readString("Enter user's name: ");
+		String email = Helper.readString("Enter user's email: ");
+		String password = Helper.readString("Enter user's password: ");
+		
+		if (addType == 1) {
+			viewAllActivities(activities);
+			int activityId = Helper.readInt("Enter user's activityId: ");
+			doAddTeacher(name, email, password, activityId);
+		} else if (addType == 2) {
+			String classLevel = Helper.readString("Enter user's class: ");
+			doAddStudent(name, email, password, classLevel);
+		}		
 	}
 
-	public static void viewAllUsers() {
-
+	// @Danial
+	public static void viewAllUsers(char viewType) {
+		// VIEW admins, VIEW teachers, VIEW students. VIEW ALL! [TODO]
 	}
 
-	public static void doDeleteUser() {
-
+	// @Danial
+	public static void doDeleteTeacher(int teacherId) {
+		Teacher teacher = getTeacherById(teacherId);
+		
+		if (teacher == null) {
+			System.out.println("Teacher does not exist.");
+			return;
+		}
+		
+		teachers.remove(teacher);
+	}
+	
+	// @Danial
+	public static void doDeleteStudent(int studentId) {
+		Student student = getStudentById(studentId);
+		
+		if (student == null) {
+			System.out.println("Student does not exist.");
+			return;
+		}
+		
+		students.remove(student);
 	}
 
+	// @Danial
 	public static void inputDeleteUser() {
-
+		int deleteType = Helper.readInt("Enter 1 to delete a teacher and 2 to delete a student: ");
+		
+		if (deleteType == 1) {
+			viewAllUsers('T');
+			int teacherId = Helper.readInt("Enter the teacher's id to delete: ");
+			doDeleteTeacher(teacherId);
+		} else if (deleteType == 2) {
+			viewAllUsers('S');
+			int studentId = Helper.readInt("Enter the student's id to delete: ");
+			doDeleteStudent(studentId);
+		}
 	}
 }
