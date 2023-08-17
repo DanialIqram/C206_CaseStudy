@@ -316,17 +316,19 @@ public class C206_CaseStudy {
 		
 		Student selectedStudent = getStudentById(studentId);
 		
-		if (selectedStudent != null) {
-			if (deleteChoice == 'Y' || deleteChoice == 'y') {
-				pendingStudents.remove(selectedStudent);
-				System.out.println(selectedStudent.getName() + " has been removed from pending.");
-			} else if (deleteChoice == 'N' || deleteChoice == 'n') {
-				System.out.println("No action taken.");
-			} else {
-				System.out.println("Invalid choice.");
-			}
-		} else {
+		if (selectedStudent == null) {
 			System.out.println("Invalid student index.");
+			return;
+		}
+		
+		deleteChoice = Character.toLowerCase(deleteChoice);
+		if (deleteChoice == 'y') {
+			pendingStudents.remove(selectedStudent);
+			System.out.println(selectedStudent.getName() + " has been removed from pending.");
+		} else if (deleteChoice == 'n') {
+			System.out.println("No action taken.");
+		} else {
+			System.out.println("Invalid choice.");
 		}
 	}
 
@@ -338,19 +340,16 @@ public class C206_CaseStudy {
 
 	// @Jannah
 	public static void doAddActivity(ArrayList<Activities> activities, Activities activity) {
-		boolean duplicate = false;
-		for (int i = 0; i < activities.size(); i++) {
-			if (activity.getName().equalsIgnoreCase(activities.get(i).getName())) {
-				duplicate = true;
+		for (Activities aty: activities) {
+			String name = aty.getName();
+			if (name.equalsIgnoreCase(activity.getName())) {
+				System.out.println("\n*** Activity has the same name as another activity ***");
+				return;
 			}
 		}
-		if (duplicate == false) {
-			activities.add(activity);
-			System.out.println("\n*** Activity has been added ***");
-		} else {
-			System.out.println("\n*** Activity has the same name as another activity ***");
-		}
-
+		
+		activities.add(activity);
+		System.out.println("\n*** Activity has been added ***");
 	}
 
 	// @Jannah
@@ -392,18 +391,13 @@ public class C206_CaseStudy {
 
 	// @Jannah
 	public static void doDeleteActivity(ArrayList<Activities> activities, int id) {
-		boolean found = false;
-		for (int i = 0; i < activities.size(); i++) {
-			if (id == activities.get(i).getId()) {
-				found = true;
-				activities.remove(i);
-				System.out.println("\n*** Activity has been deleted ***");
-			}
-		}
-		if (found == false) {
+		Activities activity = getActivity(id);
+		if (activity == null) {
 			System.out.println("\n*** Invalid Activity ID. Try Again ***");
 		}
-
+		
+		activities.remove(activity);
+		System.out.println("\n*** Activity has been deleted ***");
 	}
 	
 	// @Lleyton

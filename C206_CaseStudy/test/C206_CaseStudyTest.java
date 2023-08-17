@@ -262,18 +262,75 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test // @Lleyton
-	public void testDoAddAttendance() {
-		// Error - Delete an activity that is not in the list
+	 public void testDoAddAttendance() {
+		  // Error - Add an attendance that is already in the list
+		activity1.getStudents().add(student1);
+		C206_CaseStudy.retrieveAttendance(teacher1.getId(), 'X');
+		C206_CaseStudy.doAddAttendance(1, student1.getId());
+		assertEquals(activity1.getAttendance().size(), 1);
+		C206_CaseStudy.doAddAttendance(student1.getId(), 1);
+		assertEquals(activity1.getAttendance().size(), 1);
+		  
+		// Normal - Add attendance that is not in the list
+		C206_CaseStudy.retrieveAttendance(teacher1.getId(), 'X');
+		C206_CaseStudy.doAddAttendance(student2.getId(), 2);
+		assertEquals(activity1.getAttendance().size(), 1);
+		  
+		// Boundary - Add attendance while list is empty
+		activity1.getAttendance().clear();
+		assertEquals(activity1.getAttendance().size(), 0);
+		C206_CaseStudy.doAddAttendance(1, student1.getId());
+		assertEquals(activity1.getAttendance().size(), 1);
 	}
 
 	@Test // @Lleyton
 	public void testViewAttendance() {
-
+		activity1.getStudents().add(student1);
+		activity1.getStudents().add(student2);
+		C206_CaseStudy.retrieveAttendance(teacher1.getId(), 'A');
+		  // Boundary - Check that list is not null
+		  assertNotNull("Check for valid ArrayList attendance to be added to", activity1.getAttendance()); 
+		  assertEquals("Test that ArrayList is empty", 0, activity1.getAttendance().size());
+		  
+		  // Normal - Show output when an attendance is added
+		        C206_CaseStudy.doAddAttendance(student1.getId(), activity1.getId());
+		  
+		  String output = "PRESENT:\n";
+		  output += "Jack (Id: 1)\n\n";
+		  output += "ABSENT:\n";
+		  output += "Mary (Id: 2)\n";
+		  
+		  assertEquals("View with 1 present", output, C206_CaseStudy.viewAttendances(teacher1.getId(),'A'));
+		  
+		  // Normal - Show output when another attendance is added
+		   C206_CaseStudy.doAddAttendance(activity1.getId(), student2.getId());
+		   
+		   output = "PRESENT:\n";
+		   output += "Jack (Id: 1)\n";
+		   output += "Mary (Id: 2)\n";
+		   
+		   assertEquals("View with 2 present", output, C206_CaseStudy.viewAttendances(teacher1.getId(),'X'));
 	}
 
 	@Test // @Lleyton
 	public void testDoDeleteAttendance() {
 		// Error - Delete an attendance that is not in the list
+		activity1.getStudents().add(student2);
+		  C206_CaseStudy.retrieveAttendance(teacher1.getId(), 'X');
+		  C206_CaseStudy.doDeleteAttendance(student2.getId(), 5);
+		  assertEquals(activity1.getAttendance().size(), 0);
+		  
+		  // Normal - Delete an attendance that is already in the list
+		  C206_CaseStudy.retrieveAttendance(teacher1.getId(), 'X');
+		  C206_CaseStudy.doDeleteAttendance(student2.getId(), 2);
+		  assertEquals(activity1.getAttendance().size(), 0);
+		  
+		  // Boundary - Delete attendance when there is only 1 attendance left
+		  C206_CaseStudy.retrieveAttendance(teacher1.getId(), 'X');
+		  activity1.getAttendance().add(student2);
+		  assertEquals(activity1.getAttendance().size(), 1);
+		  C206_CaseStudy.doDeleteAttendance(1, student2.getId());
+		  assertEquals(activity1.getAttendance().size(), 0);
 	}
 
 	@Test // @Diya
