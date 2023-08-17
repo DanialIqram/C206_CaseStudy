@@ -285,20 +285,26 @@ public class C206_CaseStudy {
 	}
 
 	// @Regan
-	private static void viewAllPending(int teacherId) {
+	public static String viewAllPending(int teacherId) {
 		Teacher teacher = getTeacherById(teacherId);
 		Activities activity = getActivity(teacher.getActivitesId());
 		ArrayList<Student> pendingStudents = activity.getPendingStudents();
 
 		if (pendingStudents.isEmpty()) {
 			System.out.println("No pending students for this activity.");
-			return;
+			return "No pending students for this activity.";
 		}
+		
+		String output = "Pending Students:\n";
 
 		System.out.println("Pending Students:");
 		for (int i = 0; i < pendingStudents.size(); i++) {
-			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
+			output += pendingStudents.get(i).getId() + ") " + pendingStudents.get(i).getName() + "\n";
 		}
+		
+		System.out.println(output);
+		
+		return output;
 
 	}
 
@@ -652,8 +658,8 @@ public class C206_CaseStudy {
 		System.out.println("ADMIN MENU");
 		Helper.line(40, "=");
 		System.out.println("1) Add User");
-		System.out.println("2) View All Registrations");
-		System.out.println("3) Delete Registration");
+		System.out.println("2) View All Users");
+		System.out.println("3) Delete User");
 		System.out.println("4) Logout");
 		System.out.println("5) Quit");
 

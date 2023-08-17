@@ -227,12 +227,38 @@ public class C206_CaseStudyTest {
 
 	@Test // @Regan
 	public void testViewAllPending() {
-
+		// Normal condition (1 student pending)
+		activity1.getPendingStudents().add(student1);
+		String output = "Pending Students:\n1) Jack\n";
+		assertEquals("1 pending student", output, C206_CaseStudy.viewAllPending(teacher1.getId()));
+		
+		// Boundary condition (no student pending)
+		activity1.getPendingStudents().clear();
+		String output1 = "No pending students for this activity.";
+		assertEquals("no pending students", output1, C206_CaseStudy.viewAllPending(teacher1.getId()));
+		
+		// Normal condition (2 student pending)
+		activity1.getPendingStudents().add(student1);
+		activity1.getPendingStudents().add(student2);
+		String output3 = "Pending Students:\n1) Jack\n2) Mary\n";
+		assertEquals("2 pending students", output3, C206_CaseStudy.viewAllPending(teacher1.getId()));
 	}
 
 	@Test // @Regan
 	public void testDoDeletePending() {
-
+		// Normal condition (1 student being deleted)
+		activity1.getPendingStudents().add(student1);
+		C206_CaseStudy.doDeletePending(teacher1.getId(), student1.getId(), 'Y');
+		assertEquals("deleting a pending student", activity1.getPendingStudents().size(), 0);
+		
+		// Boundary condition  (deleting a student who is not the student pending)
+		activity1.getPendingStudents().add(student1);
+		C206_CaseStudy.doDeletePending(teacher1.getId(), student2.getId(), 'Y');
+		assertEquals("deleting a pending student that doesn't exist", activity1.getPendingStudents().size(), 1);
+		
+		// Error
+		C206_CaseStudy.doDeletePending(teacher1.getId(), 5, 'Y');
+		assertEquals("deleting student that doesn't exist", activity1.getPendingStudents().size(), 1);
 	}
 	
 	@Test // @Lleyton
@@ -309,8 +335,5 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.doDeleteRegistration(student1.getId(),3);
 		assertEquals(activity1.getPendingStudents().size(),0);
 		assertEquals(activity2.getPendingStudents().size(), 0);
-		
-	
 	}
-
 }
