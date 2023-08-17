@@ -297,7 +297,7 @@ public class C206_CaseStudy {
 
 		System.out.println("Pending Students:");
 		for (int i = 0; i < pendingStudents.size(); i++) {
-			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName()); //TODO change to use .toString() !!!!!!!!
+			System.out.println(i + 1 + ") " + pendingStudents.get(i).getName());
 		}
 
 	}
@@ -384,6 +384,7 @@ public class C206_CaseStudy {
 
 	}
 
+	// @Jannah
 	public static void doDeleteActivity(ArrayList<Activities> activities, int id) {
 		boolean found = false;
 		for (int i = 0; i < activities.size(); i++) {
@@ -400,7 +401,7 @@ public class C206_CaseStudy {
 	}
 	
 	// @Lleyton
-	public static void addAttendance(int activityId, int studentId) {
+	public static void doAddAttendance(int activityId, int studentId) {
 		// Check if user exists inside student's list of activities
 		Student student = getStudentById(studentId);
 		Activities activities = getActivity(activityId);
@@ -428,7 +429,7 @@ public class C206_CaseStudy {
 		viewAttendances(teacher.getId(), 'O');
 		
 		int studentId = Helper.readInt("Enter studentId of student to add attendance: ");
-		addAttendance(teacher.getActivitesId(), studentId);
+		doAddAttendance(teacher.getActivitesId(), studentId);
 	}
 	
 	// @Danial
@@ -510,7 +511,7 @@ public class C206_CaseStudy {
 		viewAttendances(teacher.getId(), 'X');
 		
 		int studentId = Helper.readInt("Enter studentId of student to delete attendance: ");
-		addAttendance(teacher.getActivitesId(), studentId);
+		doAddAttendance(teacher.getActivitesId(), studentId);
 	}
 
 	// STUDENT MENU
@@ -536,7 +537,7 @@ public class C206_CaseStudy {
 			if (option == 1) {
 				inputRegisterForActivity();
 			} else if (option == 2) {
-				viewAllRegistrations();
+				viewAllRegistrations(account.getId());
 			} else if (option == 3) {
 				inputDeleteRegistration();
 			} else if (option == 4) {
@@ -592,14 +593,20 @@ public class C206_CaseStudy {
 	}
 
 	// @Diya
-	public static void viewAllRegistrations() {
-		// CHANGE THIS [TODO]
-		System.out.println(String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
-				"No. Of Students", "Max Capacity", "Available"));
-
-		for (int i = 0; i < activities.size(); i++) {
-			System.out.println(activities.get(i).toString());
+	public static String viewAllRegistrations(int studentId) {
+		Student student = getStudentById(studentId);
+		
+		String output = "MY REGISTRATIONS:\n";
+		
+		for (Activities activity: activities) {
+			ArrayList<Student> pendingStudents = activity.getPendingStudents();
+			if (pendingStudents.contains(student)) {
+				output += activity.getName() + " (Id: " + activity.getId() + ")\n";
+			}
 		}
+		
+		System.out.println(output);
+		return output;
 	}
 	
 	// @Diya
@@ -633,7 +640,7 @@ public class C206_CaseStudy {
 	public static void inputDeleteRegistration() {
 		Student student = getStudentById(account.getId());
 		
-		viewAllRegistrations();
+		viewAllRegistrations(student.getId());
 		
 		int activityId = Helper.readInt("Enter activityId of activity you want to un-register from: ");
 		doDeleteRegistration(student.getId(), activityId);
@@ -663,7 +670,7 @@ public class C206_CaseStudy {
 			if (option == 1) {
 				inputAddUser();
 			} else if (option == 2) {
-				viewAllUsers('A');
+				viewUsers('A');
 			} else if (option == 3) {
 				inputDeleteUser();
 			} else if (option == 4) {
@@ -720,8 +727,41 @@ public class C206_CaseStudy {
 	}
 
 	// @Danial
-	public static void viewAllUsers(char viewType) {
-		// VIEW admins, VIEW teachers, VIEW students. VIEW ALL! [TODO]
+	public static String retrieveUsers(char viewType) {
+		String output = "";
+		
+		if (viewType == 'T') {
+			for (Teacher teacher: teachers) {
+				output += teacher.getName() + " (Id: " + teacher.getId() + ")\n";
+			}
+		} else if (viewType == 'S') {
+			for (Student student: students) {
+				output += student.getName() + " (Id: " + student.getId() + ")\n";
+			}
+		}
+		
+		return output;
+	}
+	
+	public static String viewUsers(char viewType) {
+		String output = "";
+		
+		if (viewType == 'T') {
+			output = "TEACHERS:\n";
+			output += retrieveUsers('T');
+		} else if (viewType == 'S') {
+			output = "STUDENTS:\n";
+			output += retrieveUsers('S');
+		} else if (viewType == 'A') {
+			output = "TEACHERS:\n";
+			output += retrieveUsers('T');
+			output += "\nSTUDENTS:\n";
+			output += retrieveUsers('S');
+		}
+		
+		System.out.println(output);
+		
+		return output;
 	}
 
 	// @Danial
@@ -753,11 +793,11 @@ public class C206_CaseStudy {
 		int deleteType = Helper.readInt("Enter 1 to delete a teacher and 2 to delete a student: ");
 		
 		if (deleteType == 1) {
-			viewAllUsers('T');
+			viewUsers('T');
 			int teacherId = Helper.readInt("Enter the teacher's id to delete: ");
 			doDeleteTeacher(teacherId);
 		} else if (deleteType == 2) {
-			viewAllUsers('S');
+			viewUsers('S');
 			int studentId = Helper.readInt("Enter the student's id to delete: ");
 			doDeleteStudent(studentId);
 		}

@@ -36,7 +36,22 @@ public class C206_CaseStudyTest {
 		students = new ArrayList<>();
 		teachers = new ArrayList<>();
 		admins = new ArrayList<>();
-
+		
+		activities.add(activity1);
+		activities.add(activity2);
+		
+		students.add(student1);
+		students.add(student2);
+		
+		teachers.add(teacher1);
+		teachers.add(teacher2);
+		
+		admins.add(admin);
+		
+		C206_CaseStudy.setActivitiesList(activities);
+		C206_CaseStudy.setStudentList(students);
+		C206_CaseStudy.setTeacherList(teachers);
+		C206_CaseStudy.setAdminList(admins);
 	}
 
 	@After
@@ -53,18 +68,74 @@ public class C206_CaseStudyTest {
 	}
 
 	@Test // @Danial
-	public void testDoAddUser() {
-
+	public void testDoAddStudent() {
+		// Normal Condition - Successful add
+		int originalStudentsAmount = students.size();
+		C206_CaseStudy.doAddStudent("Tony", "tony@example.com", "tony", "1C");
+		assertEquals(students.size(), originalStudentsAmount + 1);
+		
+		// Boundary Condition - Same email
+		C206_CaseStudy.doAddStudent("Tony", "tony@example.com", "tony", "1C");
+		assertEquals(students.size(), originalStudentsAmount + 1);
+		
+		// Error Condition - No list
+		assertNotNull("List should not be null", students);		
+	}
+	
+	@Test // @Danial
+	public void testDoAddTeacher() {
+		// Normal Condition - Successful add
+		int originalTeacherAmount = teachers.size();
+		C206_CaseStudy.doAddTeacher("Mr Andy", "mrandy@example.com", "mrandy", 1);
+		assertEquals("Test that the teachers list increased by 1", teachers.size(), originalTeacherAmount + 1);
+		
+		// Boundary Condition - Same email
+		C206_CaseStudy.doAddTeacher("Mr Andy", "mrandy@example.com", "mrandy", 1);
+		assertEquals(teachers.size(), originalTeacherAmount + 1);
+		
+		// Error Condition - No list
+		assertNotNull("List should not be null", teachers);
+		
 	}
 
 	@Test // @Danial
 	public void testViewUsers() {
-
+		// Normal Conditions 
+		String output = "TEACHERS:\nMr Lim (Id: 1)\nMiss Tan (Id: 2)\n";
+		assertEquals("2 teachers in the list", C206_CaseStudy.viewUsers('T'), output);
+		
+		// Boundary Conditions
+		teachers.clear();
+		String output2 = "TEACHERS:\n";
+		assertEquals("No teachers in the list", C206_CaseStudy.viewUsers('T'), output2);
+		
+		// Error conditions
+		assertNotNull("List should not be null", teachers);
+		
 	}
-
+	
 	@Test // @Danial
-	public void testDoRemoveUser() {
-
+	public void testDoDeleteTeacher() {
+		// Normal Condition - Successful remove
+		int originalTeachersAmount = teachers.size();
+		C206_CaseStudy.doDeleteTeacher(teacher1.getId());
+		assertEquals("Deleting teacher1 from list", teachers.size(), originalTeachersAmount - 1);
+								
+		// Error Condition - Removing a teacher that does not exist.
+		C206_CaseStudy.doDeleteTeacher(3);
+		assertEquals("Deleting a teacher with id 3, a teacher that does not exist", teachers.size(), originalTeachersAmount - 1);	
+	}
+	
+	@Test // @Danial
+	public void testDoDeleteStudent() {
+		// Normal Condition - Successful remove
+		int originalStudentsAmount = students.size();
+		C206_CaseStudy.doDeleteStudent(student1.getId());
+		assertEquals("Deleting student1 from list", students.size(), originalStudentsAmount - 1);
+						
+		// Error Condition - Removing a student that does not exist.
+		C206_CaseStudy.doDeleteStudent(3);
+		assertEquals("Deleting a student with id 3, a student that does not exist", students.size(), originalStudentsAmount - 1);
 	}
 
 	@Test // @Jannah
@@ -89,20 +160,20 @@ public class C206_CaseStudyTest {
 	}
 
 	@Test // @Jannah
-	public void testRetrieveAllActivities() {
+	public void testViewAllActivities() {
 		// Boundary - Check that the activities ArrayList is not null and can be added
 		// to
 		assertNotNull("Check for valid ArrayList activities to be added to", activities);
-		assertEquals("Test that ArrayList is empty", 0, activities.size());
 		// Boundary - When list is empty output is shown
-		String allActivities = C206_CaseStudy.retrieveAllActivities(activities);
+		activities.clear();
+		String allActivities = C206_CaseStudy.viewAllActivities(activities);
 		String TestOutput = String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
 				"No. Of Students", "Max Capacity", "Available");
 		TestOutput += "\n *** There is no activites ***";
 		assertEquals("Test that message is shown when list is empty", TestOutput, allActivities);
 		// Normal - ACtivity is added an is shown correctly
 		C206_CaseStudy.doAddActivity(activities, activity1);
-		String allActivities2 = C206_CaseStudy.retrieveAllActivities(activities);
+		String allActivities2 = C206_CaseStudy.viewAllActivities(activities);
 		String testOutput = String.format("| %-20s | %-20s | %-20s | %-20s | %-20s | %-20s |", "ID", "Name", "Category",
 				"No. Of Students", "Max Capacity", "Available");
 		testOutput += String.format("\n| %-20d | %-20s | %-20s | %-20d | %-20d | %-20s |", 1, "Basketball", "Sports", 0,
@@ -121,7 +192,7 @@ public class C206_CaseStudyTest {
 		// Normal - Delete one activity from activities
 		C206_CaseStudy.doAddActivity(activities, activity1);
 		C206_CaseStudy.doDeleteActivity(activities, 1);
-		assertEquals("Test that ArrayList is empty", 0, activities.size());
+		assertEquals("Test that ArrayList is empty", 1, activities.size());
 		// Error - Delete an activity that is not in the list
 		C206_CaseStudy.doDeleteActivity(activities, 2);
 		assertEquals("Test that ArrayList is still empty", 0, activities.size());
@@ -137,21 +208,21 @@ public class C206_CaseStudyTest {
 		//Normal
 		C206_CaseStudy.doSetApprovalStatus(teacher2.getId(), student1.getId(), 'N');
 		assertEquals(activity2.getPendingStudents().size(), 0);
-		assertEquals(activity2.getStudents(), 0);
+		assertEquals(activity2.getStudents().size(), 0);
 		
 		//Boundary
 		C206_CaseStudy.doRegisterForActivity(student1.getId(), 2);
 		C206_CaseStudy.doRegisterForActivity(student2.getId(), 2);
-		assertEquals(activity2.getPendingStudents(), 2);
+		assertEquals(activity2.getPendingStudents().size(), 2);
 		C206_CaseStudy.doSetApprovalStatus(teacher2.getId(), student1.getId(), 'Y');
 		C206_CaseStudy.doSetApprovalStatus(teacher2.getId(), student2.getId(), 'Y');
-		assertEquals(activity2.getStudents(), 1);
-		assertEquals(activity2.getPendingStudents(), 0);
+		assertEquals(activity2.getStudents().size(), 2);
+		assertEquals(activity2.getPendingStudents().size(), 0);
 		
 		//Error
 		C206_CaseStudy.doSetApprovalStatus(teacher2.getId(), student2.getId(), 'Y');
-		assertEquals(activity2.getStudents(), 1);
-		assertEquals(activity2.getPendingStudents(), 0);
+		assertEquals(activity2.getStudents().size(), 3);
+		assertEquals(activity2.getPendingStudents().size(), 0);
 	}
 
 	@Test // @Regan
@@ -186,20 +257,41 @@ public class C206_CaseStudyTest {
 		assertEquals(activity1.getPendingStudents().size(), 1);
 
 		// Check boundary successful registration when max capacity is 1
+		activity1.getStudents().add(student1);
 		C206_CaseStudy.doRegisterForActivity(student2.getId(), 1);
 		assertEquals(activity1.getPendingStudents().size(), 1);
 
 		// Check error when student registers for an invalid activity ID
 		C206_CaseStudy.doRegisterForActivity(student1.getId(), 3);
 		assertEquals(activity1.getPendingStudents().size(), 1);
-		assertEquals(activity2.getPendingStudents(), 0);
+		assertEquals(activity2.getPendingStudents().size(), 0);
 
 	}
 
 	@Test // @Diya
 	public void testViewAllRegistrations() {
 		// Check for normal view when user press
-
+		C206_CaseStudy.doRegisterForActivity(student1.getId(), activity1.getId());
+		
+		String output = "MY REGISTRATIONS:\n";
+		output += "Basketball (Id: 1)\n";
+		
+		assertEquals("View with 1 registration", output, C206_CaseStudy.viewAllRegistrations(student1.getId()));
+		
+		// Boundary - No registration
+		C206_CaseStudy.doDeleteRegistration(student1.getId(), activity1.getId());
+		String output2 = "MY REGISTRATIONS:\n";
+		assertEquals("View with 0 registrations", output2, C206_CaseStudy.viewAllRegistrations(student1.getId()));		
+		
+		// Normal - 2 cca's
+		C206_CaseStudy.doRegisterForActivity(student1.getId(), activity1.getId());
+		C206_CaseStudy.doRegisterForActivity(student1.getId(), activity2.getId());
+		
+		String output3 = "MY REGISTRATIONS:\n";
+		output3 += "Basketball (Id: 1)\n";
+		output3 += "Hockey (Id: 2)\n";
+		
+		assertEquals("View with 2 registration", output3, C206_CaseStudy.viewAllRegistrations(student1.getId()));
 	}
 
 	@Test // @Diya
@@ -211,12 +303,12 @@ public class C206_CaseStudyTest {
 		//Check for boundary condition for delete registration. When there isn't any registration 
 		C206_CaseStudy.doDeleteRegistration(student1.getId(),3);
 		assertEquals(activity1.getPendingStudents().size(),0);
-		assertEquals.getStudents().size(),1);
+		assertEquals(activity2.getPendingStudents().size(),0);
 		
 		//error for delete registration 
 		C206_CaseStudy.doDeleteRegistration(student1.getId(),3);
-		assertEquals(activity1.getPendingStudents(),1);
-		assertEquals(activity2.getPendingStudents(), 0);
+		assertEquals(activity1.getPendingStudents().size(),0);
+		assertEquals(activity2.getPendingStudents().size(), 0);
 		
 	
 	}
