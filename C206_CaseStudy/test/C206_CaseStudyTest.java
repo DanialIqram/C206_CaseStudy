@@ -70,72 +70,74 @@ public class C206_CaseStudyTest {
 	@Test // @Danial
 	public void testDoAddStudent() {
 		// Normal Condition - Successful add
-		int originalStudentsAmount = students.size();
+		assertEquals(2, students.size());
 		C206_CaseStudy.doAddStudent("Tony", "tony@example.com", "tony", "1C");
-		assertEquals(students.size(), originalStudentsAmount + 1);
+		assertEquals("Test that the students list increased by 1", 3, students.size());
 		
-		// Boundary Condition - Same email
+		// Normal Condition - Same email
+		assertEquals(3, students.size());
 		C206_CaseStudy.doAddStudent("Tony", "tony@example.com", "tony", "1C");
-		assertEquals(students.size(), originalStudentsAmount + 1);
+		assertEquals(3, students.size());
 		
 		// Error Condition - No list
-		assertNotNull("List should not be null", students);		
+		students = null;
+		assertNull("List should be null", students);
 	}
 	
 	@Test // @Danial
 	public void testDoAddTeacher() {
 		// Normal Condition - Successful add
-		int originalTeacherAmount = teachers.size();
+		assertEquals(2, teachers.size());
 		C206_CaseStudy.doAddTeacher("Mr Andy", "mrandy@example.com", "mrandy", 1);
-		assertEquals("Test that the teachers list increased by 1", teachers.size(), originalTeacherAmount + 1);
+		assertEquals("Test that the teachers list increased by 1", 3, teachers.size());
 		
-		// Boundary Condition - Same email
+		// Normal Condition - Same email
+		assertEquals(3, teachers.size());
 		C206_CaseStudy.doAddTeacher("Mr Andy", "mrandy@example.com", "mrandy", 1);
-		assertEquals(teachers.size(), originalTeacherAmount + 1);
+		assertEquals("list size should not increase", 3, teachers.size());
 		
 		// Error Condition - No list
-		assertNotNull("List should not be null", teachers);
-		
+		teachers = null;
+		assertNull("List should be null", teachers);
 	}
 
 	@Test // @Danial
 	public void testViewUsers() {
 		// Normal Conditions 
 		String output = "TEACHERS:\nMr Lim (Id: 1)\nMiss Tan (Id: 2)\n";
-		assertEquals("2 teachers in the list", C206_CaseStudy.viewUsers('T'), output);
+		assertEquals("2 teachers in the list", output, C206_CaseStudy.viewUsers('T'));
 		
-		// Boundary Conditions
+		// Normal Conditions
 		teachers.clear();
 		String output2 = "TEACHERS:\n";
 		assertEquals("No teachers in the list", C206_CaseStudy.viewUsers('T'), output2);
 		
 		// Error conditions
 		assertNotNull("List should not be null", teachers);
-		
 	}
 	
 	@Test // @Danial
 	public void testDoDeleteTeacher() {
 		// Normal Condition - Successful remove
-		int originalTeachersAmount = teachers.size();
+		assertEquals(2, teachers.size());
 		C206_CaseStudy.doDeleteTeacher(teacher1.getId());
-		assertEquals("Deleting teacher1 from list", teachers.size(), originalTeachersAmount - 1);
+		assertEquals("Deleting teacher1 from list", 1, teachers.size());
 								
 		// Error Condition - Removing a teacher that does not exist.
 		C206_CaseStudy.doDeleteTeacher(3);
-		assertEquals("Deleting a teacher with id 3, a teacher that does not exist", teachers.size(), originalTeachersAmount - 1);	
+		assertEquals("Deleting a teacher with id 3, a teacher that does not exist", 1, teachers.size());	
 	}
 	
 	@Test // @Danial
 	public void testDoDeleteStudent() {
 		// Normal Condition - Successful remove
-		int originalStudentsAmount = students.size();
+		assertEquals(2, students.size());
 		C206_CaseStudy.doDeleteStudent(student1.getId());
-		assertEquals("Deleting student1 from list", students.size(), originalStudentsAmount - 1);
+		assertEquals("Deleting student1 from list", 1, students.size());
 						
 		// Error Condition - Removing a student that does not exist.
 		C206_CaseStudy.doDeleteStudent(3);
-		assertEquals("Deleting a student with id 3, a student that does not exist", students.size(), originalStudentsAmount - 1);
+		assertEquals("Deleting a student with id 3, a student that does not exist", 1, students.size());
 	}
 
 	@Test // @Jannah
