@@ -15,9 +15,9 @@ public class C206_CaseStudy {
 		// Add activities to the list
 		activities.add(new Activities(1, "Basketball", "Sports", 2));
 		activities.add(new Activities(2, "Hockey", "Sports", 20));
-		activities.add(new Activities(1, "NCC", "Uniform", 20));
-		activities.add(new Activities(1, "NPCC", "Uniform", 20));
-		activities.add(new Activities(1, "Dance", "Performing Arts", 30));
+		activities.add(new Activities(3, "NCC", "Uniform", 20));
+		activities.add(new Activities(4, "NPCC", "Uniform", 20));
+		activities.add(new Activities(5, "Dance", "Performing Arts", 30));
 
 		admins = new ArrayList<>();
 		admins.add(new User(1, "admin", "admin@example.com", "admin", "admin"));
@@ -282,7 +282,6 @@ public class C206_CaseStudy {
 		int studentIndex = Helper.readInt("Enter the index of the student you want to approve: ");
 		char approvalChoice = Helper.readChar("Approve this student? (Y/N): ");
 		doSetApprovalStatus(teacher.getId(), studentIndex, approvalChoice);
-
 	}
 
 	// @Regan
